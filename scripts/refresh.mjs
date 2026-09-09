@@ -5,6 +5,10 @@ import * as espn from './adapters/espn.mjs'
 import { buildCrosswalk, linkIds } from './lib/crosswalk.mjs'
 import { fetchNews, fetchInjuries, attachNews } from './lib/news.mjs'
 import { rankCandidates } from './lib/waivers.mjs'
+import { loadUsage, usageNotes } from './lib/usage.mjs'
+import { loadPrevious, diffRuns } from './lib/history.mjs'
+import { sendNotifications } from './lib/notify.mjs'
+import { headshot } from './lib/images.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
 
@@ -18,19 +22,21 @@ async function main() {
   const week = state.display_week || state.week || 1
   console.log(`Refreshing ${season} week ${week}`)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer] = await Promise.all([
+  // Read the last run before anything overwrites it.
+  const previous = await loadPrevious(config.siteUrl)
+
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage] = await Promise.all([
     sleeper.getAllPlayers(),
     sleeper.getTrendingAdds(),
     fetchNews(),
-    fetchInjuries()
+    fetchInjuries(),
+    loadUsage(season)
   ])
   const crosswalk = buildCrosswalk(players)
 
   const leagues = []
   const problems = []
 
-  // Sleeper leagues are discovered from the username, so adding a league on your
-  // phone is enough. Nothing here needs editing when you join one.
   if (config.sleeper?.username && !config.sleeper.username.startsWith('YOUR_')) {
     try {
       const user = await sleeper.getUser(config.sleeper.username)
@@ -44,8 +50,6 @@ async function main() {
     }
   }
 
-  // ESPN leagues have to be listed by hand, since finding your leagues without
-  // scraping the site is not something their API offers.
   for (const league of config.espn || []) {
     if (String(league.leagueId).startsWith('0000')) continue
     try {
@@ -55,69 +59,75 @@ async function main() {
     }
   }
 
-  const alerts = []
-
   for (const league of leagues) {
     for (const player of league.roster) {
-      linkIds(player, crosswalk)
-      attachNews(player, newsByPlayer, injuriesByPlayer)
-      if (player.injuryStatus || player.news.length > 0) {
-        alerts.push({
-          league: league.name,
-          leagueId: league.id,
-          name: player.name,
-          position: player.position,
-          team: player.team,
-          starter: player.starter,
-          injuryStatus: player.injuryStatus,
-          headline: player.news[0]?.headline || player.injuryNote || null
-        })
-      }
+      enrich(player, crosswalk, newsByPlayer, injuriesByPlayer, usage)
     }
 
-    // Sleeper gives no projections, so its candidates borrow ESPN trend data by id.
     for (const candidate of league.candidates) {
-      linkIds(candidate, crosswalk)
+      enrich(candidate, crosswalk, newsByPlayer, injuriesByPlayer, usage)
       if (!candidate.trendAdds && candidate.sleeperId) {
         candidate.trendAdds = trending.get(candidate.sleeperId) || 0
       }
-      attachNews(candidate, newsByPlayer, injuriesByPlayer)
+      candidate.usageSignal = usageSignal(candidate.usage)
     }
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)
     delete league.candidates
   }
 
-  alerts.sort((a, b) => {
-    if (a.starter !== b.starter) return a.starter ? -1 : 1
-    return severity(b.injuryStatus) - severity(a.injuryStatus)
-  })
-
-  const payload = {
+  const current = {
     generatedAt: new Date().toISOString(),
     season,
     week,
     leagues,
-    alerts,
     problems
   }
 
-  await fs.mkdir(path.dirname(OUTPUT), { recursive: true })
-  await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2))
+  current.changes = diffRuns(previous, current)
 
-  console.log(`Wrote ${leagues.length} leagues and ${alerts.length} alerts to ${OUTPUT}`)
+  const topic = process.env.NTFY_TOPIC || config.ntfyTopic
+  await sendNotifications(current.changes, topic)
+
+  await fs.mkdir(path.dirname(OUTPUT), { recursive: true })
+  await fs.writeFile(OUTPUT, JSON.stringify(current, null, 2))
+
+  const fresh = current.changes.filter((entry) => entry.isNew).length
+  console.log(
+    `Wrote ${leagues.length} leagues, ${fresh} new changes, ${current.changes.length} on the board`
+  )
   for (const problem of problems) console.warn(`Problem: ${problem}`)
 
-  // A run that reaches zero leagues means the config or the cookies are wrong,
-  // and publishing an empty dashboard over a good one would hide that.
   if (leagues.length === 0) {
     console.error('No leagues loaded. Check leagues.config.json and your ESPN secrets.')
     process.exit(1)
   }
 }
 
-function severity(status) {
-  return { OUT: 4, IR: 4, DOUBTFUL: 3, SUSPENDED: 3, QUESTIONABLE: 2 }[status] ?? 1
+function enrich(player, crosswalk, newsByPlayer, injuriesByPlayer, usage) {
+  linkIds(player, crosswalk)
+  attachNews(player, newsByPlayer, injuriesByPlayer)
+  player.image = headshot(player)
+  player.usage = player.espnId ? usage.get(player.espnId) || null : null
+  player.usageNotes = usageNotes(player.usage)
+  return player
+}
+
+/**
+ * One number from the role signals, for the waiver ranker to normalize alongside
+ * projections and add velocity. Depth chart position is weighted heavily in
+ * September, when it is the only role data that exists.
+ */
+function usageSignal(entry) {
+  if (!entry) return null
+  let signal = 0
+  if (entry.depthRank === 1) signal += 50
+  else if (entry.depthRank === 2) signal += 20
+  if (entry.snapPct != null) signal += entry.snapPct * 0.5
+  if (entry.targetShare != null) signal += entry.targetShare * 1.5
+  if (entry.snapTrend != null) signal += entry.snapTrend * 2
+  if (entry.targetTrend != null) signal += entry.targetTrend * 2
+  return signal
 }
 
 main().catch((error) => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import AlertStrip from './components/AlertStrip.jsx'
+import ChangeStrip from './components/ChangeStrip.jsx'
 import RosterBoard from './components/RosterBoard.jsx'
 import WaiverBoard from './components/WaiverBoard.jsx'
 
@@ -53,7 +53,7 @@ export default function App() {
         </div>
       </header>
 
-      <AlertStrip alerts={data.alerts} />
+      <ChangeStrip changes={data.changes} />
 
       {data.problems?.length > 0 && (
         <div className="problems">

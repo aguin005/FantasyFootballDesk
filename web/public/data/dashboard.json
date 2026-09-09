@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T21:37:40.691Z",
+  "generatedAt": "2026-09-09T23:08:31.344Z",
   "season": "2026",
   "week": 1,
   "leagues": [
@@ -21,7 +21,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/11533.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "11581",
@@ -33,7 +36,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/11581.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "2133",
@@ -46,7 +52,22 @@
           "injuryNote": null,
           "projected": null,
           "sleeperId": "2133",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/16800.png",
+          "usage": {
+            "snapPct": 64.3,
+            "snapTrend": null,
+            "targetShare": 21.8,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 64.3% of snaps last season",
+            "Saw 21.8% of targets last season",
+            "Listed second at WR"
+          ]
         },
         {
           "playerId": "4217",
@@ -59,7 +80,22 @@
           "injuryNote": "Achilles",
           "projected": null,
           "sleeperId": "4217",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3040151.png",
+          "usage": {
+            "snapPct": 68.8,
+            "snapTrend": null,
+            "targetShare": 22.2,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 68.8% of snaps last season",
+            "Saw 22.2% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
         },
         {
           "playerId": "4866",
@@ -72,7 +108,22 @@
           "injuryNote": null,
           "projected": null,
           "sleeperId": "4866",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3929630.png",
+          "usage": {
+            "snapPct": 74.8,
+            "snapTrend": null,
+            "targetShare": 10.3,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "RB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 74.8% of snaps last season",
+            "Saw 10.3% of targets last season",
+            "Listed first on the depth chart at RB"
+          ]
         },
         {
           "playerId": "4881",
@@ -85,7 +136,21 @@
           "injuryNote": null,
           "projected": null,
           "sleeperId": "4881",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
+          "usage": {
+            "snapPct": 83.7,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 83.7% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
         },
         {
           "playerId": "5045",
@@ -98,7 +163,22 @@
           "injuryNote": null,
           "projected": null,
           "sleeperId": "5045",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3128429.png",
+          "usage": {
+            "snapPct": 84.5,
+            "snapTrend": null,
+            "targetShare": 18.9,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 84.5% of snaps last season",
+            "Saw 18.9% of targets last season",
+            "Listed second at WR"
+          ]
         },
         {
           "playerId": "5872",
@@ -111,7 +191,22 @@
           "injuryNote": null,
           "projected": null,
           "sleeperId": "5872",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3126486.png",
+          "usage": {
+            "snapPct": 73.8,
+            "snapTrend": null,
+            "targetShare": 24.2,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 73.8% of snaps last season",
+            "Saw 24.2% of targets last season",
+            "Listed second at WR"
+          ]
         },
         {
           "playerId": "7543",
@@ -123,7 +218,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/7543.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "8132",
@@ -135,7 +233,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/8132.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "8138",
@@ -147,7 +248,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/8138.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "8154",
@@ -159,7 +263,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/8154.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "8167",
@@ -171,7 +278,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/8167.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "8408",
@@ -183,7 +293,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/8408.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "9487",
@@ -195,7 +308,10 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/9487.jpg",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "PIT",
@@ -207,10 +323,50 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png",
+          "usage": null,
+          "usageNotes": []
         }
       ],
       "waivers": [
+        {
+          "playerId": "1466",
+          "espnId": "15847",
+          "name": "Travis Kelce",
+          "position": "TE",
+          "team": "KC",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 90,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "1466",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/15847.png",
+          "usage": {
+            "snapPct": 88.5,
+            "snapTrend": null,
+            "targetShare": 24.5,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 88.5% of snaps last season",
+            "Saw 24.5% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 131,
+          "score": 100,
+          "reasons": [
+            "Played 88.5% of snaps last season",
+            "Saw 24.5% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
+        },
         {
           "playerId": "9482",
           "espnId": null,
@@ -218,436 +374,549 @@
           "position": "TE",
           "team": "LV",
           "injuryStatus": null,
-          "trendAdds": 733464,
+          "trendAdds": 1011186,
           "searchRank": 484,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
           "news": [],
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/9482.jpg",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
           "score": 100,
           "reasons": [
-            "Added by 733,464 Sleeper managers in the last 24 hours"
+            "Added by 1,011,186 Sleeper managers in the last 24 hours"
           ]
         },
         {
-          "playerId": "10235",
-          "espnId": null,
-          "name": "Roschon Johnson",
-          "position": "RB",
-          "team": "CHI",
-          "injuryStatus": null,
-          "trendAdds": 288960,
-          "searchRank": 681,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 39,
-          "reasons": [
-            "Added by 288,960 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "11834",
-          "espnId": null,
-          "name": "Devaughn Vele",
-          "position": "WR",
-          "team": "NO",
-          "injuryStatus": null,
-          "trendAdds": 217483,
-          "searchRank": 209,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 29,
-          "reasons": [
-            "Added by 217,483 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "8800",
-          "espnId": null,
-          "name": "Malik Davis",
-          "position": "RB",
-          "team": "DAL",
-          "injuryStatus": null,
-          "trendAdds": 172404,
-          "searchRank": 439,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 22,
-          "reasons": [
-            "Added by 172,404 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "LV",
-          "espnId": null,
-          "name": "Las Vegas Raiders",
-          "position": "DEF",
-          "team": "LV",
-          "injuryStatus": null,
-          "trendAdds": 172248,
-          "searchRank": null,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 22,
-          "reasons": [
-            "Added by 172,248 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "2505",
-          "espnId": "2576925",
-          "name": "Darren Waller",
+          "playerId": "5844",
+          "espnId": "4036133",
+          "name": "T.J. Hockenson",
           "position": "TE",
-          "team": "CAR",
+          "team": "MIN",
           "injuryStatus": null,
-          "trendAdds": 154962,
-          "searchRank": 355,
+          "trendAdds": 0,
+          "searchRank": 128,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
-          "sleeperId": "2505",
+          "sleeperId": "5844",
           "news": [],
-          "score": 20,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4036133.png",
+          "usage": {
+            "snapPct": 72.5,
+            "snapTrend": null,
+            "targetShare": 14.7,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 72.5% of snaps last season",
+            "Saw 14.7% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 108.3,
+          "score": 83,
           "reasons": [
-            "Added by 154,962 Sleeper managers in the last 24 hours"
+            "Played 72.5% of snaps last season",
+            "Saw 14.7% of targets last season",
+            "Listed first on the depth chart at TE"
           ]
         },
         {
-          "playerId": "6083",
-          "espnId": "4249087",
-          "name": "Matt Gay",
-          "position": "K",
-          "team": "LV",
-          "injuryStatus": null,
-          "trendAdds": 106305,
-          "searchRank": 239,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "sleeperId": "6083",
-          "news": [],
-          "score": 13,
-          "reasons": [
-            "Added by 106,305 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "13414",
-          "espnId": null,
-          "name": "Kaelon Black",
-          "position": "RB",
-          "team": "SF",
-          "injuryStatus": null,
-          "trendAdds": 107989,
-          "searchRank": 161,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 13,
-          "reasons": [
-            "Added by 107,989 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "10213",
-          "espnId": null,
-          "name": "Tre Tucker",
-          "position": "WR",
-          "team": "LV",
-          "injuryStatus": null,
-          "trendAdds": 80610,
-          "searchRank": 180,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 10,
-          "reasons": [
-            "Added by 80,610 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "13311",
-          "espnId": null,
-          "name": "Chris Bell",
-          "position": "WR",
-          "team": "MIA",
-          "injuryStatus": null,
-          "trendAdds": 83335,
-          "searchRank": 197,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 10,
-          "reasons": [
-            "Added by 83,335 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "8127",
-          "espnId": null,
-          "name": "Charlie Kolar",
+          "playerId": "6865",
+          "espnId": "4242557",
+          "name": "Colby Parkinson",
           "position": "TE",
-          "team": "LAC",
+          "team": "LAR",
           "injuryStatus": null,
-          "trendAdds": 75147,
-          "searchRank": 661,
+          "trendAdds": 0,
+          "searchRank": 136,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
+          "sleeperId": "6865",
           "news": [],
-          "score": 9,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4242557.png",
+          "usage": {
+            "snapPct": 76,
+            "snapTrend": null,
+            "targetShare": 13.8,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 76% of snaps last season",
+            "Saw 13.8% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 108.7,
+          "score": 83,
           "reasons": [
-            "Added by 75,147 Sleeper managers in the last 24 hours"
+            "Played 76% of snaps last season",
+            "Saw 13.8% of targets last season",
+            "Listed first on the depth chart at TE"
           ]
         },
         {
-          "playerId": "13296",
-          "espnId": null,
-          "name": "Caleb Douglas",
-          "position": "WR",
-          "team": "MIA",
-          "injuryStatus": null,
-          "trendAdds": 69288,
-          "searchRank": 198,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 8,
-          "reasons": [
-            "Added by 69,288 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "13285",
-          "espnId": null,
-          "name": "Malachi Fields",
-          "position": "WR",
-          "team": "NYG",
-          "injuryStatus": null,
-          "trendAdds": 62725,
-          "searchRank": 199,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 7,
-          "reasons": [
-            "Added by 62,725 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "2078",
-          "espnId": "16733",
-          "name": "Odell Beckham",
-          "position": "WR",
-          "team": "NYG",
-          "injuryStatus": null,
-          "trendAdds": 57547,
-          "searchRank": 441,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "sleeperId": "2078",
-          "news": [],
-          "score": 6,
-          "reasons": [
-            "Added by 57,547 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "5995",
-          "espnId": "4038441",
-          "name": "Justice Hill",
-          "position": "RB",
-          "team": "BAL",
-          "injuryStatus": null,
-          "trendAdds": 55890,
-          "searchRank": 219,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "sleeperId": "5995",
-          "news": [],
-          "score": 6,
-          "reasons": [
-            "Added by 55,890 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "9511",
-          "espnId": null,
-          "name": "Keaton Mitchell",
-          "position": "RB",
-          "team": "LAC",
+          "playerId": "4046",
+          "espnId": "3139477",
+          "name": "Patrick Mahomes",
+          "position": "QB",
+          "team": "KC",
           "injuryStatus": "QUESTIONABLE",
-          "trendAdds": 52614,
-          "searchRank": 148,
+          "trendAdds": 0,
+          "searchRank": 40,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
-          "news": [],
-          "score": 6,
+          "sleeperId": "4046",
+          "news": [
+            {
+              "headline": "Patrick Mahomes' Week 1 outlook",
+              "summary": "Patrick Mahomes' Week 1 outlook",
+              "published": "2026-09-09T18:36:23Z",
+              "url": "https://www.espn.com/video/clip/_/id/49882355/patrick-mahomes-week-1-outlook"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3139477.png",
+          "usage": {
+            "snapPct": 98,
+            "snapTrend": null,
+            "targetShare": 0.9,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 98% of snaps last season",
+            "Saw 0.9% of targets last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 100.35,
+          "score": 77,
           "reasons": [
-            "Added by 52,614 Sleeper managers in the last 24 hours",
+            "Played 98% of snaps last season",
+            "Saw 0.9% of targets last season",
+            "Listed first on the depth chart at QB",
             "Listed QUESTIONABLE"
           ]
         },
         {
-          "playerId": "DET",
-          "espnId": null,
-          "name": "Detroit Lions",
-          "position": "DEF",
-          "team": "DET",
-          "injuryStatus": null,
-          "trendAdds": 54864,
-          "searchRank": null,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 6,
-          "reasons": [
-            "Added by 54,864 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "8180",
-          "espnId": null,
-          "name": "Jalen Nailor",
-          "position": "WR",
-          "team": "LV",
-          "injuryStatus": null,
-          "trendAdds": 43497,
-          "searchRank": 170,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "score": 5,
-          "reasons": [
-            "Added by 43,497 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "4147",
-          "espnId": "3116389",
-          "name": "Samaje Perine",
-          "position": "RB",
-          "team": "CIN",
-          "injuryStatus": null,
-          "trendAdds": 40632,
-          "searchRank": 453,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "sleeperId": "4147",
-          "news": [],
-          "score": 4,
-          "reasons": [
-            "Added by 40,632 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "7090",
-          "espnId": "4040655",
-          "name": "Darnell Mooney",
-          "position": "WR",
-          "team": "NYG",
-          "injuryStatus": null,
-          "trendAdds": 40041,
-          "searchRank": 194,
-          "projected": null,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "sleeperId": "7090",
-          "news": [],
-          "score": 4,
-          "reasons": [
-            "Added by 40,041 Sleeper managers in the last 24 hours"
-          ]
-        },
-        {
-          "playerId": "8161",
-          "espnId": null,
-          "name": "Malik Willis",
+          "playerId": "3257",
+          "espnId": "2578570",
+          "name": "Jacoby Brissett",
           "position": "QB",
-          "team": "MIA",
+          "team": "ARI",
           "injuryStatus": null,
-          "trendAdds": 42455,
-          "searchRank": 118,
+          "trendAdds": 0,
+          "searchRank": 203,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
+          "sleeperId": "3257",
           "news": [],
-          "score": 4,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/2578570.png",
+          "usage": {
+            "snapPct": 100,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 100% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 100,
+          "score": 76,
           "reasons": [
-            "Added by 42,455 Sleeper managers in the last 24 hours"
+            "Played 100% of snaps last season",
+            "Listed first on the depth chart at QB"
           ]
         },
         {
-          "playerId": "12545",
-          "espnId": null,
-          "name": "Tyler Shough",
+          "playerId": "96",
+          "espnId": "8439",
+          "name": "Aaron Rodgers",
           "position": "QB",
-          "team": "NO",
+          "team": "PIT",
           "injuryStatus": null,
-          "trendAdds": 36936,
-          "searchRank": 87,
+          "trendAdds": 0,
+          "searchRank": 188,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
+          "sleeperId": "96",
           "news": [],
-          "score": 4,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/8439.png",
+          "usage": {
+            "snapPct": 97.3,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 97.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 98.65,
+          "score": 75,
           "reasons": [
-            "Added by 36,936 Sleeper managers in the last 24 hours"
+            "Played 97.3% of snaps last season",
+            "Listed first on the depth chart at QB"
           ]
         },
         {
-          "playerId": "13424",
-          "espnId": null,
-          "name": "Seth McGowan",
-          "position": "RB",
+          "playerId": "4943",
+          "espnId": "3912547",
+          "name": "Sam Darnold",
+          "position": "QB",
+          "team": "SEA",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 92,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4943",
+          "news": [
+            {
+              "headline": "Does Sam Darnold get the credit he deserves?",
+              "summary": "Does Sam Darnold get the credit he deserves?",
+              "published": "2026-09-09T12:48:31Z",
+              "url": "https://www.espn.com/video/clip/_/id/49879157/does-sam-darnold-get-credit-deserves"
+            },
+            {
+              "headline": "Are the Super Bowl champion Seahawks built to repeat in 2026?",
+              "summary": "The defending champs are not the favorites to win the Super Bowl or even their division. What hurdles will the Seahawks have in 2026?",
+              "published": "2026-09-09T16:23:15Z",
+              "url": "https://www.espn.com/nfl/story/_/id/49871642/can-seattle-seahawks-repeat-super-bowl-champions-nfl-2026-season"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3912547.png",
+          "usage": {
+            "snapPct": 97.3,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 97.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 98.65,
+          "score": 75,
+          "reasons": [
+            "Played 97.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "6768",
+          "espnId": "4241479",
+          "name": "Tua Tagovailoa",
+          "position": "QB",
+          "team": "ATL",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 237,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "6768",
+          "news": [
+            {
+              "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar",
+              "summary": "The Raiders will now turn to Michael Mayer, a second-round pick in 2023, as Brock Bowers will miss the start of the 2026 season.",
+              "published": "2026-09-09T22:13:45Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4241479.png",
+          "usage": {
+            "snapPct": 97.3,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 97.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 98.65,
+          "score": 75,
+          "reasons": [
+            "Played 97.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "1373",
+          "espnId": "15864",
+          "name": "Geno Smith",
+          "position": "QB",
+          "team": "NYJ",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 216,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "1373",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/15864.png",
+          "usage": {
+            "snapPct": 91,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 91% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 95.5,
+          "score": 73,
+          "reasons": [
+            "Played 91% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "5001",
+          "espnId": "3117256",
+          "name": "Dalton Schultz",
+          "position": "TE",
+          "team": "HOU",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 98,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "5001",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3117256.png",
+          "usage": {
+            "snapPct": 57.3,
+            "snapTrend": null,
+            "targetShare": 11.7,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 57.3% of snaps last season",
+            "Saw 11.7% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 96.2,
+          "score": 73,
+          "reasons": [
+            "Played 57.3% of snaps last season",
+            "Saw 11.7% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "6804",
+          "espnId": "4036378",
+          "name": "Jordan Love",
+          "position": "QB",
+          "team": "GB",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 68,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "6804",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4036378.png",
+          "usage": {
+            "snapPct": 84,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 84% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 92,
+          "score": 70,
+          "reasons": [
+            "Played 84% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "5870",
+          "espnId": "3917792",
+          "name": "Daniel Jones",
+          "position": "QB",
           "team": "IND",
           "injuryStatus": null,
-          "trendAdds": 36992,
-          "searchRank": 375,
+          "trendAdds": 0,
+          "searchRank": 131,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
+          "sleeperId": "5870",
           "news": [],
-          "score": 4,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3917792.png",
+          "usage": {
+            "snapPct": 80.8,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 80.8% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 90.4,
+          "score": 69,
           "reasons": [
-            "Added by 36,992 Sleeper managers in the last 24 hours"
+            "Played 80.8% of snaps last season",
+            "Listed first on the depth chart at QB"
           ]
         },
         {
-          "playerId": "13533",
-          "espnId": null,
-          "name": "Barion Brown",
+          "playerId": "5947",
+          "espnId": "3916433",
+          "name": "Jakobi Meyers",
           "position": "WR",
-          "team": "NO",
-          "injuryStatus": null,
-          "trendAdds": 37764,
-          "searchRank": 453,
+          "team": "JAX",
+          "injuryStatus": "QUESTIONABLE",
+          "trendAdds": 0,
+          "searchRank": 77,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
+          "sleeperId": "5947",
           "news": [],
-          "score": 4,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916433.png",
+          "usage": {
+            "snapPct": 88.8,
+            "snapTrend": null,
+            "targetShare": 20,
+            "targetTrend": null,
+            "depthRank": 3,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 88.8% of snaps last season",
+            "Saw 20% of targets last season"
+          ],
+          "usageSignal": 74.4,
+          "score": 57,
           "reasons": [
-            "Added by 37,764 Sleeper managers in the last 24 hours"
+            "Played 88.8% of snaps last season",
+            "Saw 20% of targets last season",
+            "Listed QUESTIONABLE"
+          ]
+        },
+        {
+          "playerId": "6783",
+          "espnId": "4241463",
+          "name": "Jerry Jeudy",
+          "position": "WR",
+          "team": "CLE",
+          "injuryStatus": null,
+          "trendAdds": 13599,
+          "searchRank": 160,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "6783",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4241463.png",
+          "usage": {
+            "snapPct": 87.8,
+            "snapTrend": null,
+            "targetShare": 21.7,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 87.8% of snaps last season",
+            "Saw 21.7% of targets last season",
+            "Listed first on the depth chart at WR"
+          ],
+          "usageSignal": 126.45,
+          "score": 54,
+          "reasons": [
+            "Added by 13,599 Sleeper managers in the last 24 hours",
+            "Played 87.8% of snaps last season",
+            "Saw 21.7% of targets last season",
+            "Listed first on the depth chart at WR"
+          ]
+        },
+        {
+          "playerId": "1339",
+          "espnId": "15835",
+          "name": "Zach Ertz",
+          "position": "TE",
+          "team": "FA",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 275,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "1339",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/15835.png",
+          "usage": {
+            "snapPct": 73,
+            "snapTrend": null,
+            "targetShare": 22.3,
+            "targetTrend": null,
+            "depthRank": null,
+            "depthPosition": null,
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 73% of snaps last season",
+            "Saw 22.3% of targets last season"
+          ],
+          "usageSignal": 69.95,
+          "score": 53,
+          "reasons": [
+            "Played 73% of snaps last season",
+            "Saw 22.3% of targets last season"
           ]
         },
         {
@@ -657,16 +926,306 @@
           "position": "QB",
           "team": "LV",
           "injuryStatus": null,
-          "trendAdds": 29472,
+          "trendAdds": 29216,
           "searchRank": 272,
           "projected": null,
           "percentOwned": null,
           "ownershipChange": null,
           "sleeperId": "1166",
           "news": [],
-          "score": 3,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/14880.png",
+          "usage": {
+            "snapPct": 100,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 100% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 100,
+          "score": 43,
           "reasons": [
-            "Added by 29,472 Sleeper managers in the last 24 hours"
+            "Added by 29,216 Sleeper managers in the last 24 hours",
+            "Played 100% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "4033",
+          "espnId": "3123076",
+          "name": "David Njoku",
+          "position": "TE",
+          "team": "LAC",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 131,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4033",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3123076.png",
+          "usage": {
+            "snapPct": 43.5,
+            "snapTrend": null,
+            "targetShare": 6.4,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 43.5% of snaps last season",
+            "Saw 6.4% of targets last season",
+            "Listed second at TE"
+          ],
+          "usageSignal": 51.35,
+          "score": 39,
+          "reasons": [
+            "Played 43.5% of snaps last season",
+            "Saw 6.4% of targets last season",
+            "Listed second at TE"
+          ]
+        },
+        {
+          "playerId": "650",
+          "espnId": "10621",
+          "name": "Nick Folk",
+          "position": "K",
+          "team": "ATL",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 249,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "650",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/10621.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": true
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "usageSignal": 50,
+          "score": 38,
+          "reasons": [
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
+          "playerId": "3678",
+          "espnId": "2985659",
+          "name": "Wil Lutz",
+          "position": "K",
+          "team": "DEN",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 177,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "3678",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/2985659.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": true
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "usageSignal": 50,
+          "score": 38,
+          "reasons": [
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
+          "playerId": "4195",
+          "espnId": "3050478",
+          "name": "Jake Elliott",
+          "position": "K",
+          "team": "PHI",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 215,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4195",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3050478.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": true
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "usageSignal": 50,
+          "score": 38,
+          "reasons": [
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
+          "playerId": "4227",
+          "espnId": "3055899",
+          "name": "Harrison Butker",
+          "position": "K",
+          "team": "KC",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 155,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4227",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3055899.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": true
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "usageSignal": 50,
+          "score": 38,
+          "reasons": [
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
+          "playerId": "7042",
+          "espnId": "3917232",
+          "name": "Tyler Bass",
+          "position": "K",
+          "team": "BUF",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 288,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "7042",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3917232.png",
+          "usage": {
+            "snapPct": null,
+            "snapTrend": null,
+            "targetShare": null,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": false
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "usageSignal": 50,
+          "score": 38,
+          "reasons": [
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
+          "playerId": "2374",
+          "espnId": "2577327",
+          "name": "Tyler Lockett",
+          "position": "WR",
+          "team": "FA",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 131,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "2374",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/2577327.png",
+          "usage": {
+            "snapPct": 53,
+            "snapTrend": null,
+            "targetShare": 13.8,
+            "targetTrend": null,
+            "depthRank": null,
+            "depthPosition": null,
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 53% of snaps last season",
+            "Saw 13.8% of targets last season"
+          ],
+          "usageSignal": 47.2,
+          "score": 36,
+          "reasons": [
+            "Played 53% of snaps last season",
+            "Saw 13.8% of targets last season"
+          ]
+        },
+        {
+          "playerId": "1689",
+          "espnId": "16460",
+          "name": "Adam Thielen",
+          "position": "WR",
+          "team": "FA",
+          "injuryStatus": "NA",
+          "trendAdds": 0,
+          "searchRank": 163,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "1689",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/16460.png",
+          "usage": {
+            "snapPct": 56.5,
+            "snapTrend": null,
+            "targetShare": 11,
+            "targetTrend": null,
+            "depthRank": null,
+            "depthPosition": null,
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 56.5% of snaps last season",
+            "Saw 11% of targets last season"
+          ],
+          "usageSignal": 44.75,
+          "score": 34,
+          "reasons": [
+            "Played 56.5% of snaps last season",
+            "Saw 11% of targets last season",
+            "Listed NA"
           ]
         }
       ]
@@ -691,7 +1250,22 @@
           "injuryNote": null,
           "projected": 15.9,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png",
+          "usage": {
+            "snapPct": 44.5,
+            "snapTrend": null,
+            "targetShare": 7.1,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "RB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 44.5% of snaps last season",
+            "Saw 7.1% of targets last season",
+            "Listed first on the depth chart at RB"
+          ]
         },
         {
           "playerId": "4262921",
@@ -705,7 +1279,22 @@
           "injuryNote": null,
           "projected": 17.1,
           "sleeperId": "6794",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4262921.png",
+          "usage": {
+            "snapPct": 91.2,
+            "snapTrend": null,
+            "targetShare": 35.1,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 91.2% of snaps last season",
+            "Saw 35.1% of targets last season",
+            "Listed first on the depth chart at WR"
+          ]
         },
         {
           "playerId": "4426502",
@@ -723,9 +1312,24 @@
             {
               "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar",
               "summary": "The Raiders will now turn to Michael Mayer, a second-round pick in 2023, as Brock Bowers will miss the start of the 2026 season.",
-              "published": "2026-09-09T21:30:31Z",
+              "published": "2026-09-09T22:13:45Z",
               "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
             }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4426502.png",
+          "usage": {
+            "snapPct": 88.3,
+            "snapTrend": null,
+            "targetShare": 22.8,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 88.3% of snaps last season",
+            "Saw 22.8% of targets last season",
+            "Listed first on the depth chart at WR"
           ]
         },
         {
@@ -740,7 +1344,21 @@
           "injuryNote": null,
           "projected": 19.3,
           "sleeperId": "4984",
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
+          "usage": {
+            "snapPct": 75.3,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 75.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
         },
         {
           "playerId": "4432620",
@@ -754,7 +1372,22 @@
           "injuryNote": null,
           "projected": 11.3,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4432620.png",
+          "usage": {
+            "snapPct": 70.5,
+            "snapTrend": null,
+            "targetShare": 31.2,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 70.5% of snaps last season",
+            "Saw 31.2% of targets last season",
+            "Listed second at WR"
+          ]
         },
         {
           "playerId": "4678008",
@@ -768,7 +1401,20 @@
           "injuryNote": null,
           "projected": 11.2,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4678008.png",
+          "usage": {
+            "snapPct": null,
+            "snapTrend": null,
+            "targetShare": null,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "RB",
+            "stale": false
+          },
+          "usageNotes": [
+            "Listed second at RB"
+          ]
         },
         {
           "playerId": "4360569",
@@ -782,7 +1428,22 @@
           "injuryNote": null,
           "projected": 8.7,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4360569.png",
+          "usage": {
+            "snapPct": 28.2,
+            "snapTrend": null,
+            "targetShare": 1.1,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "RB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 28.2% of snaps last season",
+            "Saw 1.1% of targets last season",
+            "Listed second at RB"
+          ]
         },
         {
           "playerId": "4360078",
@@ -796,7 +1457,22 @@
           "injuryNote": null,
           "projected": 9.7,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4360078.png",
+          "usage": {
+            "snapPct": 89,
+            "snapTrend": null,
+            "targetShare": 13.4,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 89% of snaps last season",
+            "Saw 13.4% of targets last season",
+            "Listed first on the depth chart at WR"
+          ]
         },
         {
           "playerId": "3953687",
@@ -810,7 +1486,20 @@
           "injuryNote": null,
           "projected": 9.9,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3953687.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": true
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ]
         },
         {
           "playerId": "3929645",
@@ -831,6 +1520,21 @@
               "published": "2026-09-09T17:18:38Z",
               "url": "https://www.espn.com/fantasy/football/story/_/id/49880596/facts-vs-feelings-fantasy-advice-week-1"
             }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3929645.png",
+          "usage": {
+            "snapPct": 68.3,
+            "snapTrend": null,
+            "targetShare": 15.4,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 68.3% of snaps last season",
+            "Saw 15.4% of targets last season",
+            "Listed first on the depth chart at TE"
           ]
         },
         {
@@ -845,7 +1549,22 @@
           "injuryNote": null,
           "projected": 9.5,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4683062.png",
+          "usage": {
+            "snapPct": 76.8,
+            "snapTrend": null,
+            "targetShare": 13.9,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 76.8% of snaps last season",
+            "Saw 13.9% of targets last season",
+            "Listed second at WR"
+          ]
         },
         {
           "playerId": "-16017",
@@ -859,7 +1578,10 @@
           "injuryNote": null,
           "projected": 4.7,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png",
+          "usage": null,
+          "usageNotes": []
         },
         {
           "playerId": "4032473",
@@ -873,7 +1595,22 @@
           "injuryNote": null,
           "projected": 8.4,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4032473.png",
+          "usage": {
+            "snapPct": 51,
+            "snapTrend": null,
+            "targetShare": 9.8,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 51% of snaps last season",
+            "Saw 9.8% of targets last season",
+            "Listed second at WR"
+          ]
         },
         {
           "playerId": "4608686",
@@ -887,37 +1624,25 @@
           "injuryNote": null,
           "projected": 10.3,
           "sleeperId": null,
-          "news": []
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4608686.png",
+          "usage": {
+            "snapPct": 41.5,
+            "snapTrend": null,
+            "targetShare": 7.4,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "RB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 41.5% of snaps last season",
+            "Saw 7.4% of targets last season",
+            "Listed second at RB"
+          ]
         }
       ],
       "waivers": [
-        {
-          "playerId": "4429086",
-          "espnId": "4429086",
-          "name": "Michael Mayer",
-          "position": "TE",
-          "team": "LV",
-          "injuryStatus": null,
-          "projected": 9.3,
-          "percentOwned": 4.5,
-          "ownershipChange": 3.4,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [
-            {
-              "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar",
-              "summary": "The Raiders will now turn to Michael Mayer, a second-round pick in 2023, as Brock Bowers will miss the start of the 2026 season.",
-              "published": "2026-09-09T21:30:31Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
-            }
-          ],
-          "score": 95,
-          "reasons": [
-            "Projected 9.3 points, 0.5 above your worst TE at 8.8",
-            "Rostered percentage up 3.4 points today"
-          ]
-        },
         {
           "playerId": "-16010",
           "espnId": "-16010",
@@ -926,16 +1651,66 @@
           "team": "TEN",
           "injuryStatus": null,
           "projected": 6.8,
-          "percentOwned": 8.6,
-          "ownershipChange": 1.9,
+          "percentOwned": 8.8,
+          "ownershipChange": 2,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 92,
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 87,
           "reasons": [
             "Projected 6.8 points, 2.1 above your worst DEF at 4.7",
-            "Rostered percentage up 1.9 points today"
+            "Rostered percentage up 2 points today"
+          ]
+        },
+        {
+          "playerId": "4429086",
+          "espnId": "4429086",
+          "name": "Michael Mayer",
+          "position": "TE",
+          "team": "LV",
+          "injuryStatus": null,
+          "projected": 9.3,
+          "percentOwned": 7,
+          "ownershipChange": 6,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar",
+              "summary": "The Raiders will now turn to Michael Mayer, a second-round pick in 2023, as Brock Bowers will miss the start of the 2026 season.",
+              "published": "2026-09-09T22:13:45Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4429086.png",
+          "usage": {
+            "snapPct": 68.5,
+            "snapTrend": null,
+            "targetShare": 17.1,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 68.5% of snaps last season",
+            "Saw 17.1% of targets last season",
+            "Listed second at TE"
+          ],
+          "usageSignal": 79.9,
+          "score": 85,
+          "reasons": [
+            "Projected 9.3 points, 0.5 above your worst TE at 8.8",
+            "Rostered percentage up 6 points today",
+            "Played 68.5% of snaps last season",
+            "Saw 17.1% of targets last season",
+            "Listed second at TE"
           ]
         },
         {
@@ -952,131 +1727,14 @@
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 85,
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/nyj.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 81,
           "reasons": [
             "Projected 6.6 points, 1.9 above your worst DEF at 4.7",
             "Rostered percentage up 0.6 points today"
-          ]
-        },
-        {
-          "playerId": "4570037",
-          "espnId": "4570037",
-          "name": "Terrance Ferguson",
-          "position": "TE",
-          "team": "LAR",
-          "injuryStatus": null,
-          "projected": 8.1,
-          "percentOwned": 28.5,
-          "ownershipChange": 2.1,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 84,
-          "reasons": [
-            "Projected 8.1 points, 0.7 below your worst TE at 8.8",
-            "Rostered percentage up 2.1 points today"
-          ]
-        },
-        {
-          "playerId": "4569559",
-          "espnId": "4569559",
-          "name": "Devaughn Vele",
-          "position": "WR",
-          "team": "NO",
-          "injuryStatus": null,
-          "projected": 9.3,
-          "percentOwned": 12.3,
-          "ownershipChange": 1.2,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 84,
-          "reasons": [
-            "Projected 9.3 points, 0.9 above your worst WR at 8.4",
-            "Rostered percentage up 1.2 points today"
-          ]
-        },
-        {
-          "playerId": "4430834",
-          "espnId": "4430834",
-          "name": "Jalen McMillan",
-          "position": "WR",
-          "team": "TB",
-          "injuryStatus": "QUESTIONABLE",
-          "projected": 8.2,
-          "percentOwned": 34.5,
-          "ownershipChange": 1.6,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 83,
-          "reasons": [
-            "Projected 8.2 points, 0.2 below your worst WR at 8.4",
-            "Rostered percentage up 1.6 points today",
-            "Listed QUESTIONABLE"
-          ]
-        },
-        {
-          "playerId": "4429022",
-          "espnId": "4429022",
-          "name": "Kayshon Boutte",
-          "position": "WR",
-          "team": "HOU",
-          "injuryStatus": null,
-          "projected": 8.8,
-          "percentOwned": 16.1,
-          "ownershipChange": 1.3,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 83,
-          "reasons": [
-            "Projected 8.8 points, 0.4 above your worst WR at 8.4",
-            "Rostered percentage up 1.3 points today"
-          ]
-        },
-        {
-          "playerId": "4361432",
-          "espnId": "4361432",
-          "name": "Romeo Doubs",
-          "position": "WR",
-          "team": "NE",
-          "injuryStatus": null,
-          "projected": 8.2,
-          "percentOwned": 63,
-          "ownershipChange": 1.2,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 81,
-          "reasons": [
-            "Projected 8.2 points, 0.2 below your worst WR at 8.4",
-            "Rostered percentage up 1.2 points today"
-          ]
-        },
-        {
-          "playerId": "3117256",
-          "espnId": "3117256",
-          "name": "Dalton Schultz",
-          "position": "TE",
-          "team": "HOU",
-          "injuryStatus": null,
-          "projected": 8.4,
-          "percentOwned": 19.5,
-          "ownershipChange": 1.3,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": "5001",
-          "news": [],
-          "score": 81,
-          "reasons": [
-            "Projected 8.4 points, 0.4 below your worst TE at 8.8",
-            "Rostered percentage up 1.3 points today"
           ]
         },
         {
@@ -1093,110 +1751,68 @@
           "searchRank": null,
           "sleeperId": "5844",
           "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4036133.png",
+          "usage": {
+            "snapPct": 72.5,
+            "snapTrend": null,
+            "targetShare": 14.7,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 72.5% of snaps last season",
+            "Saw 14.7% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 108.3,
           "score": 80,
           "reasons": [
             "Projected 9.2 points, 0.4 above your worst TE at 8.8",
-            "Rostered percentage up 0.6 points today"
+            "Rostered percentage up 0.6 points today",
+            "Played 72.5% of snaps last season",
+            "Saw 14.7% of targets last season",
+            "Listed first on the depth chart at TE"
           ]
         },
         {
-          "playerId": "3149687",
-          "espnId": "3149687",
-          "name": "Chris Brooks",
-          "position": "RB",
-          "team": "GB",
-          "injuryStatus": null,
-          "projected": 7.6,
-          "percentOwned": 9.5,
-          "ownershipChange": 1.7,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 80,
-          "reasons": [
-            "Projected 7.6 points, 1.1 below your worst RB at 8.7",
-            "Rostered percentage up 1.7 points today"
-          ]
-        },
-        {
-          "playerId": "4682648",
-          "espnId": "4682648",
-          "name": "Malachi Fields",
+          "playerId": "4569559",
+          "espnId": "4569559",
+          "name": "Devaughn Vele",
           "position": "WR",
-          "team": "NYG",
+          "team": "NO",
           "injuryStatus": null,
-          "projected": 6.9,
-          "percentOwned": 8.2,
-          "ownershipChange": 1.9,
+          "projected": 9.3,
+          "percentOwned": 12.3,
+          "ownershipChange": 1.2,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 80,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4569559.png",
+          "usage": {
+            "snapPct": 81.3,
+            "snapTrend": null,
+            "targetShare": 21,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 81.3% of snaps last season",
+            "Saw 21% of targets last season",
+            "Listed second at WR"
+          ],
+          "usageSignal": 92.15,
+          "score": 78,
           "reasons": [
-            "Projected 6.9 points, 1.5 below your worst WR at 8.4",
-            "Rostered percentage up 1.9 points today"
-          ]
-        },
-        {
-          "playerId": "4574716",
-          "espnId": "4574716",
-          "name": "Harrison Mevis",
-          "position": "K",
-          "team": "LAR",
-          "injuryStatus": null,
-          "projected": 9.4,
-          "percentOwned": 94.3,
-          "ownershipChange": 1,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 79,
-          "reasons": [
-            "Projected 9.4 points, 0.5 below your worst K at 9.9",
-            "Rostered percentage up 1 points today"
-          ]
-        },
-        {
-          "playerId": "4832800",
-          "espnId": "4832800",
-          "name": "Denzel Boston",
-          "position": "WR",
-          "team": "CLE",
-          "injuryStatus": null,
-          "projected": 8.3,
-          "percentOwned": 27.1,
-          "ownershipChange": 0.9,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 79,
-          "reasons": [
-            "Projected 8.3 points, 0.1 below your worst WR at 8.4",
-            "Rostered percentage up 0.9 points today"
-          ]
-        },
-        {
-          "playerId": "4382466",
-          "espnId": "4382466",
-          "name": "Jalen Nailor",
-          "position": "WR",
-          "team": "LV",
-          "injuryStatus": null,
-          "projected": 9.1,
-          "percentOwned": 13.3,
-          "ownershipChange": 0.3,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 79,
-          "reasons": [
-            "Projected 9.1 points, 0.7 above your worst WR at 8.4",
-            "Rostered percentage up 0.3 points today"
+            "Projected 9.3 points, 0.9 above your worst WR at 8.4",
+            "Rostered percentage up 1.2 points today",
+            "Played 81.3% of snaps last season",
+            "Saw 21% of targets last season",
+            "Listed second at WR"
           ]
         },
         {
@@ -1213,118 +1829,53 @@
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 79,
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 77,
           "reasons": [
             "Projected 5.7 points, 1.0 above your worst DEF at 4.7",
             "Rostered percentage up 0.2 points today"
           ]
         },
         {
-          "playerId": "2576925",
-          "espnId": "2576925",
-          "name": "Darren Waller",
+          "playerId": "3117256",
+          "espnId": "3117256",
+          "name": "Dalton Schultz",
           "position": "TE",
-          "team": "CAR",
+          "team": "HOU",
           "injuryStatus": null,
-          "projected": 7.1,
-          "percentOwned": 3.7,
-          "ownershipChange": 0.2,
-          "trendAdds": 154962,
-          "searchRank": null,
-          "sleeperId": "2505",
-          "news": [],
-          "score": 79,
-          "reasons": [
-            "Projected 7.1 points, 1.7 below your worst TE at 8.8",
-            "Added by 154,962 Sleeper managers in the last 24 hours",
-            "Rostered percentage up 0.2 points today"
-          ]
-        },
-        {
-          "playerId": "4689936",
-          "espnId": "4689936",
-          "name": "Jake Bates",
-          "position": "K",
-          "team": "DET",
-          "injuryStatus": null,
-          "projected": 8.7,
-          "percentOwned": 73.8,
-          "ownershipChange": 1.4,
+          "projected": 8.4,
+          "percentOwned": 19.5,
+          "ownershipChange": 1.3,
           "trendAdds": 0,
           "searchRank": null,
-          "sleeperId": null,
+          "sleeperId": "5001",
           "news": [],
-          "score": 78,
-          "reasons": [
-            "Projected 8.7 points, 1.2 below your worst K at 9.9",
-            "Rostered percentage up 1.4 points today"
-          ]
-        },
-        {
-          "playerId": "4689114",
-          "espnId": "4689114",
-          "name": "Jaxson Dart",
-          "position": "QB",
-          "team": "NYG",
-          "injuryStatus": null,
-          "projected": 18.5,
-          "percentOwned": 95.1,
-          "ownershipChange": 0.9,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [
-            {
-              "headline": "Facts vs. Feelings: Seven players who will get off to fast (or slow) starts in Week 1",
-              "summary": "What to expect from Jaxson Dart, D'Andre Swift, Quinshon Judkins, Kenneth Gainwell, Tetairoa McMIllan, Rashee Rice and Juwan Johnson in Week 1.",
-              "published": "2026-09-09T17:18:38Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/id/49880596/facts-vs-feelings-fantasy-advice-week-1"
-            }
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3117256.png",
+          "usage": {
+            "snapPct": 57.3,
+            "snapTrend": null,
+            "targetShare": 11.7,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 57.3% of snaps last season",
+            "Saw 11.7% of targets last season",
+            "Listed first on the depth chart at TE"
           ],
-          "score": 77,
+          "usageSignal": 96.2,
+          "score": 76,
           "reasons": [
-            "Projected 18.5 points, 0.8 below your worst QB at 19.3",
-            "Rostered percentage up 0.9 points today"
-          ]
-        },
-        {
-          "playerId": "-16012",
-          "espnId": "-16012",
-          "name": "Chiefs D/ST",
-          "position": "DEF",
-          "team": "KC",
-          "injuryStatus": null,
-          "projected": 5.3,
-          "percentOwned": 37.5,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 77,
-          "reasons": [
-            "Projected 5.3 points, 0.6 above your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "4597500",
-          "espnId": "4597500",
-          "name": "Adonai Mitchell",
-          "position": "WR",
-          "team": "NYJ",
-          "injuryStatus": null,
-          "projected": 8.1,
-          "percentOwned": 16.6,
-          "ownershipChange": 0.6,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "score": 77,
-          "reasons": [
-            "Projected 8.1 points, 0.3 below your worst WR at 8.4",
-            "Rostered percentage up 0.6 points today"
+            "Projected 8.4 points, 0.4 below your worst TE at 8.8",
+            "Rostered percentage up 1.3 points today",
+            "Played 57.3% of snaps last season",
+            "Saw 11.7% of targets last season",
+            "Listed first on the depth chart at TE"
           ]
         },
         {
@@ -1341,50 +1892,415 @@
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 77,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4361411.png",
+          "usage": {
+            "snapPct": 62.5,
+            "snapTrend": null,
+            "targetShare": 11.3,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 62.5% of snaps last season",
+            "Saw 11.3% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 98.2,
+          "score": 76,
           "reasons": [
             "Projected 8.4 points, 0.4 below your worst TE at 8.8",
-            "Rostered percentage up 0.7 points today"
+            "Rostered percentage up 0.7 points today",
+            "Played 62.5% of snaps last season",
+            "Saw 11.3% of targets last season",
+            "Listed first on the depth chart at TE"
           ]
         },
         {
-          "playerId": "4697745",
-          "espnId": "4697745",
-          "name": "Tyler Loop",
-          "position": "K",
-          "team": "BAL",
+          "playerId": "4243331",
+          "espnId": "4243331",
+          "name": "Cade Otton",
+          "position": "TE",
+          "team": "TB",
           "injuryStatus": null,
-          "projected": 8.5,
-          "percentOwned": 53.5,
+          "projected": 6.3,
+          "percentOwned": 2.6,
+          "ownershipChange": 0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Cade Otton's Week 1 outlook",
+              "summary": "Cade Otton's Week 1 outlook",
+              "published": "2026-09-09T13:42:36Z",
+              "url": "https://www.espn.com/video/clip/_/id/49879676/cade-otton-week-1-outlook"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4243331.png",
+          "usage": {
+            "snapPct": 92,
+            "snapTrend": null,
+            "targetShare": 18.1,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 92% of snaps last season",
+            "Saw 18.1% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 123.15,
+          "score": 76,
+          "reasons": [
+            "Projected 6.3 points, 2.5 below your worst TE at 8.8",
+            "Rostered percentage up 0.1 points today",
+            "Played 92% of snaps last season",
+            "Saw 18.1% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "4689114",
+          "espnId": "4689114",
+          "name": "Jaxson Dart",
+          "position": "QB",
+          "team": "NYG",
+          "injuryStatus": null,
+          "projected": 18.5,
+          "percentOwned": 95,
+          "ownershipChange": 0.8,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Facts vs. Feelings: Seven players who will get off to fast (or slow) starts in Week 1",
+              "summary": "What to expect from Jaxson Dart, D'Andre Swift, Quinshon Judkins, Kenneth Gainwell, Tetairoa McMIllan, Rashee Rice and Juwan Johnson in Week 1.",
+              "published": "2026-09-09T17:18:38Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49880596/facts-vs-feelings-fantasy-advice-week-1"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4689114.png",
+          "usage": {
+            "snapPct": 99.3,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 99.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 99.65,
+          "score": 75,
+          "reasons": [
+            "Projected 18.5 points, 0.8 below your worst QB at 19.3",
+            "Rostered percentage up 0.8 points today",
+            "Played 99.3% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "4429022",
+          "espnId": "4429022",
+          "name": "Kayshon Boutte",
+          "position": "WR",
+          "team": "HOU",
+          "injuryStatus": null,
+          "projected": 8.8,
+          "percentOwned": 16.1,
+          "ownershipChange": 1.3,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4429022.png",
+          "usage": {
+            "snapPct": 67.8,
+            "snapTrend": null,
+            "targetShare": 19.1,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 67.8% of snaps last season",
+            "Saw 19.1% of targets last season",
+            "Listed second at WR"
+          ],
+          "usageSignal": 82.55,
+          "score": 75,
+          "reasons": [
+            "Projected 8.8 points, 0.4 above your worst WR at 8.4",
+            "Rostered percentage up 1.3 points today",
+            "Played 67.8% of snaps last season",
+            "Saw 19.1% of targets last season",
+            "Listed second at WR"
+          ]
+        },
+        {
+          "playerId": "-16012",
+          "espnId": "-16012",
+          "name": "Chiefs D/ST",
+          "position": "DEF",
+          "team": "KC",
+          "injuryStatus": null,
+          "projected": 5.3,
+          "percentOwned": 37.5,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 74,
+          "reasons": [
+            "Projected 5.3 points, 0.6 above your worst DEF at 4.7",
+            "Rostered percentage down 0.1 points today"
+          ]
+        },
+        {
+          "playerId": "-16006",
+          "espnId": "-16006",
+          "name": "Cowboys D/ST",
+          "position": "DEF",
+          "team": "DAL",
+          "injuryStatus": null,
+          "projected": 4.9,
+          "percentOwned": 12.2,
+          "ownershipChange": 0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 74,
+          "reasons": [
+            "Projected 4.9 points, 0.2 above your worst DEF at 4.7",
+            "Rostered percentage up 0.1 points today"
+          ]
+        },
+        {
+          "playerId": "4360635",
+          "espnId": "4360635",
+          "name": "Chig Okonkwo",
+          "position": "TE",
+          "team": "WSH",
+          "injuryStatus": null,
+          "projected": 6.8,
+          "percentOwned": 8.6,
+          "ownershipChange": 0.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4360635.png",
+          "usage": {
+            "snapPct": 58.3,
+            "snapTrend": null,
+            "targetShare": 21.8,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 58.3% of snaps last season",
+            "Saw 21.8% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 111.85000000000001,
+          "score": 74,
+          "reasons": [
+            "Projected 6.8 points, 2.0 below your worst TE at 8.8",
+            "Rostered percentage up 0.2 points today",
+            "Played 58.3% of snaps last season",
+            "Saw 21.8% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "-16013",
+          "espnId": "-16013",
+          "name": "Raiders D/ST",
+          "position": "DEF",
+          "team": "LV",
+          "injuryStatus": null,
+          "projected": 4.8,
+          "percentOwned": 2,
+          "ownershipChange": 0.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/lv.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 74,
+          "reasons": [
+            "Projected 4.8 points, 0.1 above your worst DEF at 4.7",
+            "Rostered percentage up 0.2 points today"
+          ]
+        },
+        {
+          "playerId": "4361432",
+          "espnId": "4361432",
+          "name": "Romeo Doubs",
+          "position": "WR",
+          "team": "NE",
+          "injuryStatus": null,
+          "projected": 8.2,
+          "percentOwned": 62.9,
           "ownershipChange": 1.1,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 76,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4361432.png",
+          "usage": {
+            "snapPct": 67,
+            "snapTrend": null,
+            "targetShare": 18.6,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 67% of snaps last season",
+            "Saw 18.6% of targets last season",
+            "Listed second at WR"
+          ],
+          "usageSignal": 81.4,
+          "score": 73,
           "reasons": [
-            "Projected 8.5 points, 1.4 below your worst K at 9.9",
-            "Rostered percentage up 1.1 points today"
+            "Projected 8.2 points, 0.2 below your worst WR at 8.4",
+            "Rostered percentage up 1.1 points today",
+            "Played 67% of snaps last season",
+            "Saw 18.6% of targets last season",
+            "Listed second at WR"
           ]
         },
         {
-          "playerId": "4686658",
-          "espnId": "4686658",
-          "name": "Mike Washington Jr.",
-          "position": "RB",
-          "team": "LV",
+          "playerId": "3052587",
+          "espnId": "3052587",
+          "name": "Baker Mayfield",
+          "position": "QB",
+          "team": "TB",
           "injuryStatus": null,
-          "projected": 7.1,
-          "percentOwned": 41.4,
-          "ownershipChange": 1.2,
+          "projected": 16.2,
+          "percentOwned": 60,
+          "ownershipChange": 2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": "4892",
+          "news": [
+            {
+              "headline": "How Baker Mayfield, Bucs eventually reached contract agreement",
+              "summary": "How Baker Mayfield, Bucs eventually reached contract agreement  ",
+              "published": "2026-09-09T13:34:39Z",
+              "url": "https://www.espn.com/video/clip/_/id/49879529/how-baker-mayfield-bucs-eventually-reached-contract-agreement"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3052587.png",
+          "usage": {
+            "snapPct": 100,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 100% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ],
+          "usageSignal": 100,
+          "score": 73,
+          "reasons": [
+            "Projected 16.2 points, 3.1 below your worst QB at 19.3",
+            "Rostered percentage up 2 points today",
+            "Played 100% of snaps last season",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "4597500",
+          "espnId": "4597500",
+          "name": "Adonai Mitchell",
+          "position": "WR",
+          "team": "NYJ",
+          "injuryStatus": null,
+          "projected": 8.1,
+          "percentOwned": 16.6,
+          "ownershipChange": 0.5,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 76,
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4597500.png",
+          "usage": {
+            "snapPct": 74.5,
+            "snapTrend": null,
+            "targetShare": 21.9,
+            "targetTrend": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 74.5% of snaps last season",
+            "Saw 21.9% of targets last season",
+            "Listed second at WR"
+          ],
+          "usageSignal": 90.1,
+          "score": 73,
           "reasons": [
-            "Projected 7.1 points, 1.6 below your worst RB at 8.7",
-            "Rostered percentage up 1.2 points today"
+            "Projected 8.1 points, 0.3 below your worst WR at 8.4",
+            "Rostered percentage up 0.5 points today",
+            "Played 74.5% of snaps last season",
+            "Saw 21.9% of targets last season",
+            "Listed second at WR"
+          ]
+        },
+        {
+          "playerId": "-16027",
+          "espnId": "-16027",
+          "name": "Buccaneers D/ST",
+          "position": "DEF",
+          "team": "TB",
+          "injuryStatus": null,
+          "projected": 4.5,
+          "percentOwned": 14,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/tb.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 72,
+          "reasons": [
+            "Projected 4.5 points, 0.2 below your worst DEF at 4.7",
+            "Rostered percentage down 0.1 points today"
           ]
         },
         {
@@ -1396,71 +2312,174 @@
           "injuryStatus": null,
           "projected": 4.4,
           "percentOwned": 13.6,
-          "ownershipChange": 0.3,
+          "ownershipChange": 0.2,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "score": 76,
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/min.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 72,
           "reasons": [
             "Projected 4.4 points, 0.3 below your worst DEF at 4.7",
-            "Rostered percentage up 0.3 points today"
+            "Rostered percentage up 0.2 points today"
+          ]
+        },
+        {
+          "playerId": "4576297",
+          "espnId": "4576297",
+          "name": "AJ Barner",
+          "position": "TE",
+          "team": "SEA",
+          "injuryStatus": null,
+          "projected": 6.6,
+          "percentOwned": 7.2,
+          "ownershipChange": 0.4,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4576297.png",
+          "usage": {
+            "snapPct": 81.5,
+            "snapTrend": null,
+            "targetShare": 7.9,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 81.5% of snaps last season",
+            "Saw 7.9% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 102.6,
+          "score": 72,
+          "reasons": [
+            "Projected 6.6 points, 2.2 below your worst TE at 8.8",
+            "Rostered percentage up 0.4 points today",
+            "Played 81.5% of snaps last season",
+            "Saw 7.9% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "4686728",
+          "espnId": "4686728",
+          "name": "Gunnar Helm",
+          "position": "TE",
+          "team": "TEN",
+          "injuryStatus": null,
+          "projected": 7.5,
+          "percentOwned": 5.8,
+          "ownershipChange": 0.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4686728.png",
+          "usage": {
+            "snapPct": 61.3,
+            "snapTrend": null,
+            "targetShare": 9.9,
+            "targetTrend": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": true
+          },
+          "usageNotes": [
+            "Played 61.3% of snaps last season",
+            "Saw 9.9% of targets last season",
+            "Listed first on the depth chart at TE"
+          ],
+          "usageSignal": 95.5,
+          "score": 72,
+          "reasons": [
+            "Projected 7.5 points, 1.3 below your worst TE at 8.8",
+            "Rostered percentage up 0.2 points today",
+            "Played 61.3% of snaps last season",
+            "Saw 9.9% of targets last season",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "-16004",
+          "espnId": "-16004",
+          "name": "Bengals D/ST",
+          "position": "DEF",
+          "team": "CIN",
+          "injuryStatus": null,
+          "projected": 4.3,
+          "percentOwned": 2.1,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 71,
+          "reasons": [
+            "Projected 4.3 points, 0.4 below your worst DEF at 4.7",
+            "Rostered percentage down 0.1 points today"
+          ]
+        },
+        {
+          "playerId": "-16001",
+          "espnId": "-16001",
+          "name": "Falcons D/ST",
+          "position": "DEF",
+          "team": "ATL",
+          "injuryStatus": null,
+          "projected": 4.2,
+          "percentOwned": 1.2,
+          "ownershipChange": 0,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 71,
+          "reasons": [
+            "Projected 4.2 points, 0.5 below your worst DEF at 4.7",
+            "Rostered percentage up 0 points today"
+          ]
+        },
+        {
+          "playerId": "-16005",
+          "espnId": "-16005",
+          "name": "Browns D/ST",
+          "position": "DEF",
+          "team": "CLE",
+          "injuryStatus": null,
+          "projected": 4.9,
+          "percentOwned": 58.2,
+          "ownershipChange": -1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
+          "usage": null,
+          "usageNotes": [],
+          "usageSignal": null,
+          "score": 70,
+          "reasons": [
+            "Projected 4.9 points, 0.2 above your worst DEF at 4.7",
+            "Rostered percentage down 1 points today"
           ]
         }
       ]
     }
   ],
-  "alerts": [
-    {
-      "league": "Blood, Sweat, and Beers",
-      "leagueId": "sleeper:1389693247713988608",
-      "name": "George Kittle",
-      "position": "TE",
-      "team": "SF",
-      "starter": true,
-      "injuryStatus": "QUESTIONABLE",
-      "headline": "Achilles"
-    },
-    {
-      "league": "Los Hermanos Klub",
-      "leagueId": "espn:112589845",
-      "name": "Jonathon Brooks",
-      "position": "RB",
-      "team": "CAR",
-      "starter": true,
-      "injuryStatus": "QUESTIONABLE",
-      "headline": null
-    },
-    {
-      "league": "Los Hermanos Klub",
-      "leagueId": "espn:112589845",
-      "name": "Drake London",
-      "position": "WR",
-      "team": "ATL",
-      "starter": true,
-      "injuryStatus": null,
-      "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar"
-    },
-    {
-      "league": "Los Hermanos Klub",
-      "leagueId": "espn:112589845",
-      "name": "Juwan Johnson",
-      "position": "TE",
-      "team": "NO",
-      "starter": true,
-      "injuryStatus": null,
-      "headline": "Facts vs. Feelings: Seven players who will get off to fast (or slow) starts in Week 1"
-    },
-    {
-      "league": "Los Hermanos Klub",
-      "leagueId": "espn:112589845",
-      "name": "Alec Pierce",
-      "position": "WR",
-      "team": "IND",
-      "starter": false,
-      "injuryStatus": "QUESTIONABLE",
-      "headline": null
-    }
-  ],
-  "problems": []
+  "problems": [],
+  "changes": []
 }

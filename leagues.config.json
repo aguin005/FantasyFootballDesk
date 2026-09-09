@@ -10,9 +10,11 @@
     }
   ],
   "waiverWeights": {
-    "projection": 0.5,
-    "trend": 0.3,
-    "ownershipChange": 0.2
+    "projection": 0.4,
+    "trend": 0.2,
+    "ownershipChange": 0.15,
+    "usage": 0.25
   },
-  "waiverLimit": 25
+  "waiverLimit": 25,
+  "siteUrl": ""
 }

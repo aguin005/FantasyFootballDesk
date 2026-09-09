@@ -394,3 +394,142 @@ a:focus-visible {
     padding-top: 2.5rem;
   }
 }
+
+/* Portraits. ESPN cutouts have transparent backgrounds, so the disc behind them
+   is what gives every row the same silhouette whether the image loads or not. */
+.portrait {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--raised);
+  border-bottom: 2px solid var(--other);
+  flex: 0 0 auto;
+}
+
+.portrait img {
+  width: 115%;
+  height: 115%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.portrait-blank {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.portrait[data-pos='QB'] {
+  border-bottom-color: var(--qb);
+}
+
+.portrait[data-pos='RB'] {
+  border-bottom-color: var(--rb);
+}
+
+.portrait[data-pos='WR'] {
+  border-bottom-color: var(--wr);
+}
+
+.portrait[data-pos='TE'] {
+  border-bottom-color: var(--te);
+}
+
+/* The change strip replaced the old alert strip. It answers one question, which is
+   what is different since you last looked, so unread items carry a marker and
+   everything older sits quieter. */
+.changes {
+  margin: 1.5rem 0;
+  border-top: 2px solid var(--watch);
+  padding-top: 0.9rem;
+}
+
+.changes-quiet {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+
+.changes-quiet p {
+  margin: 0;
+}
+
+.changes-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.7rem;
+}
+
+.changes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.change {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  gap: 0.7rem;
+  align-items: start;
+  opacity: 0.62;
+}
+
+.change.is-new {
+  opacity: 1;
+}
+
+.change-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.change-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.change-meta {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.change-detail {
+  font-size: 0.92rem;
+  margin-top: 0.15rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a.change-detail {
+  color: var(--wr);
+}
+
+.change-when {
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem;
+}
+
+.usage {
+  color: var(--rb);
+  font-size: 0.8rem;
+  margin-top: 0.15rem;
+}
+
+/* Rows gained a portrait column. */
+.row {
+  grid-template-columns: 2.2rem 2.5rem 1fr auto;
+}
+
+.row-waiver {
+  grid-template-columns: 2.6rem 2.5rem 1fr;
+}

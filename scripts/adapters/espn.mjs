@@ -31,7 +31,7 @@ export function getLeague(season, leagueId) {
   return getJSON(leagueUrl(season, leagueId, params), {
     headers: cookieHeader(),
     label: `ESPN league ${leagueId}`,
-     authenticated: true
+    authenticated: true
   })
 }
 
@@ -55,7 +55,7 @@ export function getFreeAgents(season, leagueId, week, limit = 150) {
   return getJSON(leagueUrl(season, leagueId, `view=kona_player_info&scoringPeriodId=${week}`), {
     headers: { ...cookieHeader(), 'x-fantasy-filter': JSON.stringify(filter) },
     label: `ESPN free agents ${leagueId}`,
-     authenticated: true
+    authenticated: true
   })
 }
 

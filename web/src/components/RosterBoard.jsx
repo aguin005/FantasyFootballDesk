@@ -1,3 +1,5 @@
+import Portrait from './Portrait.jsx'
+
 const SLOT_ORDER = ['QB', 'RB', 'WR', 'TE', 'FLEX', 'DEF', 'K', 'BE', 'IR']
 
 export default function RosterBoard({ roster }) {
@@ -21,12 +23,16 @@ function PlayerGroup({ title, players }) {
         {players.map((player) => (
           <li key={player.playerId} className="row" data-pos={player.position}>
             <span className="slot">{player.slot || player.position}</span>
+            <Portrait player={player} />
             <span className="who">
               <span className="name">{player.name}</span>
               <span className="meta">
                 {player.position} {player.team}
                 {player.injuryNote ? `, ${player.injuryNote}` : ''}
               </span>
+              {player.usageNotes?.length > 0 && (
+                <span className="usage">{player.usageNotes.join('. ')}</span>
+              )}
               {player.news?.length > 0 && (
                 <a className="story" href={player.news[0].url} target="_blank" rel="noreferrer">
                   {player.news[0].headline}

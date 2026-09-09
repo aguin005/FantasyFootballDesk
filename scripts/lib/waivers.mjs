@@ -7,6 +7,8 @@
  *   trend           how many people added the player across Sleeper in the last day,
  *                   which spikes when news breaks before projections catch up
  *   ownershipChange ESPN's day over day change in percent rostered, same idea
+ *   usage           snap share, target share, and depth chart rank from nflverse,
+ *                   which move before projections do when a role changes
  *
  * Signals that a platform cannot supply are dropped and the remaining weights are
  * renormalized, so a Sleeper league ranks on trend alone rather than on zeros.
@@ -30,7 +32,8 @@ export function rankCandidates(candidates, roster, weights, limit) {
     trend: buildScale(usable.map((player) => player.trendAdds).filter(Boolean)),
     ownershipChange: buildScale(
       usable.map((player) => player.ownershipChange).filter((value) => value != null)
-    )
+    ),
+    usage: buildScale(usable.map((player) => player.usageSignal).filter((value) => value != null))
   }
 
   const ranked = usable.map((player) => {
@@ -49,6 +52,9 @@ export function rankCandidates(candidates, roster, weights, limit) {
         value: scales.ownershipChange(player.ownershipChange),
         raw: player.ownershipChange
       })
+    }
+    if (player.usageSignal != null) {
+      parts.push({ key: 'usage', value: scales.usage(player.usageSignal), raw: player.usageSignal })
     }
 
     const totalWeight = parts.reduce((sum, part) => sum + (weights[part.key] ?? 0), 0)
@@ -114,6 +120,8 @@ function buildReasons(parts, player, baselines) {
       reasons.push(`Rostered percentage ${direction} ${Math.abs(part.raw)} points today`)
     }
   }
+  // Role notes come from nflverse and are already written as sentences.
+  for (const note of player.usageNotes || []) reasons.push(note)
   if (player.injuryStatus) reasons.push(`Listed ${player.injuryStatus}`)
   return reasons
 }
