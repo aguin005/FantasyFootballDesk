@@ -1,0 +1,18 @@
+{
+  "sleeper": {
+    "username": "artnjelo"
+  },
+  "espn": [
+    {
+      "leagueId": "112589845",
+      "teamId": 9,
+      "label": "Los Hermanos Klub"
+    }
+  ],
+  "waiverWeights": {
+    "projection": 0.5,
+    "trend": 0.3,
+    "ownershipChange": 0.2
+  },
+  "waiverLimit": 25
+}

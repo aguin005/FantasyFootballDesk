@@ -1,0 +1,1466 @@
+{
+  "generatedAt": "2026-09-09T21:37:40.691Z",
+  "season": "2026",
+  "week": 1,
+  "leagues": [
+    {
+      "id": "sleeper:1389693247713988608",
+      "platform": "sleeper",
+      "name": "Blood, Sweat, and Beers",
+      "teamName": "Feral Hogs",
+      "record": "0-0",
+      "scoring": "Full PPR",
+      "roster": [
+        {
+          "playerId": "11533",
+          "espnId": null,
+          "name": "Brandon Aubrey",
+          "position": "K",
+          "team": "DAL",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "11581",
+          "espnId": null,
+          "name": "MarShawn Lloyd",
+          "position": "RB",
+          "team": "GB",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "2133",
+          "espnId": "16800",
+          "name": "Davante Adams",
+          "position": "WR",
+          "team": "LAR",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "sleeperId": "2133",
+          "news": []
+        },
+        {
+          "playerId": "4217",
+          "espnId": "3040151",
+          "name": "George Kittle",
+          "position": "TE",
+          "team": "SF",
+          "starter": true,
+          "injuryStatus": "QUESTIONABLE",
+          "injuryNote": "Achilles",
+          "projected": null,
+          "sleeperId": "4217",
+          "news": []
+        },
+        {
+          "playerId": "4866",
+          "espnId": "3929630",
+          "name": "Saquon Barkley",
+          "position": "RB",
+          "team": "PHI",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "sleeperId": "4866",
+          "news": []
+        },
+        {
+          "playerId": "4881",
+          "espnId": "3916387",
+          "name": "Lamar Jackson",
+          "position": "QB",
+          "team": "BAL",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "sleeperId": "4881",
+          "news": []
+        },
+        {
+          "playerId": "5045",
+          "espnId": "3128429",
+          "name": "Courtland Sutton",
+          "position": "WR",
+          "team": "DEN",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "sleeperId": "5045",
+          "news": []
+        },
+        {
+          "playerId": "5872",
+          "espnId": "3126486",
+          "name": "Deebo Samuel",
+          "position": "WR",
+          "team": "SF",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "sleeperId": "5872",
+          "news": []
+        },
+        {
+          "playerId": "7543",
+          "espnId": null,
+          "name": "Travis Etienne",
+          "position": "RB",
+          "team": "NO",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "8132",
+          "espnId": null,
+          "name": "Tyler Allgeier",
+          "position": "RB",
+          "team": "ARI",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "8138",
+          "espnId": null,
+          "name": "James Cook",
+          "position": "RB",
+          "team": "BUF",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "8154",
+          "espnId": null,
+          "name": "Brian Robinson",
+          "position": "RB",
+          "team": "ATL",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "8167",
+          "espnId": null,
+          "name": "Christian Watson",
+          "position": "WR",
+          "team": "GB",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "8408",
+          "espnId": null,
+          "name": "Jordan Mason",
+          "position": "RB",
+          "team": "MIN",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "9487",
+          "espnId": null,
+          "name": "Parker Washington",
+          "position": "WR",
+          "team": "JAX",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        },
+        {
+          "playerId": "PIT",
+          "espnId": null,
+          "name": "Pittsburgh Steelers",
+          "position": "DEF",
+          "team": "PIT",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": null,
+          "news": []
+        }
+      ],
+      "waivers": [
+        {
+          "playerId": "9482",
+          "espnId": null,
+          "name": "Michael Mayer",
+          "position": "TE",
+          "team": "LV",
+          "injuryStatus": null,
+          "trendAdds": 733464,
+          "searchRank": 484,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 100,
+          "reasons": [
+            "Added by 733,464 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "10235",
+          "espnId": null,
+          "name": "Roschon Johnson",
+          "position": "RB",
+          "team": "CHI",
+          "injuryStatus": null,
+          "trendAdds": 288960,
+          "searchRank": 681,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 39,
+          "reasons": [
+            "Added by 288,960 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "11834",
+          "espnId": null,
+          "name": "Devaughn Vele",
+          "position": "WR",
+          "team": "NO",
+          "injuryStatus": null,
+          "trendAdds": 217483,
+          "searchRank": 209,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 29,
+          "reasons": [
+            "Added by 217,483 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "8800",
+          "espnId": null,
+          "name": "Malik Davis",
+          "position": "RB",
+          "team": "DAL",
+          "injuryStatus": null,
+          "trendAdds": 172404,
+          "searchRank": 439,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 22,
+          "reasons": [
+            "Added by 172,404 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "LV",
+          "espnId": null,
+          "name": "Las Vegas Raiders",
+          "position": "DEF",
+          "team": "LV",
+          "injuryStatus": null,
+          "trendAdds": 172248,
+          "searchRank": null,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 22,
+          "reasons": [
+            "Added by 172,248 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "2505",
+          "espnId": "2576925",
+          "name": "Darren Waller",
+          "position": "TE",
+          "team": "CAR",
+          "injuryStatus": null,
+          "trendAdds": 154962,
+          "searchRank": 355,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "2505",
+          "news": [],
+          "score": 20,
+          "reasons": [
+            "Added by 154,962 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "6083",
+          "espnId": "4249087",
+          "name": "Matt Gay",
+          "position": "K",
+          "team": "LV",
+          "injuryStatus": null,
+          "trendAdds": 106305,
+          "searchRank": 239,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "6083",
+          "news": [],
+          "score": 13,
+          "reasons": [
+            "Added by 106,305 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "13414",
+          "espnId": null,
+          "name": "Kaelon Black",
+          "position": "RB",
+          "team": "SF",
+          "injuryStatus": null,
+          "trendAdds": 107989,
+          "searchRank": 161,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 13,
+          "reasons": [
+            "Added by 107,989 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "10213",
+          "espnId": null,
+          "name": "Tre Tucker",
+          "position": "WR",
+          "team": "LV",
+          "injuryStatus": null,
+          "trendAdds": 80610,
+          "searchRank": 180,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 10,
+          "reasons": [
+            "Added by 80,610 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "13311",
+          "espnId": null,
+          "name": "Chris Bell",
+          "position": "WR",
+          "team": "MIA",
+          "injuryStatus": null,
+          "trendAdds": 83335,
+          "searchRank": 197,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 10,
+          "reasons": [
+            "Added by 83,335 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "8127",
+          "espnId": null,
+          "name": "Charlie Kolar",
+          "position": "TE",
+          "team": "LAC",
+          "injuryStatus": null,
+          "trendAdds": 75147,
+          "searchRank": 661,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 9,
+          "reasons": [
+            "Added by 75,147 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "13296",
+          "espnId": null,
+          "name": "Caleb Douglas",
+          "position": "WR",
+          "team": "MIA",
+          "injuryStatus": null,
+          "trendAdds": 69288,
+          "searchRank": 198,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 8,
+          "reasons": [
+            "Added by 69,288 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "13285",
+          "espnId": null,
+          "name": "Malachi Fields",
+          "position": "WR",
+          "team": "NYG",
+          "injuryStatus": null,
+          "trendAdds": 62725,
+          "searchRank": 199,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 7,
+          "reasons": [
+            "Added by 62,725 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "2078",
+          "espnId": "16733",
+          "name": "Odell Beckham",
+          "position": "WR",
+          "team": "NYG",
+          "injuryStatus": null,
+          "trendAdds": 57547,
+          "searchRank": 441,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "2078",
+          "news": [],
+          "score": 6,
+          "reasons": [
+            "Added by 57,547 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "5995",
+          "espnId": "4038441",
+          "name": "Justice Hill",
+          "position": "RB",
+          "team": "BAL",
+          "injuryStatus": null,
+          "trendAdds": 55890,
+          "searchRank": 219,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "5995",
+          "news": [],
+          "score": 6,
+          "reasons": [
+            "Added by 55,890 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "9511",
+          "espnId": null,
+          "name": "Keaton Mitchell",
+          "position": "RB",
+          "team": "LAC",
+          "injuryStatus": "QUESTIONABLE",
+          "trendAdds": 52614,
+          "searchRank": 148,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 6,
+          "reasons": [
+            "Added by 52,614 Sleeper managers in the last 24 hours",
+            "Listed QUESTIONABLE"
+          ]
+        },
+        {
+          "playerId": "DET",
+          "espnId": null,
+          "name": "Detroit Lions",
+          "position": "DEF",
+          "team": "DET",
+          "injuryStatus": null,
+          "trendAdds": 54864,
+          "searchRank": null,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 6,
+          "reasons": [
+            "Added by 54,864 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "8180",
+          "espnId": null,
+          "name": "Jalen Nailor",
+          "position": "WR",
+          "team": "LV",
+          "injuryStatus": null,
+          "trendAdds": 43497,
+          "searchRank": 170,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 5,
+          "reasons": [
+            "Added by 43,497 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "4147",
+          "espnId": "3116389",
+          "name": "Samaje Perine",
+          "position": "RB",
+          "team": "CIN",
+          "injuryStatus": null,
+          "trendAdds": 40632,
+          "searchRank": 453,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4147",
+          "news": [],
+          "score": 4,
+          "reasons": [
+            "Added by 40,632 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "7090",
+          "espnId": "4040655",
+          "name": "Darnell Mooney",
+          "position": "WR",
+          "team": "NYG",
+          "injuryStatus": null,
+          "trendAdds": 40041,
+          "searchRank": 194,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "7090",
+          "news": [],
+          "score": 4,
+          "reasons": [
+            "Added by 40,041 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "8161",
+          "espnId": null,
+          "name": "Malik Willis",
+          "position": "QB",
+          "team": "MIA",
+          "injuryStatus": null,
+          "trendAdds": 42455,
+          "searchRank": 118,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 4,
+          "reasons": [
+            "Added by 42,455 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "12545",
+          "espnId": null,
+          "name": "Tyler Shough",
+          "position": "QB",
+          "team": "NO",
+          "injuryStatus": null,
+          "trendAdds": 36936,
+          "searchRank": 87,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 4,
+          "reasons": [
+            "Added by 36,936 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "13424",
+          "espnId": null,
+          "name": "Seth McGowan",
+          "position": "RB",
+          "team": "IND",
+          "injuryStatus": null,
+          "trendAdds": 36992,
+          "searchRank": 375,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 4,
+          "reasons": [
+            "Added by 36,992 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "13533",
+          "espnId": null,
+          "name": "Barion Brown",
+          "position": "WR",
+          "team": "NO",
+          "injuryStatus": null,
+          "trendAdds": 37764,
+          "searchRank": 453,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "news": [],
+          "score": 4,
+          "reasons": [
+            "Added by 37,764 Sleeper managers in the last 24 hours"
+          ]
+        },
+        {
+          "playerId": "1166",
+          "espnId": "14880",
+          "name": "Kirk Cousins",
+          "position": "QB",
+          "team": "LV",
+          "injuryStatus": null,
+          "trendAdds": 29472,
+          "searchRank": 272,
+          "projected": null,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "1166",
+          "news": [],
+          "score": 3,
+          "reasons": [
+            "Added by 29,472 Sleeper managers in the last 24 hours"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "espn:112589845",
+      "platform": "espn",
+      "name": "Los Hermanos Klub",
+      "teamName": "JOSH ALLEN SUPER BOWL YEAR",
+      "record": "0-0",
+      "scoring": "H2H_POINTS",
+      "roster": [
+        {
+          "playerId": "4379399",
+          "espnId": "4379399",
+          "name": "James Cook III",
+          "position": "RB",
+          "team": "BUF",
+          "slot": "RB",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 15.9,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "4262921",
+          "espnId": "4262921",
+          "name": "Justin Jefferson",
+          "position": "WR",
+          "team": "MIN",
+          "slot": "WR",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 17.1,
+          "sleeperId": "6794",
+          "news": []
+        },
+        {
+          "playerId": "4426502",
+          "espnId": "4426502",
+          "name": "Drake London",
+          "position": "WR",
+          "team": "ATL",
+          "slot": "WR",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 15.1,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar",
+              "summary": "The Raiders will now turn to Michael Mayer, a second-round pick in 2023, as Brock Bowers will miss the start of the 2026 season.",
+              "published": "2026-09-09T21:30:31Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+            }
+          ]
+        },
+        {
+          "playerId": "3918298",
+          "espnId": "3918298",
+          "name": "Josh Allen",
+          "position": "QB",
+          "team": "BUF",
+          "slot": "QB",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 19.3,
+          "sleeperId": "4984",
+          "news": []
+        },
+        {
+          "playerId": "4432620",
+          "espnId": "4432620",
+          "name": "Parker Washington",
+          "position": "WR",
+          "team": "JAX",
+          "slot": "FLEX",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 11.3,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "4678008",
+          "espnId": "4678008",
+          "name": "Jonathon Brooks",
+          "position": "RB",
+          "team": "CAR",
+          "slot": "RB",
+          "starter": true,
+          "injuryStatus": "QUESTIONABLE",
+          "injuryNote": null,
+          "projected": 11.2,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "4360569",
+          "espnId": "4360569",
+          "name": "Jordan Mason",
+          "position": "RB",
+          "team": "MIN",
+          "slot": "BE",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 8.7,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "4360078",
+          "espnId": "4360078",
+          "name": "Alec Pierce",
+          "position": "WR",
+          "team": "IND",
+          "slot": "BE",
+          "starter": false,
+          "injuryStatus": "QUESTIONABLE",
+          "injuryNote": null,
+          "projected": 9.7,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "3953687",
+          "espnId": "3953687",
+          "name": "Brandon Aubrey",
+          "position": "K",
+          "team": "DAL",
+          "slot": "K",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 9.9,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "3929645",
+          "espnId": "3929645",
+          "name": "Juwan Johnson",
+          "position": "TE",
+          "team": "NO",
+          "slot": "TE",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 8.8,
+          "sleeperId": "7002",
+          "news": [
+            {
+              "headline": "Facts vs. Feelings: Seven players who will get off to fast (or slow) starts in Week 1",
+              "summary": "What to expect from Jaxson Dart, D'Andre Swift, Quinshon Judkins, Kenneth Gainwell, Tetairoa McMIllan, Rashee Rice and Juwan Johnson in Week 1.",
+              "published": "2026-09-09T17:18:38Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49880596/facts-vs-feelings-fantasy-advice-week-1"
+            }
+          ]
+        },
+        {
+          "playerId": "4683062",
+          "espnId": "4683062",
+          "name": "Xavier Worthy",
+          "position": "WR",
+          "team": "KC",
+          "slot": "BE",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 9.5,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "-16017",
+          "espnId": "-16017",
+          "name": "Patriots D/ST",
+          "position": "DEF",
+          "team": "NE",
+          "slot": "DEF",
+          "starter": true,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 4.7,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "4032473",
+          "espnId": "4032473",
+          "name": "Rashid Shaheed",
+          "position": "WR",
+          "team": "SEA",
+          "slot": "BE",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 8.4,
+          "sleeperId": null,
+          "news": []
+        },
+        {
+          "playerId": "4608686",
+          "espnId": "4608686",
+          "name": "Kyle Monangai",
+          "position": "RB",
+          "team": "CHI",
+          "slot": "BE",
+          "starter": false,
+          "injuryStatus": null,
+          "injuryNote": null,
+          "projected": 10.3,
+          "sleeperId": null,
+          "news": []
+        }
+      ],
+      "waivers": [
+        {
+          "playerId": "4429086",
+          "espnId": "4429086",
+          "name": "Michael Mayer",
+          "position": "TE",
+          "team": "LV",
+          "injuryStatus": null,
+          "projected": 9.3,
+          "percentOwned": 4.5,
+          "ownershipChange": 3.4,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar",
+              "summary": "The Raiders will now turn to Michael Mayer, a second-round pick in 2023, as Brock Bowers will miss the start of the 2026 season.",
+              "published": "2026-09-09T21:30:31Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+            }
+          ],
+          "score": 95,
+          "reasons": [
+            "Projected 9.3 points, 0.5 above your worst TE at 8.8",
+            "Rostered percentage up 3.4 points today"
+          ]
+        },
+        {
+          "playerId": "-16010",
+          "espnId": "-16010",
+          "name": "Titans D/ST",
+          "position": "DEF",
+          "team": "TEN",
+          "injuryStatus": null,
+          "projected": 6.8,
+          "percentOwned": 8.6,
+          "ownershipChange": 1.9,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 92,
+          "reasons": [
+            "Projected 6.8 points, 2.1 above your worst DEF at 4.7",
+            "Rostered percentage up 1.9 points today"
+          ]
+        },
+        {
+          "playerId": "-16020",
+          "espnId": "-16020",
+          "name": "Jets D/ST",
+          "position": "DEF",
+          "team": "NYJ",
+          "injuryStatus": null,
+          "projected": 6.6,
+          "percentOwned": 4.7,
+          "ownershipChange": 0.6,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 85,
+          "reasons": [
+            "Projected 6.6 points, 1.9 above your worst DEF at 4.7",
+            "Rostered percentage up 0.6 points today"
+          ]
+        },
+        {
+          "playerId": "4570037",
+          "espnId": "4570037",
+          "name": "Terrance Ferguson",
+          "position": "TE",
+          "team": "LAR",
+          "injuryStatus": null,
+          "projected": 8.1,
+          "percentOwned": 28.5,
+          "ownershipChange": 2.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 84,
+          "reasons": [
+            "Projected 8.1 points, 0.7 below your worst TE at 8.8",
+            "Rostered percentage up 2.1 points today"
+          ]
+        },
+        {
+          "playerId": "4569559",
+          "espnId": "4569559",
+          "name": "Devaughn Vele",
+          "position": "WR",
+          "team": "NO",
+          "injuryStatus": null,
+          "projected": 9.3,
+          "percentOwned": 12.3,
+          "ownershipChange": 1.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 84,
+          "reasons": [
+            "Projected 9.3 points, 0.9 above your worst WR at 8.4",
+            "Rostered percentage up 1.2 points today"
+          ]
+        },
+        {
+          "playerId": "4430834",
+          "espnId": "4430834",
+          "name": "Jalen McMillan",
+          "position": "WR",
+          "team": "TB",
+          "injuryStatus": "QUESTIONABLE",
+          "projected": 8.2,
+          "percentOwned": 34.5,
+          "ownershipChange": 1.6,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 83,
+          "reasons": [
+            "Projected 8.2 points, 0.2 below your worst WR at 8.4",
+            "Rostered percentage up 1.6 points today",
+            "Listed QUESTIONABLE"
+          ]
+        },
+        {
+          "playerId": "4429022",
+          "espnId": "4429022",
+          "name": "Kayshon Boutte",
+          "position": "WR",
+          "team": "HOU",
+          "injuryStatus": null,
+          "projected": 8.8,
+          "percentOwned": 16.1,
+          "ownershipChange": 1.3,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 83,
+          "reasons": [
+            "Projected 8.8 points, 0.4 above your worst WR at 8.4",
+            "Rostered percentage up 1.3 points today"
+          ]
+        },
+        {
+          "playerId": "4361432",
+          "espnId": "4361432",
+          "name": "Romeo Doubs",
+          "position": "WR",
+          "team": "NE",
+          "injuryStatus": null,
+          "projected": 8.2,
+          "percentOwned": 63,
+          "ownershipChange": 1.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 81,
+          "reasons": [
+            "Projected 8.2 points, 0.2 below your worst WR at 8.4",
+            "Rostered percentage up 1.2 points today"
+          ]
+        },
+        {
+          "playerId": "3117256",
+          "espnId": "3117256",
+          "name": "Dalton Schultz",
+          "position": "TE",
+          "team": "HOU",
+          "injuryStatus": null,
+          "projected": 8.4,
+          "percentOwned": 19.5,
+          "ownershipChange": 1.3,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": "5001",
+          "news": [],
+          "score": 81,
+          "reasons": [
+            "Projected 8.4 points, 0.4 below your worst TE at 8.8",
+            "Rostered percentage up 1.3 points today"
+          ]
+        },
+        {
+          "playerId": "4036133",
+          "espnId": "4036133",
+          "name": "T.J. Hockenson",
+          "position": "TE",
+          "team": "MIN",
+          "injuryStatus": null,
+          "projected": 9.2,
+          "percentOwned": 61,
+          "ownershipChange": 0.6,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": "5844",
+          "news": [],
+          "score": 80,
+          "reasons": [
+            "Projected 9.2 points, 0.4 above your worst TE at 8.8",
+            "Rostered percentage up 0.6 points today"
+          ]
+        },
+        {
+          "playerId": "3149687",
+          "espnId": "3149687",
+          "name": "Chris Brooks",
+          "position": "RB",
+          "team": "GB",
+          "injuryStatus": null,
+          "projected": 7.6,
+          "percentOwned": 9.5,
+          "ownershipChange": 1.7,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 80,
+          "reasons": [
+            "Projected 7.6 points, 1.1 below your worst RB at 8.7",
+            "Rostered percentage up 1.7 points today"
+          ]
+        },
+        {
+          "playerId": "4682648",
+          "espnId": "4682648",
+          "name": "Malachi Fields",
+          "position": "WR",
+          "team": "NYG",
+          "injuryStatus": null,
+          "projected": 6.9,
+          "percentOwned": 8.2,
+          "ownershipChange": 1.9,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 80,
+          "reasons": [
+            "Projected 6.9 points, 1.5 below your worst WR at 8.4",
+            "Rostered percentage up 1.9 points today"
+          ]
+        },
+        {
+          "playerId": "4574716",
+          "espnId": "4574716",
+          "name": "Harrison Mevis",
+          "position": "K",
+          "team": "LAR",
+          "injuryStatus": null,
+          "projected": 9.4,
+          "percentOwned": 94.3,
+          "ownershipChange": 1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 79,
+          "reasons": [
+            "Projected 9.4 points, 0.5 below your worst K at 9.9",
+            "Rostered percentage up 1 points today"
+          ]
+        },
+        {
+          "playerId": "4832800",
+          "espnId": "4832800",
+          "name": "Denzel Boston",
+          "position": "WR",
+          "team": "CLE",
+          "injuryStatus": null,
+          "projected": 8.3,
+          "percentOwned": 27.1,
+          "ownershipChange": 0.9,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 79,
+          "reasons": [
+            "Projected 8.3 points, 0.1 below your worst WR at 8.4",
+            "Rostered percentage up 0.9 points today"
+          ]
+        },
+        {
+          "playerId": "4382466",
+          "espnId": "4382466",
+          "name": "Jalen Nailor",
+          "position": "WR",
+          "team": "LV",
+          "injuryStatus": null,
+          "projected": 9.1,
+          "percentOwned": 13.3,
+          "ownershipChange": 0.3,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 79,
+          "reasons": [
+            "Projected 9.1 points, 0.7 above your worst WR at 8.4",
+            "Rostered percentage up 0.3 points today"
+          ]
+        },
+        {
+          "playerId": "-16003",
+          "espnId": "-16003",
+          "name": "Bears D/ST",
+          "position": "DEF",
+          "team": "CHI",
+          "injuryStatus": null,
+          "projected": 5.7,
+          "percentOwned": 9.2,
+          "ownershipChange": 0.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 79,
+          "reasons": [
+            "Projected 5.7 points, 1.0 above your worst DEF at 4.7",
+            "Rostered percentage up 0.2 points today"
+          ]
+        },
+        {
+          "playerId": "2576925",
+          "espnId": "2576925",
+          "name": "Darren Waller",
+          "position": "TE",
+          "team": "CAR",
+          "injuryStatus": null,
+          "projected": 7.1,
+          "percentOwned": 3.7,
+          "ownershipChange": 0.2,
+          "trendAdds": 154962,
+          "searchRank": null,
+          "sleeperId": "2505",
+          "news": [],
+          "score": 79,
+          "reasons": [
+            "Projected 7.1 points, 1.7 below your worst TE at 8.8",
+            "Added by 154,962 Sleeper managers in the last 24 hours",
+            "Rostered percentage up 0.2 points today"
+          ]
+        },
+        {
+          "playerId": "4689936",
+          "espnId": "4689936",
+          "name": "Jake Bates",
+          "position": "K",
+          "team": "DET",
+          "injuryStatus": null,
+          "projected": 8.7,
+          "percentOwned": 73.8,
+          "ownershipChange": 1.4,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 78,
+          "reasons": [
+            "Projected 8.7 points, 1.2 below your worst K at 9.9",
+            "Rostered percentage up 1.4 points today"
+          ]
+        },
+        {
+          "playerId": "4689114",
+          "espnId": "4689114",
+          "name": "Jaxson Dart",
+          "position": "QB",
+          "team": "NYG",
+          "injuryStatus": null,
+          "projected": 18.5,
+          "percentOwned": 95.1,
+          "ownershipChange": 0.9,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Facts vs. Feelings: Seven players who will get off to fast (or slow) starts in Week 1",
+              "summary": "What to expect from Jaxson Dart, D'Andre Swift, Quinshon Judkins, Kenneth Gainwell, Tetairoa McMIllan, Rashee Rice and Juwan Johnson in Week 1.",
+              "published": "2026-09-09T17:18:38Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49880596/facts-vs-feelings-fantasy-advice-week-1"
+            }
+          ],
+          "score": 77,
+          "reasons": [
+            "Projected 18.5 points, 0.8 below your worst QB at 19.3",
+            "Rostered percentage up 0.9 points today"
+          ]
+        },
+        {
+          "playerId": "-16012",
+          "espnId": "-16012",
+          "name": "Chiefs D/ST",
+          "position": "DEF",
+          "team": "KC",
+          "injuryStatus": null,
+          "projected": 5.3,
+          "percentOwned": 37.5,
+          "ownershipChange": 0,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 77,
+          "reasons": [
+            "Projected 5.3 points, 0.6 above your worst DEF at 4.7",
+            "Rostered percentage up 0 points today"
+          ]
+        },
+        {
+          "playerId": "4597500",
+          "espnId": "4597500",
+          "name": "Adonai Mitchell",
+          "position": "WR",
+          "team": "NYJ",
+          "injuryStatus": null,
+          "projected": 8.1,
+          "percentOwned": 16.6,
+          "ownershipChange": 0.6,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 77,
+          "reasons": [
+            "Projected 8.1 points, 0.3 below your worst WR at 8.4",
+            "Rostered percentage up 0.6 points today"
+          ]
+        },
+        {
+          "playerId": "4361411",
+          "espnId": "4361411",
+          "name": "Pat Freiermuth",
+          "position": "TE",
+          "team": "PIT",
+          "injuryStatus": null,
+          "projected": 8.4,
+          "percentOwned": 14.8,
+          "ownershipChange": 0.7,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 77,
+          "reasons": [
+            "Projected 8.4 points, 0.4 below your worst TE at 8.8",
+            "Rostered percentage up 0.7 points today"
+          ]
+        },
+        {
+          "playerId": "4697745",
+          "espnId": "4697745",
+          "name": "Tyler Loop",
+          "position": "K",
+          "team": "BAL",
+          "injuryStatus": null,
+          "projected": 8.5,
+          "percentOwned": 53.5,
+          "ownershipChange": 1.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 76,
+          "reasons": [
+            "Projected 8.5 points, 1.4 below your worst K at 9.9",
+            "Rostered percentage up 1.1 points today"
+          ]
+        },
+        {
+          "playerId": "4686658",
+          "espnId": "4686658",
+          "name": "Mike Washington Jr.",
+          "position": "RB",
+          "team": "LV",
+          "injuryStatus": null,
+          "projected": 7.1,
+          "percentOwned": 41.4,
+          "ownershipChange": 1.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 76,
+          "reasons": [
+            "Projected 7.1 points, 1.6 below your worst RB at 8.7",
+            "Rostered percentage up 1.2 points today"
+          ]
+        },
+        {
+          "playerId": "-16016",
+          "espnId": "-16016",
+          "name": "Vikings D/ST",
+          "position": "DEF",
+          "team": "MIN",
+          "injuryStatus": null,
+          "projected": 4.4,
+          "percentOwned": 13.6,
+          "ownershipChange": 0.3,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "score": 76,
+          "reasons": [
+            "Projected 4.4 points, 0.3 below your worst DEF at 4.7",
+            "Rostered percentage up 0.3 points today"
+          ]
+        }
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "league": "Blood, Sweat, and Beers",
+      "leagueId": "sleeper:1389693247713988608",
+      "name": "George Kittle",
+      "position": "TE",
+      "team": "SF",
+      "starter": true,
+      "injuryStatus": "QUESTIONABLE",
+      "headline": "Achilles"
+    },
+    {
+      "league": "Los Hermanos Klub",
+      "leagueId": "espn:112589845",
+      "name": "Jonathon Brooks",
+      "position": "RB",
+      "team": "CAR",
+      "starter": true,
+      "injuryStatus": "QUESTIONABLE",
+      "headline": null
+    },
+    {
+      "league": "Los Hermanos Klub",
+      "leagueId": "espn:112589845",
+      "name": "Drake London",
+      "position": "WR",
+      "team": "ATL",
+      "starter": true,
+      "injuryStatus": null,
+      "headline": "Fantasy buzz: Brock Bowers injury puts Michael Mayer on the fantasy radar"
+    },
+    {
+      "league": "Los Hermanos Klub",
+      "leagueId": "espn:112589845",
+      "name": "Juwan Johnson",
+      "position": "TE",
+      "team": "NO",
+      "starter": true,
+      "injuryStatus": null,
+      "headline": "Facts vs. Feelings: Seven players who will get off to fast (or slow) starts in Week 1"
+    },
+    {
+      "league": "Los Hermanos Klub",
+      "leagueId": "espn:112589845",
+      "name": "Alec Pierce",
+      "position": "WR",
+      "team": "IND",
+      "starter": false,
+      "injuryStatus": "QUESTIONABLE",
+      "headline": null
+    }
+  ],
+  "problems": []
+}

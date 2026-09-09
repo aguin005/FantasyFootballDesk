@@ -1,0 +1,9 @@
+{
+  "name": "League desk",
+  "short_name": "League desk",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#101A2E",
+  "theme_color": "#101A2E",
+  "icons": []
+}
