@@ -9,6 +9,8 @@ import { loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
+import { loadSchedule, attachGame } from './lib/schedule.mjs'
+import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
 
@@ -25,13 +27,18 @@ async function main() {
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage] = await Promise.all([
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, schedule] = await Promise.all([
     sleeper.getAllPlayers(),
     sleeper.getTrendingAdds(),
     fetchNews(),
     fetchInjuries(),
-    loadUsage(season)
+    loadUsage(season),
+    loadSchedule(season, week)
   ])
+
+  // Feeds are fetched alongside everything else but matched later, once the
+  // rosters exist to match against.
+  const feedItems = await fetchFeeds(config.newsFeeds)
   const crosswalk = buildCrosswalk(players)
 
   const leagues = []
@@ -62,10 +69,20 @@ async function main() {
   for (const league of leagues) {
     for (const player of league.roster) {
       enrich(player, crosswalk, newsByPlayer, injuriesByPlayer, usage)
+      attachGame(player, schedule)
+    }
+
+    // Other teams only need enough to price a trade, so they skip news and images.
+    for (const team of league.teams || []) {
+      for (const player of team.roster) {
+        player.usage = usage.get(player.espnId) || null
+        player.image = headshot(player)
+      }
     }
 
     for (const candidate of league.candidates) {
       enrich(candidate, crosswalk, newsByPlayer, injuriesByPlayer, usage)
+      attachGame(candidate, schedule)
       if (!candidate.trendAdds && candidate.sleeperId) {
         candidate.trendAdds = trending.get(candidate.sleeperId) || 0
       }
@@ -76,8 +93,13 @@ async function main() {
     delete league.candidates
   }
 
+  const rosterIndex = buildRosterIndex(leagues)
+  const news = mergeNews([foldEspnNews(leagues), matchToRoster(feedItems, rosterIndex)])
+  console.log(`${news.length} stories mention someone you roster`)
+
   const current = {
     generatedAt: new Date().toISOString(),
+    news,
     season,
     week,
     leagues,

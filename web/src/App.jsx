@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import ChangeStrip from './components/ChangeStrip.jsx'
 import RosterBoard from './components/RosterBoard.jsx'
 import WaiverBoard from './components/WaiverBoard.jsx'
+import ScheduleBoard from './components/ScheduleBoard.jsx'
+import StartSitBoard from './components/StartSitBoard.jsx'
+import TradeBoard from './components/TradeBoard.jsx'
+import NewsBoard from './components/NewsBoard.jsx'
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/dashboard.json`
 
@@ -82,34 +86,43 @@ export default function App() {
           <div className="board-head">
             <h2>{league.teamName}</h2>
             <div className="switch" role="tablist" aria-label="Board view">
-              <button
-                role="tab"
-                aria-selected={view === 'lineup'}
-                className={view === 'lineup' ? 'is-on' : ''}
-                onClick={() => setView('lineup')}
-              >
-                Lineup
-              </button>
-              <button
-                role="tab"
-                aria-selected={view === 'waivers'}
-                className={view === 'waivers' ? 'is-on' : ''}
-                onClick={() => setView('waivers')}
-              >
-                Waivers
-              </button>
+              {views(league).map(([key, label]) => (
+                <button
+                  key={key}
+                  role="tab"
+                  aria-selected={view === key}
+                  className={view === key ? 'is-on' : ''}
+                  onClick={() => setView(key)}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {view === 'lineup' ? (
-            <RosterBoard roster={league.roster} />
-          ) : (
-            <WaiverBoard waivers={league.waivers} platform={league.platform} />
-          )}
+          {view === 'lineup' && <RosterBoard roster={league.roster} />}
+          {view === 'startsit' && <StartSitBoard roster={league.roster} />}
+          {view === 'schedule' && <ScheduleBoard roster={league.roster} />}
+          {view === 'news' && <NewsBoard news={data.news} leagueId={league.id} />}
+          {view === 'waivers' && <WaiverBoard waivers={league.waivers} platform={league.platform} />}
+          {view === 'trade' && <TradeBoard league={league} />}
         </section>
       )}
     </main>
   )
+}
+
+/** Trade evaluation needs every team's roster, which only ESPN returns. */
+function views(league) {
+  const tabs = [
+    ['lineup', 'Lineup'],
+    ['startsit', 'Start / sit'],
+    ['schedule', 'Schedule'],
+    ['news', 'News'],
+    ['waivers', 'Waivers']
+  ]
+  if (league.teams?.length) tabs.push(['trade', 'Trade'])
+  return tabs
 }
 
 function formatTime(iso) {

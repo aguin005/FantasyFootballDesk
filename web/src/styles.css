@@ -1,17 +1,42 @@
+/*
+ * Archivo is a variable font with a width axis, so one family covers both roles:
+ * pushed to 120% width and 800 weight it reads as display type, left at normal
+ * width and 400 it reads as text. Nothing here is a second typeface.
+ *
+ * The layout carries no boxes, cards, or shadows. Hierarchy comes from type size
+ * and space, and the only rules are hairlines between rows.
+ */
+
 :root {
-  --field: #101a2e;
-  --surface: #16233b;
-  --raised: #1c2d4a;
-  --line: #26385c;
-  --ink: #e9eef7;
-  --muted: #93a6c6;
-  --bad: #ff6470;
-  --watch: #f2b33d;
-  --qb: #f2637e;
-  --rb: #57c99a;
-  --wr: #5aa7f0;
-  --te: #f0b25a;
-  --other: #9aaac4;
+  --paper: #f5f4f0;
+  --raised: #eceae4;
+  --ink: #14161a;
+  --muted: #6f7480;
+  --line: #dcd9d1;
+  --signal: #c8321e;
+  --watch: #a8710a;
+  --qb: #b8285a;
+  --rb: #1f7a52;
+  --wr: #1c5fb8;
+  --te: #9a5a05;
+  --other: #6f7480;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #111214;
+    --raised: #1b1d21;
+    --ink: #f2f1ed;
+    --muted: #8d939f;
+    --line: #2a2d33;
+    --signal: #ff6a52;
+    --watch: #e0a53c;
+    --qb: #ff7d9f;
+    --rb: #5fd4a0;
+    --wr: #6faaf5;
+    --te: #f0b45c;
+    --other: #8d939f;
+  }
 }
 
 * {
@@ -20,11 +45,12 @@
 
 body {
   margin: 0;
-  background: var(--field);
+  background: var(--paper);
   color: var(--ink);
-  font-family: Barlow, system-ui, sans-serif;
+  font-family: Archivo, system-ui, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -33,132 +59,139 @@ a {
 }
 
 .shell {
-  max-width: 68rem;
+  max-width: 60rem;
   margin: 0 auto;
-  padding: 1.25rem 1rem 4rem;
+  padding: 1.5rem 1.25rem 5rem;
 }
 
+/* The wordmark is the one piece of real display type, set as wide and as heavy as
+   the family goes, cropped tight so the letterforms are the graphic element. */
 .masthead h1 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(2.4rem, 9vw, 3.4rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 0.95;
+  font-size: clamp(3rem, 13vw, 6rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.035em;
+  line-height: 0.82;
   margin: 0;
+  text-transform: lowercase;
 }
 
 .clock {
   color: var(--muted);
   font-size: 0.9rem;
-  margin: 0.35rem 0 0;
+  font-weight: 500;
+  margin: 0.75rem 0 0;
 }
 
-/* The attention strip is the reason to open the page, so it sits above the fold
-   and uses the largest type on the screen after the wordmark. */
-.alerts {
+.problems {
+  border-left: 2px solid var(--watch);
+  padding: 0.4rem 0 0.4rem 0.75rem;
+  font-size: 0.88rem;
   margin: 1.5rem 0;
-  border-top: 2px solid var(--bad);
-  padding-top: 0.9rem;
-}
-
-.alerts-clear {
-  border-top-color: var(--line);
   color: var(--muted);
 }
 
-.alerts-clear p {
+.problems p {
+  margin: 0.15rem 0;
+}
+
+/* What changed */
+.changes {
+  margin: 2.5rem 0;
+}
+
+.changes-quiet {
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+
+.changes-quiet p {
   margin: 0;
 }
 
-.alerts-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  margin: 0 0 0.6rem;
+.changes-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1rem;
 }
 
-.alerts ul {
+.changes ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.7rem;
+  gap: 1.4rem;
 }
 
-.alert {
+.change {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 0.4rem 0.75rem;
+  grid-template-columns: 2.75rem 1fr auto;
+  gap: 0.9rem;
+  align-items: start;
 }
 
-.alert-player {
+/* Older items stay legible but recede, so new ones read first without a badge. */
+.change:not(.is-new) .change-name {
+  color: var(--muted);
+}
+
+.change-body {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
-.alert-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.6rem;
+.change-name {
+  font-size: clamp(1.6rem, 6vw, 2.1rem);
+  font-weight: 800;
+  font-stretch: 118%;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+}
+
+.change-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 0.3rem;
+}
+
+.change-detail {
+  font-size: 0.95rem;
+  margin-top: 0.35rem;
+  text-decoration: none;
+  max-width: 46ch;
+}
+
+a.change-detail {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+}
+
+a.change-detail:hover {
+  border-bottom-color: var(--ink);
+}
+
+.change-when {
+  color: var(--muted);
+  font-size: 0.78rem;
   font-weight: 600;
-  line-height: 1.1;
+  padding-top: 0.4rem;
 }
 
-.alert-meta {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.alert-headline {
-  grid-column: 1 / -1;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.tag {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.1rem 0.45rem;
-  border-radius: 3px;
-  white-space: nowrap;
-}
-
-.tag-bad {
-  background: var(--bad);
-  color: #2a0a10;
-}
-
-.tag-watch {
-  background: var(--watch);
-  color: #2e2205;
-}
-
-.tag-note {
-  background: var(--raised);
-  color: var(--muted);
-}
-
-.problems {
-  background: var(--raised);
-  border-left: 3px solid var(--watch);
-  padding: 0.6rem 0.85rem;
-  font-size: 0.9rem;
-  margin-bottom: 1.25rem;
-}
-
-.problems p {
-  margin: 0.2rem 0;
-}
-
+/* Leagues */
 .leagues {
   display: flex;
-  gap: 0.5rem;
+  gap: 1.75rem;
   overflow-x: auto;
-  padding-bottom: 0.4rem;
-  margin-bottom: 1.25rem;
+  border-top: 1px solid var(--line);
+  padding: 1rem 0 0;
+  margin-bottom: 2rem;
   scrollbar-width: none;
 }
 
@@ -171,24 +204,25 @@ a {
   display: grid;
   gap: 0.1rem;
   text-align: left;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  color: var(--muted);
-  padding: 0.5rem 0.75rem;
+  background: none;
+  border: 0;
+  padding: 0;
   cursor: pointer;
   font: inherit;
+  color: var(--muted);
+  opacity: 0.5;
 }
 
 .league-tab.is-active {
-  background: var(--raised);
-  border-color: var(--ink);
   color: var(--ink);
+  opacity: 1;
 }
 
 .platform {
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .platform-espn {
@@ -200,71 +234,78 @@ a {
 }
 
 .league-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-stretch: 115%;
+  letter-spacing: -0.02em;
 }
 
 .league-record {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 500;
 }
 
 .board-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 0.75rem;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 0.6rem;
+  gap: 1rem;
 }
 
 .board-head h2 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  font-weight: 800;
+  font-stretch: 120%;
+  letter-spacing: -0.03em;
+  line-height: 1;
   margin: 0;
 }
 
 .switch {
   display: flex;
-  gap: 0.25rem;
+  gap: 1.25rem;
 }
 
+/* Text switches rather than buttons. The underline is the only affordance needed. */
 .switch button {
   background: none;
-  border: 1px solid var(--line);
-  border-radius: 3px;
+  border: 0;
+  border-bottom: 2px solid transparent;
   color: var(--muted);
   cursor: pointer;
   font: inherit;
-  padding: 0.25rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0 0 0.3rem;
 }
 
 .switch button.is-on {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--field);
+  color: var(--ink);
+  border-bottom-color: var(--ink);
 }
 
 .stack {
   display: grid;
-  gap: 1.75rem;
+  gap: 2rem;
 }
 
 .group h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--muted);
-  margin: 1.25rem 0 0.5rem;
+  margin: 2rem 0 0.25rem;
 }
 
 .note {
   color: var(--muted);
   font-size: 0.85rem;
-  margin: 0 0 0.75rem;
-  max-width: 46ch;
+  margin: 0.5rem 0 1rem;
+  max-width: 48ch;
 }
 
 .rows {
@@ -273,39 +314,44 @@ a {
   padding: 0;
 }
 
-/* The colored rule on each row carries the position, so the eye can find every
-   running back without reading a single label. */
 .row {
   display: grid;
-  grid-template-columns: 2.6rem 1fr auto;
-  align-items: baseline;
-  gap: 0.6rem;
-  padding: 0.6rem 0 0.6rem 0.7rem;
+  grid-template-columns: 2.2rem 2.75rem 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 0;
   border-bottom: 1px solid var(--line);
-  border-left: 3px solid var(--other);
 }
 
-.row[data-pos='QB'] {
-  border-left-color: var(--qb);
+.row-waiver {
+  grid-template-columns: 4.5rem 2.75rem 1fr;
+  align-items: start;
 }
 
-.row[data-pos='RB'] {
-  border-left-color: var(--rb);
-}
-
-.row[data-pos='WR'] {
-  border-left-color: var(--wr);
-}
-
-.row[data-pos='TE'] {
-  border-left-color: var(--te);
-}
-
+/* Position lives in the color of its own label, which removes the need for chips,
+   rules, or a legend. */
 .slot {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--other);
+}
+
+.row[data-pos='QB'] .slot {
+  color: var(--qb);
+}
+
+.row[data-pos='RB'] .slot {
+  color: var(--rb);
+}
+
+.row[data-pos='WR'] .slot {
+  color: var(--wr);
+}
+
+.row[data-pos='TE'] .slot {
+  color: var(--te);
 }
 
 .who {
@@ -315,55 +361,111 @@ a {
 }
 
 .name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.015em;
   line-height: 1.15;
 }
 
 .meta {
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 0.1rem;
+}
+
+.usage {
+  color: var(--rb);
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 0.2rem;
 }
 
 .story {
-  color: var(--wr);
   font-size: 0.85rem;
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  align-self: flex-start;
 }
 
-.story:hover,
-.story:focus-visible {
-  border-bottom-color: var(--wr);
+.story:hover {
+  border-bottom-color: var(--ink);
+}
+
+.tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--signal);
+}
+
+.tag-watch {
+  color: var(--watch);
+}
+
+.tag-note {
+  color: var(--muted);
 }
 
 .points {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--muted);
 }
 
-.row-waiver {
-  grid-template-columns: 3rem 1fr;
-  align-items: start;
-}
-
+/* The waiver score is the largest number on the page on purpose. It is the one
+   thing the ranking exists to produce. */
 .score {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1;
+  font-size: 2.35rem;
+  font-weight: 900;
+  font-stretch: 115%;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+  /* Three digit scores used to run under the portrait. The column is now sized for
+     100 rather than for 99, and the number is clipped to its own box either way. */
+  min-width: 0;
+  overflow: hidden;
 }
 
 .reasons {
   display: grid;
-  gap: 0.15rem;
-  margin-top: 0.3rem;
+  gap: 0.2rem;
+  margin-top: 0.4rem;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  max-width: 52ch;
+}
+
+/* Portraits, squared off rather than circular, which sits better against the
+   straight edges of the type. */
+.portrait {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--raised);
+  flex: 0 0 auto;
+}
+
+.portrait img {
+  width: 118%;
+  height: 118%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.portrait-blank {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--muted);
 }
 
 .empty {
@@ -373,163 +475,282 @@ a {
 
 code {
   background: var(--raised);
-  border-radius: 3px;
-  padding: 0.1rem 0.3rem;
-  font-size: 0.9em;
+  border-radius: 2px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.88em;
 }
 
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--wr);
-  outline-offset: 2px;
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }
 
-@media (min-width: 60rem) {
-  .alerts ul {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem 2rem;
-  }
-
+@media (min-width: 56rem) {
   .shell {
-    padding-top: 2.5rem;
+    padding-top: 3.5rem;
+  }
+
+  .changes ul {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem 3rem;
   }
 }
 
-/* Portraits. ESPN cutouts have transparent backgrounds, so the disc behind them
-   is what gives every row the same silhouette whether the image loads or not. */
-.portrait {
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--raised);
-  border-bottom: 2px solid var(--other);
-  flex: 0 0 auto;
+
+/* Schedule */
+.day-count {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--muted);
+  margin-left: 0.6rem;
 }
 
-.portrait img {
-  width: 115%;
-  height: 115%;
-  object-fit: cover;
-  object-position: top center;
+.row-game {
+  grid-template-columns: 2.2rem 2.75rem 1fr auto;
 }
 
-.portrait-blank {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.95rem;
+.kickoff {
+  font-size: 0.8rem;
   font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.name-bench {
+  font-weight: 500;
   color: var(--muted);
 }
 
-.portrait[data-pos='QB'] {
-  border-bottom-color: var(--qb);
-}
-
-.portrait[data-pos='RB'] {
-  border-bottom-color: var(--rb);
-}
-
-.portrait[data-pos='WR'] {
-  border-bottom-color: var(--wr);
-}
-
-.portrait[data-pos='TE'] {
-  border-bottom-color: var(--te);
-}
-
-/* The change strip replaced the old alert strip. It answers one question, which is
-   what is different since you last looked, so unread items carry a marker and
-   everything older sits quieter. */
-.changes {
-  margin: 1.5rem 0;
-  border-top: 2px solid var(--watch);
-  padding-top: 0.9rem;
-}
-
-.changes-quiet {
-  border-top-color: var(--line);
-  color: var(--muted);
-}
-
-.changes-quiet p {
-  margin: 0;
-}
-
-.changes-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem;
-}
-
-.changes ul {
+/* Start and sit. The two players sit side by side so the comparison is the layout
+   rather than something you have to reconstruct by reading. */
+.swaps {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.85rem;
+  gap: 1.75rem;
 }
 
-.change {
+.swap {
   display: grid;
-  grid-template-columns: 2.5rem 1fr auto;
-  gap: 0.7rem;
-  align-items: start;
-  opacity: 0.62;
+  grid-template-columns: 3rem 1fr auto;
+  gap: 0.9rem;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.5rem;
 }
 
-.change.is-new {
-  opacity: 1;
+.swap-slot {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-.change-body {
-  display: flex;
-  flex-direction: column;
+.swap-pair {
+  display: grid;
+  gap: 0.9rem;
   min-width: 0;
 }
 
-.change-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.45rem;
-  font-weight: 600;
-  line-height: 1.1;
+.swap-side {
+  display: grid;
+  grid-template-columns: 2.6rem 2.75rem 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  min-width: 0;
 }
 
-.change-meta {
+.swap-side.is-muted {
+  opacity: 0.55;
+}
+
+.swap-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--muted);
-  font-size: 0.82rem;
 }
 
-.change-detail {
-  font-size: 0.92rem;
-  margin-top: 0.15rem;
+.swap-gain {
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-stretch: 115%;
+  letter-spacing: -0.03em;
+  color: var(--rb);
+  white-space: nowrap;
+}
+
+/* Trade */
+.trade-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.trade-partner {
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-stretch: 112%;
   color: var(--ink);
-  text-decoration: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid var(--ink);
+  padding: 0.2rem 0;
+  cursor: pointer;
+  max-width: 60%;
 }
 
-a.change-detail {
+.trade-net {
+  font-size: 2.6rem;
+  font-weight: 900;
+  font-stretch: 118%;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--signal);
+}
+
+.trade-net.is-good {
+  color: var(--rb);
+}
+
+.trade-columns {
+  display: grid;
+  gap: 2rem;
+}
+
+.row-pick {
+  cursor: pointer;
+  opacity: 0.45;
+}
+
+.row-pick.is-picked {
+  opacity: 1;
+}
+
+.row-pick.is-picked .name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 56rem) {
+  .trade-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .swap-pair {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+
+/* News. Each story leads with its source and age, since where a report comes from
+   and how old it is decide how much weight to give it. */
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2rem;
+}
+
+.news-item {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.75rem;
+}
+
+.news-top {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.news-source {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.news-when {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.news-headline {
+  display: block;
+  font-size: clamp(1.2rem, 4.5vw, 1.55rem);
+  font-weight: 800;
+  font-stretch: 115%;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  text-decoration: none;
+  max-width: 40ch;
+}
+
+a.news-headline:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.news-summary {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+  max-width: 58ch;
+}
+
+.news-players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 0.9rem;
+}
+
+.news-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.news-chip-name {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.news-chip-meta {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.news-chip[data-pos='QB'] .news-chip-meta {
+  color: var(--qb);
+}
+
+.news-chip[data-pos='RB'] .news-chip-meta {
+  color: var(--rb);
+}
+
+.news-chip[data-pos='WR'] .news-chip-meta {
   color: var(--wr);
 }
 
-.change-when {
-  color: var(--muted);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.9rem;
-}
-
-.usage {
-  color: var(--rb);
-  font-size: 0.8rem;
-  margin-top: 0.15rem;
-}
-
-/* Rows gained a portrait column. */
-.row {
-  grid-template-columns: 2.2rem 2.5rem 1fr auto;
-}
-
-.row-waiver {
-  grid-template-columns: 2.6rem 2.5rem 1fr;
+.news-chip[data-pos='TE'] .news-chip-meta {
+  color: var(--te);
 }

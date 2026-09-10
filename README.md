@@ -156,9 +156,10 @@ Three signals, blended, each normalized to the pool of available players in that
 
 | Signal | Weight | Where it comes from |
 | --- | --- | --- |
-| Projected points above your worst starter at that position | 0.5 | ESPN |
-| Adds across Sleeper in the last 24 hours | 0.3 | Sleeper |
-| Change in rostered percentage today | 0.2 | ESPN |
+| Projected points above your worst starter at that position | 0.40 | ESPN |
+| Snap share, target share, and depth chart rank | 0.25 | nflverse |
+| Adds across Sleeper in the last 24 hours | 0.20 | Sleeper |
+| Change in rostered percentage today | 0.15 | ESPN |
 
 Signals a platform cannot supply are dropped and the rest are renormalized, so a Sleeper league
 ranks on add velocity alone rather than being penalized for missing projections.
@@ -177,11 +178,111 @@ him would actually change your lineup. Tune the weights in `leagues.config.json`
   stops returning what it used to, open DevTools on the fantasy site, watch the Network tab, and
   copy what the site itself requests.
 
+## What changed, rather than what is true
+
+The top strip answers one question: what is different since you last looked. Each run is diffed
+against the previous one and reports injury status changes, new stories, roster adds and drops, and
+players climbing into the top of the waiver board.
+
+Finding the previous run needs no database. Locally the last `dashboard.json` is still on disk. In
+Actions the checkout is clean, so the script fetches the copy already deployed to your Pages URL,
+which it works out from `GITHUB_REPOSITORY`. Nothing is committed back to the repo.
+
+Changes stay on the board for 24 hours. A refresh every 30 minutes would otherwise clear the strip
+long before you opened it, and the script has no way to know when you last looked.
+
+## Push notifications
+
+Optional, and off until you set it up. ntfy.sh has no accounts and no API keys: you pick a topic
+name, subscribe to it in their app, and anything posted to that topic arrives on your phone.
+
+1. Install ntfy from the App Store or Play Store.
+2. Pick a topic name. Anyone who knows it can read your notifications, so use something like
+   `ff-desk-8f3a91c2` rather than `fantasy`.
+3. Subscribe to that topic in the app.
+4. Add it as a repository secret named `NTFY_TOPIC`.
+
+To test locally: `NTFY_TOPIC=your-topic npm run refresh`.
+
+Only starters getting worse are pushed, meaning a move to doubtful, out, IR, or suspended. Bench
+players and good news stay on the dashboard without buzzing your phone. Tune the filter in
+`scripts/lib/notify.mjs`.
+
+## Role data from nflverse
+
+Projections are backward looking. A back who took over a starting job on Sunday still carries a
+backup's projection on Wednesday, which is the window where a claim is cheap.
+
+`scripts/lib/usage.mjs` pulls three files from the nflverse data releases:
+
+- `snap_counts_YYYY.csv` for snap percentage
+- `stats_player_week_YYYY.csv` for target share
+- `depth_charts_YYYY.csv` for depth chart rank
+
+The join runs through `players.csv`, which carries `espn_id`, `gsis_id`, and `pfr_id` on every row,
+so all three sources land on the ESPN ids the rest of the project uses.
+
+In September the current season's snap and target files do not exist yet, since no games have been
+played. The loader falls back to last season, averages its final four weeks rather than trusting a
+single week, and labels every note "last season" so you know what you are reading. Depth charts are
+published before week one, which makes them the only role signal that exists that early.
+
+## Player portraits
+
+ESPN's headshot CDN is keyed by the same athlete id as everything else, and the cutouts have
+transparent backgrounds, so they sit on a dark page without a box. Sleeper covers anyone ESPN is
+missing, team defenses get a logo, and a failed load falls back to initials on a position colored
+disc.
+
+No images are downloaded or stored. The JSON holds URLs and the browser fetches them.
+
+## The tabs
+
+**Lineup** is your roster with news, injury designations, and role notes.
+
+**Start / sit** compares every starter against the bench players who could legally replace them,
+same position, or any of RB, WR, and TE when the starter sits in a flex slot. Only swaps worth at
+least a point are shown, since projections are not precise enough for anything tighter to mean
+much. Starters who are hurt or on bye are surfaced regardless of the gap.
+
+**Schedule** groups your roster by the day their NFL team kicks off, using nflverse `games.csv`, so
+you can see how much of your lineup is still to play. Byes get their own group, and a starter on bye
+is flagged.
+
+**News** collects stories from several outlets and keeps only the ones that name a player on your
+roster. Sources are RotoWire, ESPN, Yahoo, CBS Sports, and Pro Football Talk, listed in
+`newsFeeds` in the config so you can drop any of them. Underdog has no public feed, their player
+notes are app only.
+
+ESPN's JSON feed tags articles with athlete ids, which is exact. Everything else is RSS with no ids,
+so those are matched by name. Matching requires the full name, since a surname alone produces
+constant false positives, and it indexes a suffix free variant because headlines write "Marvin
+Harrison" where your roster says "Marvin Harrison Jr.". Anything not about your players is dropped
+during the refresh, so it never reaches the browser.
+
+**Waivers** is the ranked free agent board.
+
+**Trade** appears on ESPN leagues only. ESPN returns every team's roster in the same call that
+returns yours, so pricing a trade needs no extra requests. Sleeper does not publish projections, so
+there is nothing to price against there.
+
+Trade math runs on rest of season projections, which ESPN files under `scoringPeriodId: 0` rather
+than a week number. The number shown is the change in projected points for each side. It does not
+try to price positional scarcity or roster construction, because one confident number would be more
+misleading than a rough one you interpret yourself.
+
+## A note on route participation
+
+Routes run is the number that actually separates a passing down back from a two down back, and it is
+not available for free. nflverse carries no routes column in `pfr_advstats` or `ftn_charting`, and
+both PFF and Fantasy Points Data sell it.
+
+The substitute is the share of a player's touches that arrive through the air, computed over their
+last four games. A back at 40% is catching passes, and a back at 12% is taking handoffs and leaving
+the field on third down, which is the distinction that matters in PPR. It is a proxy, not the real
+measurement, and the dashboard words it as touches rather than routes so it does not overclaim.
+
 ## Worth building next
 
-- Diff each run against the previous one so the top strip shows what changed since you last looked
-  rather than everything currently true.
-- Push notifications through ntfy.sh when a starter gets downgraded, which is a few lines in the
-  refresh script.
-- Snap share and target share from `nflverse` weekly data to catch role changes before projections
-  move.
+- Matchup context, meaning how many points each defense has allowed to the position.
+- A season long log of your waiver claims scored against what those players actually did.

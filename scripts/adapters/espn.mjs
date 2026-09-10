@@ -67,6 +67,17 @@ function projectedPoints(player, week) {
   return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
 }
 
+/**
+ * Rest of season projection, which is what trade evaluation needs. ESPN files the
+ * full season total under scoringPeriodId 0 rather than a week number.
+ */
+function seasonProjection(player) {
+  const entry = (player.stats || []).find(
+    (stat) => stat.statSourceId === 1 && stat.scoringPeriodId === 0
+  )
+  return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
+}
+
 function normalizeInjury(status) {
   if (!status || status === 'ACTIVE' || status === 'NORMAL') return null
   if (status === 'INJURY_RESERVE') return 'IR'
@@ -101,7 +112,8 @@ export async function loadLeague(config, season, week) {
       starter: slot !== 'BE' && slot !== 'IR',
       injuryStatus: normalizeInjury(player.injuryStatus),
       injuryNote: null,
-      projected: projectedPoints(player, week)
+      projected: projectedPoints(player, week),
+      seasonProjected: seasonProjection(player)
     }
   })
 
@@ -115,6 +127,7 @@ export async function loadLeague(config, season, week) {
       team: PRO_TEAMS[player.proTeamId] || 'FA',
       injuryStatus: normalizeInjury(player.injuryStatus),
       projected: projectedPoints(player, week),
+      seasonProjected: seasonProjection(player),
       percentOwned: round(player.ownership?.percentOwned),
       ownershipChange: round(player.ownership?.percentChange),
       trendAdds: 0,
@@ -122,8 +135,32 @@ export async function loadLeague(config, season, week) {
     }
   })
 
+  // Every team's roster comes back in the same response, which is what makes trade
+  // evaluation possible without any extra calls.
+  const teams = (league.teams || []).map((entry) => ({
+    teamId: entry.id,
+    name: teamName(entry),
+    isMine: entry.id === Number(teamId),
+    roster: (entry.roster?.entries || [])
+      .map((slot) => {
+        const player = slot.playerPoolEntry?.player || {}
+        return {
+          playerId: String(player.id),
+          espnId: String(player.id),
+          name: player.fullName || 'Unknown player',
+          position: POSITIONS[player.defaultPositionId] || '',
+          team: PRO_TEAMS[player.proTeamId] || 'FA',
+          injuryStatus: normalizeInjury(player.injuryStatus),
+          projected: projectedPoints(player, week),
+          seasonProjected: seasonProjection(player)
+        }
+      })
+      .filter((player) => player.position)
+  }))
+
   return {
     id: `espn:${leagueId}`,
+    teams,
     platform: 'espn',
     name: label || league.settings?.name || `League ${leagueId}`,
     teamName: teamName(team),

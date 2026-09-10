@@ -69,6 +69,8 @@ function entryFor(usage, espnId) {
       snapTrend: null,
       targetShare: null,
       targetTrend: null,
+      passRole: null,
+      touchesPerGame: null,
       depthRank: null,
       depthPosition: null,
       stale: false
@@ -86,7 +88,31 @@ function applyTargets(usage, rows, byGsis, stale) {
     const entry = entryFor(usage, espnId)
     entry.targetShare = round(headline(shares, stale) * 100)
     entry.targetTrend = stale ? null : trend(shares)
+    applyRole(entry, weeks)
   }
+}
+
+/**
+ * Routes run is the number that separates a passing down back from a two down
+ * back, and it is not in any free dataset. nflverse carries no routes column, and
+ * PFF and Fantasy Points Data both sell it.
+ *
+ * The share of a player's touches that arrive through the air is the closest free
+ * substitute. A back at 40% is catching passes; a back at 5% is taking handoffs and
+ * leaving on third down, which is the distinction that matters for PPR.
+ */
+function applyRole(entry, weeks) {
+  const recent = weeks.slice(-4)
+  let targets = 0
+  let carries = 0
+  for (const row of recent) {
+    targets += toNumber(row.targets) ?? 0
+    carries += toNumber(row.carries) ?? 0
+  }
+  const touches = targets + carries
+  if (touches < 8) return
+  entry.passRole = round((targets / touches) * 100)
+  entry.touchesPerGame = round(touches / recent.length)
 }
 
 function applySnaps(usage, rows, byPfr, stale) {
@@ -214,6 +240,15 @@ export function usageNotes(entry) {
   }
   if (entry.targetShare > 0) {
     notes.push(`Saw ${entry.targetShare}% of targets${suffix}`)
+  }
+  if (entry.passRole != null && entry.touchesPerGame >= 4) {
+    const shape =
+      entry.passRole >= 40
+        ? 'mostly through the air'
+        : entry.passRole <= 12
+          ? 'almost entirely on handoffs'
+          : 'split between carries and targets'
+    notes.push(`${entry.touchesPerGame} touches a game${suffix}, ${shape}`)
   }
   if (entry.depthRank === 1) {
     notes.push(`Listed first on the depth chart at ${entry.depthPosition}`)
