@@ -99,6 +99,7 @@ async function main() {
 
   const current = {
     generatedAt: new Date().toISOString(),
+    timezone: config.timezone || 'America/Los_Angeles',
     news,
     season,
     week,

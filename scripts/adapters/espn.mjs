@@ -1,4 +1,4 @@
-import { getJSON } from '../lib/http.mjs'
+import { getJSON, AuthError } from '../lib/http.mjs'
 
 const BASE = 'https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons'
 
@@ -15,10 +15,27 @@ const PRO_TEAMS = {
 }
 
 function cookieHeader() {
-  const espnS2 = process.env.ESPN_S2
-  const swid = process.env.SWID
-  if (!espnS2 || !swid) return {}
+  const espnS2 = clean(process.env.ESPN_S2)
+  const swid = clean(process.env.SWID)
+
+  // Returning an empty header here would send an unauthenticated request, and ESPN
+  // answers that with the same 401 it gives a rejected cookie. Failing loudly
+  // instead is the difference between "your cookies are bad" and "your cookies
+  // never loaded", which are fixed in completely different places.
+  if (!espnS2 || !swid) {
+    const missing = [!espnS2 && 'ESPN_S2', !swid && 'SWID'].filter(Boolean).join(' and ')
+    throw new AuthError(
+      `${missing} not set in the environment. Locally run: set -a && source .env && set +a. In Actions, check the repository secrets.`
+    )
+  }
+
   return { cookie: `espn_s2=${espnS2}; SWID=${swid}` }
+}
+
+/** Strips quotes and stray whitespace, which are the usual copy and paste damage. */
+function clean(value) {
+  if (!value) return ''
+  return value.trim().replace(/^["']|["']$/g, '')
 }
 
 function leagueUrl(season, leagueId, params) {

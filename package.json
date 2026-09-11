@@ -6,6 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "doctor": "node scripts/doctor.mjs",
     "refresh": "node scripts/refresh.mjs",
     "dev": "vite",
     "build": "vite build",

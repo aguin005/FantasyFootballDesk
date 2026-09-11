@@ -43,8 +43,16 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Nothing in this layout should scroll sideways. If something does, it is a bug
+     rather than a feature, so the page refuses to accommodate it. */
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
   background: var(--paper);
   color: var(--ink);
   font-family: Archivo, system-ui, sans-serif;
@@ -61,7 +69,7 @@ a {
 .shell {
   max-width: 60rem;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 5rem;
+  padding: 1.5rem 1.25rem calc(5rem + env(safe-area-inset-bottom));
 }
 
 /* The wordmark is the one piece of real display type, set as wide and as heavy as
@@ -147,6 +155,7 @@ a {
 }
 
 .change-name {
+  overflow-wrap: anywhere;
   font-size: clamp(1.6rem, 6vw, 2.1rem);
   font-weight: 800;
   font-stretch: 118%;
@@ -201,6 +210,7 @@ a.change-detail:hover {
 
 .league-tab {
   flex: 0 0 auto;
+  min-height: 2.75rem;
   display: grid;
   gap: 0.1rem;
   text-align: left;
@@ -265,6 +275,14 @@ a.change-detail:hover {
 .switch {
   display: flex;
   gap: 1.25rem;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.switch::-webkit-scrollbar {
+  display: none;
 }
 
 /* Text switches rather than buttons. The underline is the only affordance needed. */
@@ -279,7 +297,10 @@ a.change-detail:hover {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0 0 0.3rem;
+  padding: 0.5rem 0 0.4rem;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  min-height: 2.75rem;
 }
 
 .switch button.is-on {
@@ -324,7 +345,7 @@ a.change-detail:hover {
 }
 
 .row-waiver {
-  grid-template-columns: 4.5rem 2.75rem 1fr;
+  grid-template-columns: 5.5rem 2.75rem 1fr;
   align-items: start;
 }
 
@@ -361,6 +382,7 @@ a.change-detail:hover {
 }
 
 .name {
+  overflow-wrap: anywhere;
   font-size: 1.15rem;
   font-weight: 700;
   font-stretch: 112%;
@@ -421,13 +443,17 @@ a.change-detail:hover {
 /* The waiver score is the largest number on the page on purpose. It is the one
    thing the ranking exists to produce. */
 .score {
-  font-size: 2.35rem;
+  /* Sized against the worst case rather than the common one: three digits, in the
+     fallback system font, before Archivo has finished loading. That load window is
+     what made the earlier fix look like it had not worked. The column has room to
+     spare, the glyphs are set at normal width, and the box clips regardless. */
+  font-size: 2rem;
   font-weight: 900;
-  font-stretch: 115%;
-  letter-spacing: -0.05em;
-  line-height: 0.85;
-  /* Three digit scores used to run under the portrait. The column is now sized for
-     100 rather than for 99, and the number is clipped to its own box either way. */
+  font-stretch: 100%;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  white-space: nowrap;
+  padding-right: 0.75rem;
   min-width: 0;
   overflow: hidden;
 }
@@ -753,4 +779,79 @@ a.news-headline:hover {
 
 .news-chip[data-pos='TE'] .news-chip-meta {
   color: var(--te);
+}
+
+
+/* Phones. The layout is single column everywhere above, so this narrows the fixed
+   columns and buys back the horizontal space the portraits and slot labels take. */
+@media (max-width: 30rem) {
+  .shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .row {
+    grid-template-columns: 1.9rem 2.4rem 1fr auto;
+    gap: 0.6rem;
+  }
+
+  .row-waiver {
+    grid-template-columns: 4.25rem 2.4rem 1fr;
+  }
+
+  .row-game {
+    grid-template-columns: 1.9rem 2.4rem 1fr auto;
+  }
+
+  .score {
+    font-size: 1.7rem;
+    padding-right: 0.5rem;
+  }
+
+  .portrait {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .change {
+    grid-template-columns: 2.4rem 1fr auto;
+    gap: 0.7rem;
+  }
+
+  /* The tab strip gets the full width of its own line rather than sharing one with
+     the team name, which is what made it overflow once there were six tabs. */
+  .board-head {
+    align-items: flex-start;
+  }
+
+  .switch {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .swap {
+    grid-template-columns: 2.4rem 1fr auto;
+    gap: 0.6rem;
+  }
+
+  .swap-side {
+    grid-template-columns: 2.4rem 2.4rem 1fr;
+    gap: 0.5rem;
+  }
+
+  .swap-gain {
+    font-size: 1.3rem;
+  }
+
+  .trade-net {
+    font-size: 2rem;
+  }
+
+  .kickoff {
+    font-size: 0.72rem;
+  }
+
+  .news-players {
+    gap: 0.9rem;
+  }
 }

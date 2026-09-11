@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F5F4F0" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Not here</title>
+    <style>
+      /* Standalone on purpose. This page is served by GitHub Pages outside the app
+         bundle, so it carries its own styles rather than importing the build. */
+      :root {
+        --paper: #f5f4f0;
+        --ink: #14161a;
+        --muted: #6f7480;
+        --line: #dcd9d1;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #111214;
+          --ink: #f2f1ed;
+          --muted: #8d939f;
+          --line: #2a2d33;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        align-content: center;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Archivo, system-ui, sans-serif;
+        padding: 2rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+      }
+      main {
+        max-width: 34rem;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: clamp(4.5rem, 26vw, 11rem);
+        font-weight: 900;
+        font-stretch: 125%;
+        letter-spacing: -0.05em;
+        line-height: 0.78;
+        margin: 0;
+      }
+      p {
+        font-size: 1.05rem;
+        line-height: 1.5;
+        margin: 1.5rem 0 0;
+        max-width: 34ch;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      a {
+        display: inline-block;
+        margin-top: 2rem;
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>404</h1>
+      <p>No page at this address. Nothing is broken on the dashboard itself.</p>
+      <p class="muted">
+        If you got here from a bookmark, the site root is the only page this app has.
+      </p>
+      <a href="./">Back to your leagues</a>
+    </main>
+  </body>
+</html>

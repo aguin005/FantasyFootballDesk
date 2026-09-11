@@ -102,7 +102,9 @@ export default function App() {
 
           {view === 'lineup' && <RosterBoard roster={league.roster} />}
           {view === 'startsit' && <StartSitBoard roster={league.roster} />}
-          {view === 'schedule' && <ScheduleBoard roster={league.roster} />}
+          {view === 'schedule' && (
+            <ScheduleBoard roster={league.roster} timezone={data.timezone} />
+          )}
           {view === 'news' && <NewsBoard news={data.news} leagueId={league.id} />}
           {view === 'waivers' && <WaiverBoard waivers={league.waivers} platform={league.platform} />}
           {view === 'trade' && <TradeBoard league={league} />}

@@ -28,7 +28,8 @@ export async function loadSchedule(season, week) {
       const shared = {
         weekday: game.weekday,
         date: game.gameday,
-        kickoff: game.gametime || null
+        kickoff: game.gametime || null,
+        kickoffISO: toISO(game.gameday, game.gametime)
       }
       byTeam.set(home, { ...shared, opponent: away, home: true })
       byTeam.set(away, { ...shared, opponent: home, home: false })
@@ -61,6 +62,51 @@ async function readGames() {
   return text
 }
 
+/**
+ * nflverse publishes kickoff times in Eastern with no zone attached, which is only
+ * useful if you happen to live there. Converting to a real UTC instant here lets
+ * the browser render it in whatever zone you actually want.
+ *
+ * The offset is derived rather than hardcoded, because the regular season runs
+ * across the November daylight saving change.
+ */
+function toISO(date, time) {
+  if (!date || !time) return null
+  const [year, month, day] = date.split('-').map(Number)
+  const [hour, minute] = time.split(':').map(Number)
+  if ([year, month, day, hour, minute].some((value) => !Number.isFinite(value))) return null
+
+  const guess = Date.UTC(year, month - 1, day, hour, minute)
+  const offset = zoneOffset(new Date(guess), 'America/New_York')
+  return new Date(guess - offset).toISOString()
+}
+
+function zoneOffset(date, timeZone) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    })
+      .formatToParts(date)
+      .map((part) => [part.type, part.value])
+  )
+  const asUTC = Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day),
+    Number(parts.hour) % 24,
+    Number(parts.minute),
+    Number(parts.second)
+  )
+  return asUTC - date.getTime()
+}
+
 /** Attaches this week's game to a player, or marks the bye. */
 export function attachGame(player, schedule) {
   const game = schedule.get(player.team)
@@ -69,6 +115,7 @@ export function attachGame(player, schedule) {
         weekday: game.weekday,
         date: game.date,
         kickoff: game.kickoff,
+        kickoffISO: game.kickoffISO,
         matchup: `${game.home ? 'vs' : 'at'} ${game.opponent}`
       }
     : null

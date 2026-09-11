@@ -2,8 +2,12 @@ import Portrait from './Portrait.jsx'
 
 const DAY_ORDER = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday']
 
-/** Your roster grouped by the day each player's NFL team actually kicks off. */
-export default function ScheduleBoard({ roster }) {
+/**
+ * Your roster grouped by the day each player's NFL team kicks off, in your own time
+ * zone rather than Eastern. The day label is derived from the kickoff instant, so a
+ * late game that lands on a different local date groups where it belongs.
+ */
+export default function ScheduleBoard({ roster, timezone }) {
   const byDay = new Map()
   const bye = []
 
@@ -12,7 +16,7 @@ export default function ScheduleBoard({ roster }) {
       bye.push(player)
       continue
     }
-    const key = player.game.weekday
+    const key = localDay(player.game, timezone)
     if (!byDay.has(key)) byDay.set(key, [])
     byDay.get(key).push(player)
   }
@@ -48,7 +52,7 @@ export default function ScheduleBoard({ roster }) {
                       {player.injuryStatus ? `, ${player.injuryStatus}` : ''}
                     </span>
                   </span>
-                  <span className="kickoff">{player.game.kickoff} ET</span>
+                  <span className="kickoff">{localTime(player.game, timezone)}</span>
                 </li>
               ))}
           </ul>
@@ -83,4 +87,20 @@ export default function ScheduleBoard({ roster }) {
 
 function starterCount(players) {
   return players.filter((player) => player.starter).length
+}
+
+function localDay(game, timezone) {
+  if (!game.kickoffISO) return game.weekday
+  return new Date(game.kickoffISO).toLocaleDateString('en-US', { timeZone: timezone, weekday: 'long' })
+}
+
+/** The zone name comes from the formatter, so it reads PDT or PST on its own. */
+function localTime(game, timezone) {
+  if (!game.kickoffISO) return ''
+  return new Date(game.kickoffISO).toLocaleTimeString('en-US', {
+    timeZone: timezone,
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  })
 }

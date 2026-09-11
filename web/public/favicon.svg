@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Three stacked bars in the position colors, which is what the roster rows look
+       like at a glance. Drawn as shapes rather than text so it renders identically
+       everywhere instead of depending on a font being installed. -->
+  <rect width="64" height="64" rx="10" fill="#14161A"/>
+  <rect x="12" y="17" width="34" height="7" rx="2" fill="#FF7D9F"/>
+  <rect x="12" y="29" width="40" height="7" rx="2" fill="#5FD4A0"/>
+  <rect x="12" y="41" width="26" height="7" rx="2" fill="#6FAAF5"/>
+</svg>

@@ -3,7 +3,10 @@
   "short_name": "League desk",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#101A2E",
-  "theme_color": "#101A2E",
-  "icons": []
+  "background_color": "#F5F4F0",
+  "theme_color": "#F5F4F0",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
 }
