@@ -11,6 +11,7 @@ import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
 import { loadSchedule, attachGame } from './lib/schedule.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
+import { fetchSocial } from './lib/social.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
 
@@ -27,18 +28,24 @@ async function main() {
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage, schedule] = await Promise.all([
-    sleeper.getAllPlayers(),
-    sleeper.getTrendingAdds(),
-    fetchNews(),
-    fetchInjuries(),
-    loadUsage(season),
-    loadSchedule(season, week)
-  ])
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, schedule, weekly, seasonal] =
+    await Promise.all([
+      sleeper.getAllPlayers(),
+      sleeper.getTrendingAdds(),
+      fetchNews(),
+      fetchInjuries(),
+      loadUsage(season),
+      loadSchedule(season, week),
+      sleeper.getProjections(season, week),
+      sleeper.getProjections(season)
+    ])
 
   // Feeds are fetched alongside everything else but matched later, once the
   // rosters exist to match against.
-  const feedItems = await fetchFeeds(config.newsFeeds)
+  const [feedItems, socialItems] = await Promise.all([
+    fetchFeeds(config.newsFeeds),
+    fetchSocial(config.social)
+  ])
   const crosswalk = buildCrosswalk(players)
 
   const leagues = []
@@ -49,7 +56,14 @@ async function main() {
       const user = await sleeper.getUser(config.sleeper.username)
       const sleeperLeagues = await sleeper.getLeagues(user.user_id, season)
       for (const league of sleeperLeagues) {
-        const loaded = await sleeper.loadLeague(league.league_id, user.user_id, players, trending)
+        const loaded = await sleeper.loadLeague(
+          league.league_id,
+          user.user_id,
+          players,
+          trending,
+          weekly,
+          seasonal
+        )
         if (loaded) leagues.push(loaded)
       }
     } catch (error) {
@@ -94,7 +108,11 @@ async function main() {
   }
 
   const rosterIndex = buildRosterIndex(leagues)
-  const news = mergeNews([foldEspnNews(leagues), matchToRoster(feedItems, rosterIndex)])
+  const news = mergeNews([
+    matchToRoster(socialItems, rosterIndex),
+    foldEspnNews(leagues),
+    matchToRoster(feedItems, rosterIndex)
+  ])
   console.log(`${news.length} stories mention someone you roster`)
 
   const current = {

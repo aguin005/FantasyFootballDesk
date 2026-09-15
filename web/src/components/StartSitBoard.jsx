@@ -13,7 +13,7 @@ export default function StartSitBoard({ roster }) {
   if (!hasProjections) {
     return (
       <p className="empty">
-        This league does not publish projections, so there is nothing to compare. The lineup and
+        No projections came back on the last refresh, so there is nothing to compare. The lineup and
         schedule tabs still work.
       </p>
     )

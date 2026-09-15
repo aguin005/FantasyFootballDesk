@@ -3,6 +3,11 @@ import path from 'node:path'
 import { getJSON } from '../lib/http.mjs'
 
 const BASE = 'https://api.sleeper.app/v1'
+// Sleeper's documented API has no projections, but the host their own app talks to
+// does, and it is publicly readable with no auth. Undocumented means it can change
+// without notice, so every call here degrades to null rather than failing the run.
+const INTERNAL = 'https://api.sleeper.com'
+const PROJECTION_POSITIONS = ['QB', 'RB', 'WR', 'TE', 'K', 'DEF']
 const CACHE_DIR = path.resolve('.cache')
 const PLAYERS_CACHE = path.join(CACHE_DIR, 'sleeper-players.json')
 const ONE_DAY_MS = 24 * 60 * 60 * 1000
@@ -63,8 +68,47 @@ export async function getAllPlayers() {
   return players
 }
 
+/**
+ * Weekly projections for every fantasy position, keyed by player id.
+ *
+ * Leave week undefined for season totals, which is what trade evaluation needs.
+ * The response carries pts_std, pts_half_ppr, and pts_ppr, so the caller picks the
+ * one that matches the league's own scoring rather than assuming.
+ */
+export async function getProjections(season, week) {
+  const positions = PROJECTION_POSITIONS.map((position) => `position[]=${position}`).join('&')
+  const path = week ? `${season}/${week}` : `${season}`
+  const url = `${INTERNAL}/projections/nfl/${path}?season_type=regular&${positions}`
+
+  try {
+    const rows = await getJSON(url, { label: `Sleeper projections ${path}` })
+    const byPlayer = new Map()
+    for (const row of rows) {
+      if (row?.player_id && row.stats) byPlayer.set(String(row.player_id), row.stats)
+    }
+    console.log(`Sleeper projections for ${path}: ${byPlayer.size} players`)
+    return byPlayer
+  } catch (error) {
+    console.warn(`Sleeper projections unavailable for ${path}: ${error.message}`)
+    return new Map()
+  }
+}
+
+/** Full PPR, half PPR, or standard, read off the league's own scoring settings. */
+function scoringKey(league) {
+  const reception = league.scoring_settings?.rec ?? 0
+  if (reception >= 1) return 'pts_ppr'
+  if (reception > 0) return 'pts_half_ppr'
+  return 'pts_std'
+}
+
+function pointsFor(stats, key) {
+  const value = stats?.[key]
+  return typeof value === 'number' ? Number(value.toFixed(1)) : null
+}
+
 /** Everything the dashboard needs for one Sleeper league, in our normalized shape. */
-export async function loadLeague(leagueId, userId, players, trending) {
+export async function loadLeague(leagueId, userId, players, trending, projections, seasonProjections) {
   const [league, rosters, users] = await Promise.all([
     getLeague(leagueId),
     getRosters(leagueId),
@@ -73,6 +117,10 @@ export async function loadLeague(leagueId, userId, players, trending) {
 
   const myRoster = rosters.find((roster) => roster.owner_id === userId)
   if (!myRoster) return null
+
+  const key = scoringKey(league)
+  const weekly = projections || new Map()
+  const season = seasonProjections || new Map()
 
   const owner = users.find((user) => user.user_id === userId)
   const starters = new Set(myRoster.starters || [])
@@ -89,7 +137,8 @@ export async function loadLeague(leagueId, userId, players, trending) {
       starter: starters.has(playerId),
       injuryStatus: normalizeInjury(player.injury_status),
       injuryNote: player.injury_body_part || null,
-      projected: null
+      projected: pointsFor(weekly.get(playerId), key),
+      seasonProjected: pointsFor(season.get(playerId), key)
     }
   })
 
@@ -109,19 +158,45 @@ export async function loadLeague(leagueId, userId, players, trending) {
       injuryStatus: normalizeInjury(player.injury_status),
       trendAdds,
       searchRank: player.search_rank ?? null,
-      projected: null,
+      projected: pointsFor(weekly.get(playerId), key),
+      seasonProjected: pointsFor(season.get(playerId), key),
       percentOwned: null,
       ownershipChange: null
     })
   }
 
+  // Every roster in the league, which is what the trade tab needs. Sleeper returns
+  // them all in the same call that returns yours.
+  const teams = rosters.map((entry) => {
+    const owner = users.find((user) => user.user_id === entry.owner_id)
+    return {
+      teamId: entry.roster_id,
+      name: owner?.metadata?.team_name || owner?.display_name || `Roster ${entry.roster_id}`,
+      isMine: entry.owner_id === userId,
+      roster: (entry.players || []).map((playerId) => {
+        const player = players[playerId] || {}
+        return {
+          playerId,
+          espnId: player.espn_id ? String(player.espn_id) : null,
+          name: playerName(player, playerId),
+          position: player.position || '',
+          team: player.team || 'FA',
+          injuryStatus: normalizeInjury(player.injury_status),
+          projected: pointsFor(weekly.get(playerId), key),
+          seasonProjected: pointsFor(season.get(playerId), key)
+        }
+      })
+    }
+  })
+
   return {
     id: `sleeper:${leagueId}`,
+    teams,
     platform: 'sleeper',
     name: league.name,
     teamName: owner?.metadata?.team_name || owner?.display_name || 'My team',
     record: `${myRoster.settings?.wins ?? 0}-${myRoster.settings?.losses ?? 0}`,
-    scoring: league.scoring_settings?.rec === 1 ? 'Full PPR' : 'Custom scoring',
+    scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
     roster,
     candidates
   }

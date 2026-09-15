@@ -19,7 +19,7 @@ export default function TradeBoard({ league }) {
   const [getting, setGetting] = useState(new Set())
 
   if (!mine || others.length === 0) {
-    return <p className="empty">Trade evaluation needs every team's roster, which only ESPN leagues return.</p>
+    return <p className="empty">Trade evaluation needs every team's roster, which this league did not return.</p>
   }
 
   const partner = others.find((team) => team.teamId === partnerId) || others[0]

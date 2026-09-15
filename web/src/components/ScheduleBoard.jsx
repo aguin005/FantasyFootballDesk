@@ -1,7 +1,5 @@
 import Portrait from './Portrait.jsx'
 
-const DAY_ORDER = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday']
-
 /**
  * Your roster grouped by the day each player's NFL team kicks off, in your own time
  * zone rather than Eastern. The day label is derived from the kickoff instant, so a
@@ -21,9 +19,10 @@ export default function ScheduleBoard({ roster, timezone }) {
     byDay.get(key).push(player)
   }
 
-  const days = [...byDay.entries()].sort(
-    (a, b) => DAY_ORDER.indexOf(a[0]) - DAY_ORDER.indexOf(b[0])
-  )
+  // Days are ordered by their earliest kickoff rather than by a fixed list of
+  // weekdays. A hardcoded order breaks the moment the league schedules something
+  // unusual, and week 1 of this season opens on a Wednesday.
+  const days = [...byDay.entries()].sort((a, b) => earliest(a[1]) - earliest(b[1]))
 
   if (days.length === 0 && bye.length === 0) {
     return <p className="empty">No schedule data on the last refresh.</p>
@@ -37,9 +36,7 @@ export default function ScheduleBoard({ roster, timezone }) {
             {day} <span className="day-count">{starterCount(players)} starting</span>
           </h3>
           <ul className="rows">
-            {players
-              .sort((a, b) => Number(b.starter) - Number(a.starter))
-              .map((player) => (
+            {[...players].sort(byKickoff).map((player) => (
                 <li key={player.playerId} className="row row-game" data-pos={player.position}>
                   <span className="slot">{player.slot || player.position}</span>
                   <Portrait player={player} />
@@ -87,6 +84,22 @@ export default function ScheduleBoard({ roster, timezone }) {
 
 function starterCount(players) {
   return players.filter((player) => player.starter).length
+}
+
+function kickoffValue(player) {
+  const iso = player.game?.kickoffISO
+  return iso ? Date.parse(iso) : Number.MAX_SAFE_INTEGER
+}
+
+function earliest(players) {
+  return Math.min(...players.map(kickoffValue))
+}
+
+/** Earliest kickoff first, then starters ahead of bench within the same game slot. */
+function byKickoff(a, b) {
+  const difference = kickoffValue(a) - kickoffValue(b)
+  if (difference !== 0) return difference
+  return Number(b.starter) - Number(a.starter)
 }
 
 function localDay(game, timezone) {

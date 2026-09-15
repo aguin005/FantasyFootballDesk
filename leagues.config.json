@@ -16,5 +16,9 @@
     "usage": 0.25
   },
   "waiverLimit": 25,
-  "siteUrl": ""
+  "siteUrl": "",
+  "social": [
+  { "provider": "bluesky", "handle": "insidenflnews.bsky.social", "label": "NFL Daily News" }
+]
+  
 }
