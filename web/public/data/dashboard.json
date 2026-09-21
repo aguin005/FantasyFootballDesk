@@ -1,23 +1,80 @@
 {
-  "generatedAt": "2026-09-14T19:44:27.137Z",
+  "generatedAt": "2026-09-15T19:29:59.049Z",
   "timezone": "America/Los_Angeles",
   "news": [
     {
-      "source": "Yahoo Sports",
-      "headline": "Record fell and droughts ended in Buffalo’s Week 1 in over Texans",
-      "summary": "From Joe Brady’s first win to Josh Allen climbing the NFL record book, there was plenty to Shout! about in Houston.",
-      "url": "https://sports.yahoo.com/articles/record-fell-droughts-ended-buffalo-180508617.html",
-      "published": "2026-09-14T18:05:08.000Z",
+      "source": "ESPN",
+      "headline": "Pickens, Chase highlight Fantasy football Knockout league pickups for Week 2",
+      "summary": "Tristan H. Cockcroft lists the most common players on eliminated teams and finds how much FAB to spend this week.",
+      "url": "https://www.espn.com/fantasy/football/story/_/id/49950210/espn-nfl-fantasy-football-knockout-league-picks-strategy-adds",
+      "published": "2026-09-15T18:41:32Z",
       "players": [
         {
-          "playerId": "3918298",
-          "name": "Josh Allen",
-          "position": "QB",
+          "playerId": "4379399",
+          "name": "James Cook III",
+          "position": "RB",
           "team": "BUF",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png",
           "starter": true,
           "league": "Los Hermanos Klub",
           "leagueId": "espn:112589845"
+        }
+      ]
+    },
+    {
+      "source": "ESPN",
+      "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+      "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+      "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings",
+      "published": "2026-09-15T15:54:56Z",
+      "players": [
+        {
+          "playerId": "4426502",
+          "name": "Drake London",
+          "position": "WR",
+          "team": "ATL",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4426502.png",
+          "starter": true,
+          "league": "Los Hermanos Klub",
+          "leagueId": "espn:112589845"
+        }
+      ]
+    },
+    {
+      "source": "ESPN",
+      "headline": "What does matchup vs. Broncos mean for Parker Washington's fantasy stock?",
+      "summary": "What does matchup vs. Broncos mean for Parker Washington's fantasy stock?",
+      "url": "https://www.espn.com/video/clip/_/id/49949813/what-does-matchup-vs-broncos-mean-parker-washington-fantasy-stock",
+      "published": "2026-09-15T15:48:17Z",
+      "players": [
+        {
+          "playerId": "4432620",
+          "name": "Parker Washington",
+          "position": "WR",
+          "team": "JAX",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4432620.png",
+          "starter": true,
+          "league": "Los Hermanos Klub",
+          "leagueId": "espn:112589845"
+        }
+      ]
+    },
+    {
+      "source": "ESPN",
+      "headline": "Fantasy football buzz: Kenneth Walker III gives MVP effort in Chiefs debut",
+      "summary": "The Chiefs deployed new weapon Kenneth Walker III with dazzling results Monday night against the Broncos.",
+      "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis",
+      "published": "2026-09-15T13:11:35Z",
+      "players": [
+        {
+          "playerId": "5045",
+          "name": "Courtland Sutton",
+          "position": "WR",
+          "team": "DEN",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3128429.png",
+          "starter": false,
+          "league": "Blood, Sweat, and Beers",
+          "leagueId": "sleeper:1389693247713988608"
         }
       ]
     },
@@ -37,82 +94,6 @@
           "starter": true,
           "league": "Blood, Sweat, and Beers",
           "leagueId": "sleeper:1389693247713988608"
-        }
-      ]
-    },
-    {
-      "source": "ESPN",
-      "headline": "Touchdowns galore, awards market moves and a great Sunday for NFL bettors",
-      "summary": "A high-scoring Week 1 with a variety of players scoring TDs made for a bettor-friendly Sunday.",
-      "url": "https://www.espn.com/espn/betting/story/_/id/49940225/nfl-week-1-betting-recap-odds-props-scores-mvp-super-bowl",
-      "published": "2026-09-14T16:28:29Z",
-      "players": [
-        {
-          "playerId": "4881",
-          "name": "Lamar Jackson",
-          "position": "QB",
-          "team": "BAL",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
-          "starter": true,
-          "league": "Blood, Sweat, and Beers",
-          "leagueId": "sleeper:1389693247713988608"
-        }
-      ]
-    },
-    {
-      "source": "ESPN",
-      "headline": "Mike Clay: Justin Jefferson the only clear fantasy starter in Vikings' offense",
-      "summary": "Mike Clay: Justin Jefferson the only clear fantasy starter in Vikings' offense",
-      "url": "https://www.espn.com/video/clip/_/id/49940646/justin-jefferson-only-clear-fantasy-starter-vikings-offense",
-      "published": "2026-09-14T16:04:52Z",
-      "players": [
-        {
-          "playerId": "4262921",
-          "name": "Justin Jefferson",
-          "position": "WR",
-          "team": "MIN",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4262921.png",
-          "starter": true,
-          "league": "Los Hermanos Klub",
-          "leagueId": "espn:112589845"
-        }
-      ]
-    },
-    {
-      "source": "ESPN",
-      "headline": "Lamar Jackson looks like old self in Ravens' new offense",
-      "summary": "In his first season with new OC Declan Doyle, Jackson has embraced changes to how he played football for most of his life.",
-      "url": "https://www.espn.com/nfl/story/_/id/49940318/lamar-jackson-looks-old-self-baltimore-ravens-new-offense-vs-colts",
-      "published": "2026-09-14T16:01:18Z",
-      "players": [
-        {
-          "playerId": "4881",
-          "name": "Lamar Jackson",
-          "position": "QB",
-          "team": "BAL",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
-          "starter": true,
-          "league": "Blood, Sweat, and Beers",
-          "leagueId": "sleeper:1389693247713988608"
-        }
-      ]
-    },
-    {
-      "source": "ESPN",
-      "headline": "Fantasy football buzz: Who got the ball Sunday, and which RBs are rising?",
-      "summary": "Don't panic about Colston Loveland in Chicago, while David Montgomery asserts lead role in Houston.",
-      "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis",
-      "published": "2026-09-14T14:33:10Z",
-      "players": [
-        {
-          "playerId": "4426502",
-          "name": "Drake London",
-          "position": "WR",
-          "team": "ATL",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4426502.png",
-          "starter": true,
-          "league": "Los Hermanos Klub",
-          "leagueId": "espn:112589845"
         }
       ]
     },
@@ -155,132 +136,28 @@
       ]
     },
     {
-      "source": "ESPN",
-      "headline": "Week 1 winners and losers: Caleb Williams and Josh Allen dominate; Ja'Marr Chase disappoints",
+      "source": "ESPN Fantasy",
+      "headline": "Week 1 winners and losers: Caleb Williams, Josh Allen shine; Ja'Marr Chase disappoints",
       "summary": "Caleb Williams, Josh Allen and Trevor Lawrence came up big in Week 1, while Ja'Marr Chase, Drake London and Colston Loveland had very quiet days.",
       "url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-49930940/nfl-week-1-fantasy-football-winners-losers-injuries-rankings-more",
-      "published": "2026-09-14T04:00:30Z",
+      "published": "2026-09-14T05:00:30.000Z",
       "players": [
         {
-          "playerId": "4881",
-          "name": "Lamar Jackson",
-          "position": "QB",
-          "team": "BAL",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
-          "starter": true,
-          "league": "Blood, Sweat, and Beers",
-          "leagueId": "sleeper:1389693247713988608"
-        }
-      ]
-    },
-    {
-      "source": "CBS Sports",
-      "headline": "Bills vs. Texans takeaways: Josh Allen overcomes Houston defense in potential AFC championship preview",
-      "summary": "Buffalo earned a dramatic 36-31 victory as Allen finally overcame his struggles in Houston and the Bills&#039; defense delivered when it mattered most",
-      "url": "https://www.cbssports.com/nfl/news/bills-texans-josh-allen-c-j-stroud/",
-      "published": "2026-09-13T21:32:03.000Z",
-      "players": [
-        {
-          "playerId": "3918298",
-          "name": "Josh Allen",
-          "position": "QB",
-          "team": "BUF",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
-          "starter": true,
-          "league": "Los Hermanos Klub",
-          "leagueId": "espn:112589845"
-        }
-      ]
-    },
-    {
-      "source": "NFL Daily News",
-      "headline": "CHRISTIAN WATSON 81-YARD TD",
-      "summary": "",
-      "url": "https://bsky.app/profile/insidenflnews.bsky.social/post/3mvghyytwak2r",
-      "published": "2026-09-13T20:52:12.834Z",
-      "players": [
-        {
-          "playerId": "8167",
-          "name": "Christian Watson",
+          "playerId": "4426502",
+          "name": "Drake London",
           "position": "WR",
-          "team": "GB",
-          "image": "https://sleepercdn.com/content/nfl/players/thumb/8167.jpg",
+          "team": "ATL",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4426502.png",
           "starter": true,
-          "league": "Blood, Sweat, and Beers",
-          "leagueId": "sleeper:1389693247713988608"
-        }
-      ]
-    },
-    {
-      "source": "Pro Football Talk",
-      "headline": "Bills score late, then stop Texans to win 36-31 in classic",
-      "summary": "Josh Allen, who was 0-4 in Houston, threw a 34-yard touchdown pass to Josh Palmer with 1:36 remaining.",
-      "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/bills-score-late-then-stop-texans-to-win-36-31-in-classic",
-      "published": "2026-09-13T20:33:35.000Z",
-      "players": [
+          "league": "Los Hermanos Klub",
+          "leagueId": "espn:112589845"
+        },
         {
           "playerId": "3918298",
           "name": "Josh Allen",
           "position": "QB",
           "team": "BUF",
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
-          "starter": true,
-          "league": "Los Hermanos Klub",
-          "leagueId": "espn:112589845"
-        }
-      ]
-    },
-    {
-      "source": "Pro Football Talk",
-      "headline": "Derrick Henry, Lamar Jackson star in win over Colts",
-      "summary": "Henry ran for three touchdowns in a 41-23 Ravens win.",
-      "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/derrick-henry-lamar-jackson-star-in-win-over-colts",
-      "published": "2026-09-13T20:12:24.000Z",
-      "players": [
-        {
-          "playerId": "4881",
-          "name": "Lamar Jackson",
-          "position": "QB",
-          "team": "BAL",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
-          "starter": true,
-          "league": "Blood, Sweat, and Beers",
-          "leagueId": "sleeper:1389693247713988608"
-        }
-      ]
-    },
-    {
-      "source": "NFL Daily News",
-      "headline": "Josh Allen and Joshua Palmer put the Bills in front",
-      "summary": "",
-      "url": "https://bsky.app/profile/insidenflnews.bsky.social/post/3mvgfqnrli22f",
-      "published": "2026-09-13T20:11:45.305Z",
-      "players": [
-        {
-          "playerId": "3918298",
-          "name": "Josh Allen",
-          "position": "QB",
-          "team": "BUF",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
-          "starter": true,
-          "league": "Los Hermanos Klub",
-          "leagueId": "espn:112589845"
-        }
-      ]
-    },
-    {
-      "source": "NFL Daily News",
-      "headline": "Bears RBs: D'Andre Swift 16-95-2 Kyle Monangai 4-65-1 The Bears have 5 (!) total rushing TDs.",
-      "summary": "",
-      "url": "https://bsky.app/profile/insidenflnews.bsky.social/post/3mvgeh4gy4s2z",
-      "published": "2026-09-13T19:48:31.398Z",
-      "players": [
-        {
-          "playerId": "4608686",
-          "name": "Kyle Monangai",
-          "position": "RB",
-          "team": "CHI",
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4608686.png",
           "starter": true,
           "league": "Los Hermanos Klub",
           "leagueId": "espn:112589845"
@@ -1130,9 +1007,9 @@
               "projected": 10.2,
               "seasonProjected": 174.3,
               "usage": {
-                "snapPct": null,
+                "snapPct": 76,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 18.5,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -1230,7 +1107,7 @@
               "name": "Jordan Mason",
               "position": "RB",
               "team": "MIN",
-              "injuryStatus": null,
+              "injuryStatus": "QUESTIONABLE",
               "projected": 8.8,
               "seasonProjected": 153.7,
               "usage": null,
@@ -1992,7 +1869,7 @@
               "position": "DEF",
               "team": "DEN",
               "injuryStatus": null,
-              "projected": 7.2,
+              "projected": 7.1,
               "seasonProjected": 96,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/den.png"
@@ -2176,12 +2053,12 @@
               "projected": 10.1,
               "seasonProjected": 160.2,
               "usage": {
-                "snapPct": null,
+                "snapPct": 43,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 0,
                 "targetTrend": null,
-                "passRole": null,
-                "touchesPerGame": null,
+                "passRole": 0,
+                "touchesPerGame": 8,
                 "depthRank": 1,
                 "depthPosition": "RB",
                 "stale": false
@@ -2740,7 +2617,7 @@
       "platform": "sleeper",
       "name": "Blood, Sweat, and Beers",
       "teamName": "Feral Hogs",
-      "record": "0-0",
+      "record": "1-0",
       "scoring": "Full PPR",
       "roster": [
         {
@@ -2795,7 +2672,7 @@
           "name": "Davante Adams",
           "position": "WR",
           "team": "LAR",
-          "starter": true,
+          "starter": false,
           "injuryStatus": null,
           "injuryNote": null,
           "projected": 12.6,
@@ -2916,26 +2793,7 @@
           "projected": 19.6,
           "seasonProjected": 326,
           "sleeperId": "4881",
-          "news": [
-            {
-              "headline": "Lamar Jackson looks like old self in Ravens' new offense",
-              "summary": "In his first season with new OC Declan Doyle, Jackson has embraced changes to how he played football for most of his life.",
-              "published": "2026-09-14T16:01:18Z",
-              "url": "https://www.espn.com/nfl/story/_/id/49940318/lamar-jackson-looks-old-self-baltimore-ravens-new-offense-vs-colts"
-            },
-            {
-              "headline": "Touchdowns galore, awards market moves and a great Sunday for NFL bettors",
-              "summary": "A high-scoring Week 1 with a variety of players scoring TDs made for a bettor-friendly Sunday.",
-              "published": "2026-09-14T16:28:29Z",
-              "url": "https://www.espn.com/espn/betting/story/_/id/49940225/nfl-week-1-betting-recap-odds-props-scores-mvp-super-bowl"
-            },
-            {
-              "headline": "Week 1 winners and losers: Caleb Williams and Josh Allen dominate; Ja'Marr Chase disappoints",
-              "summary": "Caleb Williams, Josh Allen and Trevor Lawrence came up big in Week 1, while Ja'Marr Chase, Drake London and Colston Loveland had very quiet days.",
-              "published": "2026-09-14T04:00:30Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-49930940/nfl-week-1-fantasy-football-winners-losers-injuries-rankings-more"
-            }
-          ],
+          "news": [],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3916387.png",
           "usage": {
             "snapPct": 100,
@@ -2972,12 +2830,19 @@
           "projected": 10.2,
           "seasonProjected": 174.3,
           "sleeperId": "5045",
-          "news": [],
+          "news": [
+            {
+              "headline": "Fantasy football buzz: Kenneth Walker III gives MVP effort in Chiefs debut",
+              "summary": "The Chiefs deployed new weapon Kenneth Walker III with dazzling results Monday night against the Broncos.",
+              "published": "2026-09-15T13:11:35Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+            }
+          ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3128429.png",
           "usage": {
-            "snapPct": null,
+            "snapPct": 76,
             "snapTrend": null,
-            "targetShare": null,
+            "targetShare": 18.5,
             "targetTrend": null,
             "passRole": null,
             "touchesPerGame": null,
@@ -2986,6 +2851,8 @@
             "stale": false
           },
           "usageNotes": [
+            "Played 76% of snaps",
+            "Saw 18.5% of targets",
             "Listed second at WR"
           ],
           "game": {
@@ -3002,7 +2869,7 @@
           "name": "Deebo Samuel",
           "position": "WR",
           "team": "SF",
-          "starter": false,
+          "starter": true,
           "injuryStatus": null,
           "injuryNote": null,
           "projected": 10.1,
@@ -3157,8 +3024,8 @@
           "position": "RB",
           "team": "MIN",
           "starter": false,
-          "injuryStatus": null,
-          "injuryNote": null,
+          "injuryStatus": "QUESTIONABLE",
+          "injuryNote": "Thumb",
           "projected": 8.8,
           "seasonProjected": 153.7,
           "news": [],
@@ -3276,6 +3143,54 @@
           ]
         },
         {
+          "playerId": "1466",
+          "espnId": "15847",
+          "name": "Travis Kelce",
+          "position": "TE",
+          "team": "KC",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 90,
+          "projected": 9.5,
+          "seasonProjected": 171.4,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "1466",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/15847.png",
+          "usage": {
+            "snapPct": 71,
+            "snapTrend": null,
+            "targetShare": 20,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 71% of snaps",
+            "Saw 20% of targets",
+            "Listed first on the depth chart at TE"
+          ],
+          "game": {
+            "weekday": "Monday",
+            "date": "2026-09-14",
+            "kickoff": "20:15",
+            "kickoffISO": "2026-09-15T00:15:00.000Z",
+            "matchup": "vs DEN"
+          },
+          "usageSignal": 115.5,
+          "score": 78,
+          "reasons": [
+            "Projected 9.5 points, 0.6 below your worst TE at 10.1",
+            "Played 71% of snaps",
+            "Saw 20% of targets",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
           "playerId": "12469",
           "espnId": null,
           "name": "Dylan Sampson",
@@ -3313,7 +3228,7 @@
           "position": "WR",
           "team": "NO",
           "injuryStatus": null,
-          "trendAdds": 977368,
+          "trendAdds": 2325953,
           "searchRank": 209,
           "projected": 9.8,
           "seasonProjected": 110.6,
@@ -3334,7 +3249,7 @@
           "score": 77,
           "reasons": [
             "Projected 9.8 points, 0.3 below your worst WR at 10.1",
-            "Added by 977,368 Sleeper managers in the last 24 hours"
+            "Added by 2,325,953 Sleeper managers in the last 24 hours"
           ]
         },
         {
@@ -3508,33 +3423,33 @@
           ]
         },
         {
-          "playerId": "11576",
+          "playerId": "8180",
           "espnId": null,
-          "name": "Braelon Allen",
-          "position": "RB",
-          "team": "NYJ",
+          "name": "Jalen Nailor",
+          "position": "WR",
+          "team": "LV",
           "injuryStatus": null,
           "trendAdds": 0,
-          "searchRank": 135,
-          "projected": 4.5,
-          "seasonProjected": 52.2,
+          "searchRank": 171,
+          "projected": 9.7,
+          "seasonProjected": 130.6,
           "percentOwned": null,
           "ownershipChange": null,
           "news": [],
-          "image": "https://sleepercdn.com/content/nfl/players/thumb/11576.jpg",
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/8180.jpg",
           "usage": null,
           "usageNotes": [],
           "game": {
             "weekday": "Sunday",
             "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "at TEN"
+            "kickoff": "16:25",
+            "kickoffISO": "2026-09-13T20:25:00.000Z",
+            "matchup": "vs MIA"
           },
           "usageSignal": null,
-          "score": 68,
+          "score": 66,
           "reasons": [
-            "Projected 4.5 points, 0.1 below your worst RB at 4.6"
+            "Projected 9.7 points, 0.4 below your worst WR at 10.1"
           ]
         },
         {
@@ -3683,7 +3598,7 @@
           "team": "NYJ",
           "injuryStatus": null,
           "trendAdds": 0,
-          "searchRank": 213,
+          "searchRank": 214,
           "projected": 15.8,
           "seasonProjected": 222.5,
           "percentOwned": null,
@@ -3722,65 +3637,6 @@
           ]
         },
         {
-          "playerId": "6804",
-          "espnId": "4036378",
-          "name": "Jordan Love",
-          "position": "QB",
-          "team": "GB",
-          "injuryStatus": null,
-          "trendAdds": 0,
-          "searchRank": 68,
-          "projected": 15.7,
-          "seasonProjected": 278.5,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "sleeperId": "6804",
-          "news": [
-            {
-              "headline": "Fantasy football free agent pickups: Shough, Black, Coker highlight top options for Week 2",
-              "summary": "Eric Karabell lists who he thinks are the top available players worth adding for the week ahead.",
-              "published": "2026-09-14T19:29:43Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/page/FFWaiverWirePickUp-49939032/fantasy-football-waiver-wire-free-agent-pickups-nfl-week-2"
-            },
-            {
-              "headline": "Packers searching for answers after blowing another lead late",
-              "summary": "The Packers' late-game woes from last season continued in Week 1 after they blew yet another big lead in Sunday's 39-22 loss to the Vikings.",
-              "published": "2026-09-14T03:43:18Z",
-              "url": "https://www.espn.com/nfl/story/_/id/49936352/packers-searching-answers-blowing-another-lead-late"
-            }
-          ],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4036378.png",
-          "usage": {
-            "snapPct": 100,
-            "snapTrend": null,
-            "targetShare": 0,
-            "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 1,
-            "depthPosition": "QB",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 100% of snaps",
-            "Listed first on the depth chart at QB"
-          ],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "16:25",
-            "kickoffISO": "2026-09-13T20:25:00.000Z",
-            "matchup": "at MIN"
-          },
-          "usageSignal": 100,
-          "score": 59,
-          "reasons": [
-            "Projected 15.7 points, 3.9 below your worst QB at 19.6",
-            "Played 100% of snaps",
-            "Listed first on the depth chart at QB"
-          ]
-        },
-        {
           "playerId": "7922",
           "espnId": null,
           "name": "Riley Patterson",
@@ -3811,13 +3667,57 @@
           ]
         },
         {
+          "playerId": "4227",
+          "espnId": "3055899",
+          "name": "Harrison Butker",
+          "position": "K",
+          "team": "KC",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 155,
+          "projected": 6.3,
+          "seasonProjected": 100,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4227",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3055899.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": false
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "game": {
+            "weekday": "Monday",
+            "date": "2026-09-14",
+            "kickoff": "20:15",
+            "kickoffISO": "2026-09-15T00:15:00.000Z",
+            "matchup": "vs DEN"
+          },
+          "usageSignal": 50,
+          "score": 57,
+          "reasons": [
+            "Projected 6.3 points, 0.5 below your worst K at 6.8",
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
           "playerId": "5844",
           "espnId": "4036133",
           "name": "T.J. Hockenson",
           "position": "TE",
           "team": "MIN",
           "injuryStatus": null,
-          "trendAdds": 5844,
+          "trendAdds": 11620,
           "searchRank": 128,
           "projected": 8.8,
           "seasonProjected": 155,
@@ -3853,41 +3753,10 @@
           "score": 57,
           "reasons": [
             "Projected 8.8 points, 1.3 below your worst TE at 10.1",
-            "Added by 5,844 Sleeper managers in the last 24 hours",
+            "Added by 11,620 Sleeper managers in the last 24 hours",
             "Played 66% of snaps",
             "Saw 21.7% of targets",
             "Listed first on the depth chart at TE"
-          ]
-        },
-        {
-          "playerId": "11646",
-          "espnId": null,
-          "name": "Jalen Coker",
-          "position": "WR",
-          "team": "CAR",
-          "injuryStatus": null,
-          "trendAdds": 84972,
-          "searchRank": 132,
-          "projected": 11.9,
-          "seasonProjected": 165.9,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "image": "https://sleepercdn.com/content/nfl/players/thumb/11646.jpg",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "vs CHI"
-          },
-          "usageSignal": null,
-          "score": 57,
-          "reasons": [
-            "Projected 11.9 points, 1.8 above your worst WR at 10.1",
-            "Added by 84,972 Sleeper managers in the last 24 hours"
           ]
         },
         {
@@ -3921,28 +3790,84 @@
           ]
         },
         {
-          "playerId": "96",
-          "espnId": "8439",
-          "name": "Aaron Rodgers",
-          "position": "QB",
-          "team": "PIT",
+          "playerId": "3678",
+          "espnId": "2985659",
+          "name": "Wil Lutz",
+          "position": "K",
+          "team": "DEN",
           "injuryStatus": null,
           "trendAdds": 0,
-          "searchRank": 188,
-          "projected": 15,
-          "seasonProjected": 177,
+          "searchRank": 177,
+          "projected": 6.1,
+          "seasonProjected": 100,
           "percentOwned": null,
           "ownershipChange": null,
-          "sleeperId": "96",
+          "sleeperId": "3678",
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/2985659.png",
+          "usage": {
+            "snapPct": 0,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 1,
+            "depthPosition": "PK",
+            "stale": false
+          },
+          "usageNotes": [
+            "Listed first on the depth chart at PK"
+          ],
+          "game": {
+            "weekday": "Monday",
+            "date": "2026-09-14",
+            "kickoff": "20:15",
+            "kickoffISO": "2026-09-15T00:15:00.000Z",
+            "matchup": "at KC"
+          },
+          "usageSignal": 50,
+          "score": 56,
+          "reasons": [
+            "Projected 6.1 points, 0.7 below your worst K at 6.8",
+            "Listed first on the depth chart at PK"
+          ]
+        },
+        {
+          "playerId": "4046",
+          "espnId": "3139477",
+          "name": "Patrick Mahomes",
+          "position": "QB",
+          "team": "KC",
+          "injuryStatus": null,
+          "trendAdds": 0,
+          "searchRank": 40,
+          "projected": 15,
+          "seasonProjected": 286.7,
+          "percentOwned": null,
+          "ownershipChange": null,
+          "sleeperId": "4046",
           "news": [
             {
-              "headline": "Aaron Rodgers' 2026 NFL season: Tracking records, milestones",
-              "summary": "The Steelers QB, who is entering his 22nd season in the league, is chasing records, and ESPN will be chronicling his \"last rodeo.\"",
-              "published": "2026-09-14T16:38:43Z",
-              "url": "https://www.espn.com/nfl/story/_/id/49907062/aaron-rodgers-2026-nfl-season-steelers-packers-jets-tracking-records-milestones"
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            },
+            {
+              "headline": "Is Patrick Mahomes a fantasy QB1 in Week 2?",
+              "summary": "Is Patrick Mahomes a fantasy QB1 in Week 2?",
+              "published": "2026-09-15T14:46:12Z",
+              "url": "https://www.espn.com/video/clip/_/id/49949299/is-patrick-mahomes-fantasy-qb1-week-2"
+            },
+            {
+              "headline": "Why Stephen A. isn't declaring the Chiefs as team to beat in AFC",
+              "summary": "Why Stephen A. isn't declaring the Chiefs as team to beat in AFC",
+              "published": "2026-09-15T14:23:13Z",
+              "url": "https://www.espn.com/video/clip/_/id/49949260/why-stephen-declaring-chiefs-team-beat-afc"
             }
           ],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/8439.png",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3139477.png",
           "usage": {
             "snapPct": 100,
             "snapTrend": null,
@@ -3959,11 +3884,11 @@
             "Listed first on the depth chart at QB"
           ],
           "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "vs ATL"
+            "weekday": "Monday",
+            "date": "2026-09-14",
+            "kickoff": "20:15",
+            "kickoffISO": "2026-09-15T00:15:00.000Z",
+            "matchup": "vs DEN"
           },
           "usageSignal": 100,
           "score": 56,
@@ -3974,47 +3899,54 @@
           ]
         },
         {
-          "playerId": "1466",
-          "espnId": "15847",
-          "name": "Travis Kelce",
-          "position": "TE",
-          "team": "KC",
+          "playerId": "6130",
+          "espnId": "4040761",
+          "name": "Devin Singletary",
+          "position": "RB",
+          "team": "NYG",
           "injuryStatus": null,
-          "trendAdds": 0,
-          "searchRank": 90,
-          "projected": 9.5,
-          "seasonProjected": 171.4,
+          "trendAdds": 1146330,
+          "searchRank": 660,
+          "projected": 3.7,
+          "seasonProjected": 30.6,
           "percentOwned": null,
           "ownershipChange": null,
-          "sleeperId": "1466",
+          "sleeperId": "6130",
           "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/15847.png",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4040761.png",
           "usage": {
-            "snapPct": null,
+            "snapPct": 36,
             "snapTrend": null,
-            "targetShare": null,
+            "targetShare": 13.8,
             "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 1,
-            "depthPosition": "TE",
+            "passRole": 40,
+            "touchesPerGame": 10,
+            "depthRank": 2,
+            "depthPosition": "RB",
             "stale": false
           },
           "usageNotes": [
-            "Listed first on the depth chart at TE"
+            "Played 36% of snaps",
+            "Saw 13.8% of targets",
+            "10 touches a game, mostly through the air",
+            "Listed second at RB"
           ],
           "game": {
-            "weekday": "Monday",
-            "date": "2026-09-14",
-            "kickoff": "20:15",
-            "kickoffISO": "2026-09-15T00:15:00.000Z",
-            "matchup": "vs DEN"
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "20:20",
+            "kickoffISO": "2026-09-14T00:20:00.000Z",
+            "matchup": "vs DAL"
           },
-          "usageSignal": 50,
+          "usageSignal": 58.7,
           "score": 56,
           "reasons": [
-            "Projected 9.5 points, 0.6 below your worst TE at 10.1",
-            "Listed first on the depth chart at TE"
+            "Projected 3.7 points, 0.9 below your worst RB at 4.6",
+            "Added by 1,146,330 Sleeper managers in the last 24 hours",
+            "Played 36% of snaps",
+            "Saw 13.8% of targets",
+            "10 touches a game, mostly through the air",
+            "Listed second at RB"
           ]
         },
         {
@@ -4108,36 +4040,121 @@
             "Projected 6 points, 0.8 below your worst K at 6.8",
             "Listed first on the depth chart at PK"
           ]
+        }
+      ],
+      "consensus": [
+        {
+          "playerId": "11646",
+          "name": "Jalen Coker",
+          "position": "WR",
+          "team": "CAR",
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/11646.jpg",
+          "sources": [
+            "ESPN Fantasy",
+            "Yahoo Sports"
+          ],
+          "count": 2,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.079938900203666
         },
         {
-          "playerId": "8111",
-          "espnId": null,
-          "name": "Cade Otton",
-          "position": "TE",
-          "team": "TB",
-          "injuryStatus": null,
-          "trendAdds": 0,
-          "searchRank": 148,
-          "projected": 8.2,
-          "seasonProjected": 122.3,
-          "percentOwned": null,
-          "ownershipChange": null,
-          "news": [],
-          "image": "https://sleepercdn.com/content/nfl/players/thumb/8111.jpg",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "at CIN"
-          },
-          "usageSignal": null,
-          "score": 55,
-          "reasons": [
-            "Projected 8.2 points, 1.9 below your worst TE at 10.1"
-          ]
+          "playerId": "4017",
+          "name": "Deshaun Watson",
+          "position": "QB",
+          "team": "CLE",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3122840.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.05335458409228901
+        },
+        {
+          "playerId": "12545",
+          "name": "Tyler Shough",
+          "position": "QB",
+          "team": "NO",
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/12545.jpg",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.08114816700610998
+        },
+        {
+          "playerId": "11834",
+          "name": "Devaughn Vele",
+          "position": "WR",
+          "team": "NO",
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/11834.jpg",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": 77,
+          "modelRank": 5,
+          "firstPosition": 0.22995162932790225
+        },
+        {
+          "playerId": "13414",
+          "name": "Kaelon Black",
+          "position": "RB",
+          "team": "SF",
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/13414.jpg",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.29862525458248473
+        },
+        {
+          "playerId": "4943",
+          "name": "Sam Darnold",
+          "position": "QB",
+          "team": "SEA",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3912547.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.3327767658368751
+        },
+        {
+          "playerId": "167",
+          "name": "Tom Brady",
+          "position": "QB",
+          "team": "FA",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/2330.png",
+          "sources": [
+            "ESPN Fantasy"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.37524900398406374
+        },
+        {
+          "playerId": "9228",
+          "name": "Bryce Young",
+          "position": "QB",
+          "team": "CAR",
+          "image": "https://sleepercdn.com/content/nfl/players/thumb/9228.jpg",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.39516292248532686
         }
       ]
     },
@@ -4221,7 +4238,7 @@
               "name": "Brock Bowers",
               "position": "TE",
               "team": "LV",
-              "injuryStatus": "OUT",
+              "injuryStatus": "QUESTIONABLE",
               "projected": 0,
               "seasonProjected": 262.2,
               "usage": {
@@ -4269,9 +4286,9 @@
               "projected": 11.7,
               "seasonProjected": 227.6,
               "usage": {
-                "snapPct": null,
+                "snapPct": 76,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 18.5,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -4335,12 +4352,12 @@
               "projected": 9.5,
               "seasonProjected": 171.4,
               "usage": {
-                "snapPct": null,
+                "snapPct": 43,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 0,
                 "targetTrend": null,
-                "passRole": null,
-                "touchesPerGame": null,
+                "passRole": 0,
+                "touchesPerGame": 8,
                 "depthRank": 1,
                 "depthPosition": "RB",
                 "stale": false
@@ -4357,9 +4374,9 @@
               "projected": 8.5,
               "seasonProjected": 207.3,
               "usage": {
-                "snapPct": null,
+                "snapPct": 51,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 14.8,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -4399,7 +4416,7 @@
               "team": "CIN",
               "injuryStatus": null,
               "projected": 8.5,
-              "seasonProjected": 0,
+              "seasonProjected": 132.6,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -4421,7 +4438,7 @@
               "team": "LAC",
               "injuryStatus": null,
               "projected": 7.4,
-              "seasonProjected": -1.1,
+              "seasonProjected": 72.7,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/lac.png"
             },
@@ -4726,7 +4743,7 @@
               "team": "MIN",
               "injuryStatus": null,
               "projected": 8.4,
-              "seasonProjected": 0,
+              "seasonProjected": 134,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -4770,7 +4787,7 @@
               "team": "JAX",
               "injuryStatus": null,
               "projected": 8.2,
-              "seasonProjected": -1,
+              "seasonProjected": 87.3,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/jax.png"
             }
@@ -4985,7 +5002,7 @@
               "name": "Alvin Kamara",
               "position": "RB",
               "team": "NO",
-              "injuryStatus": "OUT",
+              "injuryStatus": "QUESTIONABLE",
               "projected": 0,
               "seasonProjected": 266.7,
               "usage": {
@@ -5053,7 +5070,7 @@
               "team": "PHI",
               "injuryStatus": null,
               "projected": 8.5,
-              "seasonProjected": 0,
+              "seasonProjected": 141.4,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -5075,7 +5092,7 @@
               "team": "BUF",
               "injuryStatus": null,
               "projected": 4.2,
-              "seasonProjected": -1.9,
+              "seasonProjected": 100.3,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png"
             }
@@ -5118,12 +5135,12 @@
               "projected": 14.7,
               "seasonProjected": 238.8,
               "usage": {
-                "snapPct": null,
+                "snapPct": 68,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 24,
                 "targetTrend": null,
-                "passRole": null,
-                "touchesPerGame": null,
+                "passRole": 20.7,
+                "touchesPerGame": 29,
                 "depthRank": 1,
                 "depthPosition": "RB",
                 "stale": false
@@ -5248,7 +5265,7 @@
               "team": "SEA",
               "injuryStatus": null,
               "projected": 7.2,
-              "seasonProjected": -1.3,
+              "seasonProjected": 121.2,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/sea.png"
             },
@@ -5260,7 +5277,7 @@
               "team": "SEA",
               "injuryStatus": null,
               "projected": 9.4,
-              "seasonProjected": 0,
+              "seasonProjected": 136.5,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -5370,7 +5387,7 @@
               "team": "DET",
               "injuryStatus": null,
               "projected": 7.3,
-              "seasonProjected": -1.3,
+              "seasonProjected": 122.5,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png"
             }
@@ -5587,7 +5604,7 @@
               "team": "HOU",
               "injuryStatus": null,
               "projected": 9.8,
-              "seasonProjected": 0,
+              "seasonProjected": 135.9,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -5609,7 +5626,7 @@
               "team": "PHI",
               "injuryStatus": null,
               "projected": 6.1,
-              "seasonProjected": -1.2,
+              "seasonProjected": 97.8,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/phi.png"
             },
@@ -5667,9 +5684,9 @@
               "projected": 16.1,
               "seasonProjected": 301.9,
               "usage": {
-                "snapPct": null,
+                "snapPct": 100,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 0,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -5914,7 +5931,7 @@
               "team": "BAL",
               "injuryStatus": null,
               "projected": 6.6,
-              "seasonProjected": -1.5,
+              "seasonProjected": 123,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png"
             },
@@ -5926,11 +5943,11 @@
               "team": "KC",
               "injuryStatus": null,
               "projected": 8.5,
-              "seasonProjected": 0,
+              "seasonProjected": 138.6,
               "usage": {
-                "snapPct": null,
+                "snapPct": 0,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 0,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -6089,9 +6106,9 @@
               "projected": 12.2,
               "seasonProjected": 226.5,
               "usage": {
-                "snapPct": null,
+                "snapPct": 75,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 11.1,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -6153,7 +6170,7 @@
               "team": "TEN",
               "injuryStatus": null,
               "projected": 12,
-              "seasonProjected": 190.1,
+              "seasonProjected": 189.3,
               "usage": {
                 "snapPct": 88,
                 "snapTrend": null,
@@ -6175,7 +6192,7 @@
               "team": "LAR",
               "injuryStatus": null,
               "projected": 6.2,
-              "seasonProjected": -2,
+              "seasonProjected": 87.7,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/lar.png"
             },
@@ -6233,9 +6250,9 @@
               "projected": 9.8,
               "seasonProjected": 181.1,
               "usage": {
-                "snapPct": null,
+                "snapPct": 71,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 20,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -6305,7 +6322,7 @@
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
-                "depthRank": 6,
+                "depthRank": 5,
                 "depthPosition": "WR",
                 "stale": false
               },
@@ -6394,9 +6411,9 @@
               "projected": 14.4,
               "seasonProjected": 163.1,
               "usage": {
-                "snapPct": null,
+                "snapPct": 83,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 8,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -6546,7 +6563,7 @@
               "team": "PIT",
               "injuryStatus": null,
               "projected": 7.2,
-              "seasonProjected": -0.9,
+              "seasonProjected": 132.7,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png"
             },
@@ -6566,7 +6583,7 @@
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
-                "depthRank": 4,
+                "depthRank": 3,
                 "depthPosition": "RB",
                 "stale": false
               },
@@ -6602,7 +6619,7 @@
               "team": "PIT",
               "injuryStatus": null,
               "projected": 9,
-              "seasonProjected": 0,
+              "seasonProjected": 138.4,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -6829,7 +6846,7 @@
               "team": "DAL",
               "injuryStatus": null,
               "projected": 9.9,
-              "seasonProjected": 0,
+              "seasonProjected": 142.2,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -6875,9 +6892,9 @@
               "projected": 9.5,
               "seasonProjected": 166.8,
               "usage": {
-                "snapPct": null,
+                "snapPct": 77,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 24,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -6895,7 +6912,7 @@
               "team": "NE",
               "injuryStatus": null,
               "projected": 4.7,
-              "seasonProjected": -1.7,
+              "seasonProjected": 101.4,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png"
             },
@@ -7156,7 +7173,7 @@
               "team": "DEN",
               "injuryStatus": null,
               "projected": 5.9,
-              "seasonProjected": -1.4,
+              "seasonProjected": 130.1,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/den.png"
             },
@@ -7168,7 +7185,7 @@
               "team": "LAC",
               "injuryStatus": null,
               "projected": 10.3,
-              "seasonProjected": 0,
+              "seasonProjected": 143.9,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -7220,7 +7237,7 @@
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
-                "depthRank": 4,
+                "depthRank": 5,
                 "depthPosition": "WR",
                 "stale": false
               },
@@ -7305,7 +7322,7 @@
               "name": "TreVeyon Henderson",
               "position": "RB",
               "team": "NE",
-              "injuryStatus": "OUT",
+              "injuryStatus": "QUESTIONABLE",
               "projected": 0,
               "seasonProjected": 223.8,
               "usage": {
@@ -7441,9 +7458,9 @@
               "projected": 15.5,
               "seasonProjected": 324.9,
               "usage": {
-                "snapPct": null,
+                "snapPct": 100,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 0,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -7505,7 +7522,7 @@
               "team": "GB",
               "injuryStatus": null,
               "projected": 5.5,
-              "seasonProjected": -1.8,
+              "seasonProjected": 100.8,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/gb.png"
             },
@@ -7517,11 +7534,11 @@
               "team": "DEN",
               "injuryStatus": null,
               "projected": 7.6,
-              "seasonProjected": 0,
+              "seasonProjected": 135.4,
               "usage": {
-                "snapPct": null,
+                "snapPct": 0,
                 "snapTrend": null,
-                "targetShare": null,
+                "targetShare": 0,
                 "targetTrend": null,
                 "passRole": null,
                 "touchesPerGame": null,
@@ -7722,7 +7739,7 @@
               "team": "HOU",
               "injuryStatus": null,
               "projected": 5.3,
-              "seasonProjected": -2.2,
+              "seasonProjected": 128.8,
               "usage": null,
               "image": "https://a.espncdn.com/i/teamlogos/nfl/500/hou.png"
             },
@@ -7756,7 +7773,7 @@
               "team": "JAX",
               "injuryStatus": null,
               "projected": 8.8,
-              "seasonProjected": 0,
+              "seasonProjected": 135.8,
               "usage": {
                 "snapPct": 0,
                 "snapTrend": null,
@@ -7864,7 +7881,7 @@
       "platform": "espn",
       "name": "Los Hermanos Klub",
       "teamName": "JOSH ALLEN SUPER BOWL YEAR",
-      "record": "0-0",
+      "record": "1-0",
       "scoring": "H2H_POINTS",
       "roster": [
         {
@@ -7882,10 +7899,10 @@
           "sleeperId": null,
           "news": [
             {
-              "headline": "Week 1 winners and losers: Caleb Williams and Josh Allen dominate; Ja'Marr Chase disappoints",
-              "summary": "Caleb Williams, Josh Allen and Trevor Lawrence came up big in Week 1, while Ja'Marr Chase, Drake London and Colston Loveland had very quiet days.",
-              "published": "2026-09-14T04:00:30Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-49930940/nfl-week-1-fantasy-football-winners-losers-injuries-rankings-more"
+              "headline": "Pickens, Chase highlight Fantasy football Knockout league pickups for Week 2",
+              "summary": "Tristan H. Cockcroft lists the most common players on eliminated teams and finds how much FAB to spend this week.",
+              "published": "2026-09-15T18:41:32Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49950210/espn-nfl-fantasy-football-knockout-league-picks-strategy-adds"
             }
           ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png",
@@ -7927,14 +7944,7 @@
           "projected": 17.1,
           "seasonProjected": 315.9,
           "sleeperId": "6794",
-          "news": [
-            {
-              "headline": "Mike Clay: Justin Jefferson the only clear fantasy starter in Vikings' offense",
-              "summary": "Mike Clay: Justin Jefferson the only clear fantasy starter in Vikings' offense",
-              "published": "2026-09-14T16:04:52Z",
-              "url": "https://www.espn.com/video/clip/_/id/49940646/justin-jefferson-only-clear-fantasy-starter-vikings-offense"
-            }
-          ],
+          "news": [],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4262921.png",
           "usage": {
             "snapPct": 92,
@@ -7976,16 +7986,22 @@
           "sleeperId": null,
           "news": [
             {
-              "headline": "Fantasy football buzz: Who got the ball Sunday, and which RBs are rising?",
-              "summary": "Don't panic about Colston Loveland in Chicago, while David Montgomery asserts lead role in Houston.",
-              "published": "2026-09-14T14:33:10Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+              "headline": "Pickens, Chase highlight Fantasy football Knockout league pickups for Week 2",
+              "summary": "Tristan H. Cockcroft lists the most common players on eliminated teams and finds how much FAB to spend this week.",
+              "published": "2026-09-15T18:41:32Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49950210/espn-nfl-fantasy-football-knockout-league-picks-strategy-adds"
             },
             {
-              "headline": "Week 1 winners and losers: Caleb Williams and Josh Allen dominate; Ja'Marr Chase disappoints",
-              "summary": "Caleb Williams, Josh Allen and Trevor Lawrence came up big in Week 1, while Ja'Marr Chase, Drake London and Colston Loveland had very quiet days.",
-              "published": "2026-09-14T04:00:30Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-49930940/nfl-week-1-fantasy-football-winners-losers-injuries-rankings-more"
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            },
+            {
+              "headline": "Fantasy football buzz: Kenneth Walker III gives MVP effort in Chiefs debut",
+              "summary": "The Chiefs deployed new weapon Kenneth Walker III with dazzling results Monday night against the Broncos.",
+              "published": "2026-09-15T13:11:35Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
             }
           ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4426502.png",
@@ -8026,20 +8042,7 @@
           "projected": 19.3,
           "seasonProjected": 367.9,
           "sleeperId": "4984",
-          "news": [
-            {
-              "headline": "Touchdowns galore, awards market moves and a great Sunday for NFL bettors",
-              "summary": "A high-scoring Week 1 with a variety of players scoring TDs made for a bettor-friendly Sunday.",
-              "published": "2026-09-14T16:28:29Z",
-              "url": "https://www.espn.com/espn/betting/story/_/id/49940225/nfl-week-1-betting-recap-odds-props-scores-mvp-super-bowl"
-            },
-            {
-              "headline": "Week 1 winners and losers: Caleb Williams and Josh Allen dominate; Ja'Marr Chase disappoints",
-              "summary": "Caleb Williams, Josh Allen and Trevor Lawrence came up big in Week 1, while Ja'Marr Chase, Drake London and Colston Loveland had very quiet days.",
-              "published": "2026-09-14T04:00:30Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/page/FFSundayHighLows-49930940/nfl-week-1-fantasy-football-winners-losers-injuries-rankings-more"
-            }
-          ],
+          "news": [],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png",
           "usage": {
             "snapPct": 100,
@@ -8077,7 +8080,14 @@
           "projected": 11.3,
           "seasonProjected": 44.4,
           "sleeperId": null,
-          "news": [],
+          "news": [
+            {
+              "headline": "What does matchup vs. Broncos mean for Parker Washington's fantasy stock?",
+              "summary": "What does matchup vs. Broncos mean for Parker Washington's fantasy stock?",
+              "published": "2026-09-15T15:48:17Z",
+              "url": "https://www.espn.com/video/clip/_/id/49949813/what-does-matchup-vs-broncos-mean-parker-washington-fantasy-stock"
+            }
+          ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4432620.png",
           "usage": {
             "snapPct": 61,
@@ -8116,7 +8126,14 @@
           "projected": 10.7,
           "seasonProjected": 0,
           "sleeperId": null,
-          "news": [],
+          "news": [
+            {
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            }
+          ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4678008.png",
           "usage": {
             "snapPct": 19,
@@ -8155,7 +8172,14 @@
           "projected": 9.6,
           "seasonProjected": 133.6,
           "sleeperId": null,
-          "news": [],
+          "news": [
+            {
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            }
+          ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4360569.png",
           "usage": {
             "snapPct": 45,
@@ -8231,7 +8255,7 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": 9.9,
-          "seasonProjected": 0,
+          "seasonProjected": 142.2,
           "sleeperId": null,
           "news": [],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3953687.png",
@@ -8272,9 +8296,9 @@
           "sleeperId": "7002",
           "news": [
             {
-              "headline": "Fantasy football buzz: Who got the ball Sunday, and which RBs are rising?",
-              "summary": "Don't panic about Colston Loveland in Chicago, while David Montgomery asserts lead role in Houston.",
-              "published": "2026-09-14T14:33:10Z",
+              "headline": "Fantasy football buzz: Kenneth Walker III gives MVP effort in Chiefs debut",
+              "summary": "The Chiefs deployed new weapon Kenneth Walker III with dazzling results Monday night against the Broncos.",
+              "published": "2026-09-15T13:11:35Z",
               "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
             }
           ],
@@ -8319,9 +8343,9 @@
           "news": [],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4683062.png",
           "usage": {
-            "snapPct": null,
+            "snapPct": 77,
             "snapTrend": null,
-            "targetShare": null,
+            "targetShare": 24,
             "targetTrend": null,
             "passRole": null,
             "touchesPerGame": null,
@@ -8330,6 +8354,8 @@
             "stale": false
           },
           "usageNotes": [
+            "Played 77% of snaps",
+            "Saw 24% of targets",
             "Listed second at WR"
           ],
           "game": {
@@ -8351,7 +8377,7 @@
           "injuryStatus": null,
           "injuryNote": null,
           "projected": 4.7,
-          "seasonProjected": -1.7,
+          "seasonProjected": 101.4,
           "sleeperId": null,
           "news": [],
           "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png",
@@ -8417,7 +8443,14 @@
           "projected": 10.3,
           "seasonProjected": 51.6,
           "sleeperId": null,
-          "news": [],
+          "news": [
+            {
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            }
+          ],
           "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4608686.png",
           "usage": {
             "snapPct": 43,
@@ -8455,8 +8488,8 @@
           "injuryStatus": null,
           "projected": 6.6,
           "seasonProjected": 99.8,
-          "percentOwned": 5.3,
-          "ownershipChange": 0,
+          "percentOwned": 5.2,
+          "ownershipChange": -0.1,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
@@ -8472,10 +8505,106 @@
             "matchup": "at TEN"
           },
           "usageSignal": null,
-          "score": 83,
+          "score": 92,
           "reasons": [
             "Projected 6.6 points, 1.9 above your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
+            "Rostered percentage down 0.1 points today"
+          ]
+        },
+        {
+          "playerId": "-16012",
+          "espnId": "-16012",
+          "name": "Chiefs D/ST",
+          "position": "DEF",
+          "team": "KC",
+          "injuryStatus": null,
+          "projected": 5.3,
+          "seasonProjected": 97,
+          "percentOwned": 35.1,
+          "ownershipChange": 0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
+          "usage": null,
+          "usageNotes": [],
+          "game": {
+            "weekday": "Monday",
+            "date": "2026-09-14",
+            "kickoff": "20:15",
+            "kickoffISO": "2026-09-15T00:15:00.000Z",
+            "matchup": "vs DEN"
+          },
+          "usageSignal": null,
+          "score": 91,
+          "reasons": [
+            "Projected 5.3 points, 0.6 above your worst DEF at 4.7",
+            "Rostered percentage up 0.1 points today"
+          ]
+        },
+        {
+          "playerId": "-16027",
+          "espnId": "-16027",
+          "name": "Buccaneers D/ST",
+          "position": "DEF",
+          "team": "TB",
+          "injuryStatus": null,
+          "projected": 4.5,
+          "seasonProjected": 106.1,
+          "percentOwned": 13,
+          "ownershipChange": 0.2,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/tb.png",
+          "usage": null,
+          "usageNotes": [],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "at CIN"
+          },
+          "usageSignal": null,
+          "score": 90,
+          "reasons": [
+            "Projected 4.5 points, 0.2 below your worst DEF at 4.7",
+            "Rostered percentage up 0.2 points today"
+          ]
+        },
+        {
+          "playerId": "-16003",
+          "espnId": "-16003",
+          "name": "Bears D/ST",
+          "position": "DEF",
+          "team": "CHI",
+          "injuryStatus": null,
+          "projected": 5.8,
+          "seasonProjected": 90.6,
+          "percentOwned": 9.6,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png",
+          "usage": null,
+          "usageNotes": [],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "at CAR"
+          },
+          "usageSignal": null,
+          "score": 89,
+          "reasons": [
+            "Projected 5.8 points, 1.1 above your worst DEF at 4.7",
+            "Rostered percentage down 0.1 points today"
           ]
         },
         {
@@ -8504,206 +8633,10 @@
             "matchup": "vs TB"
           },
           "usageSignal": null,
-          "score": 81,
+          "score": 88,
           "reasons": [
             "Projected 4.5 points, 0.2 below your worst DEF at 4.7",
             "Rostered percentage up 0.1 points today"
-          ]
-        },
-        {
-          "playerId": "-16003",
-          "espnId": "-16003",
-          "name": "Bears D/ST",
-          "position": "DEF",
-          "team": "CHI",
-          "injuryStatus": null,
-          "projected": 5.8,
-          "seasonProjected": 90.6,
-          "percentOwned": 9.7,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "at CAR"
-          },
-          "usageSignal": null,
-          "score": 80,
-          "reasons": [
-            "Projected 5.8 points, 1.1 above your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "-16010",
-          "espnId": "-16010",
-          "name": "Titans D/ST",
-          "position": "DEF",
-          "team": "TEN",
-          "injuryStatus": null,
-          "projected": 6.8,
-          "seasonProjected": 77.9,
-          "percentOwned": 11.8,
-          "ownershipChange": -0.1,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "vs NYJ"
-          },
-          "usageSignal": null,
-          "score": 78,
-          "reasons": [
-            "Projected 6.8 points, 2.1 above your worst DEF at 4.7",
-            "Rostered percentage down 0.1 points today"
-          ]
-        },
-        {
-          "playerId": "-16006",
-          "espnId": "-16006",
-          "name": "Cowboys D/ST",
-          "position": "DEF",
-          "team": "DAL",
-          "injuryStatus": null,
-          "projected": 4.9,
-          "seasonProjected": 60.2,
-          "percentOwned": 12.3,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "20:20",
-            "kickoffISO": "2026-09-14T00:20:00.000Z",
-            "matchup": "at NYG"
-          },
-          "usageSignal": null,
-          "score": 77,
-          "reasons": [
-            "Projected 4.9 points, 0.2 above your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "4569603",
-          "espnId": "4569603",
-          "name": "Malik Washington",
-          "position": "WR",
-          "team": "MIA",
-          "injuryStatus": null,
-          "projected": 6.2,
-          "seasonProjected": 56,
-          "percentOwned": 7.8,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4569603.png",
-          "usage": {
-            "snapPct": 98,
-            "snapTrend": null,
-            "targetShare": 29.6,
-            "targetTrend": null,
-            "passRole": 100,
-            "touchesPerGame": 8,
-            "depthRank": 1,
-            "depthPosition": "WR",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 98% of snaps",
-            "Saw 29.6% of targets",
-            "8 touches a game, mostly through the air",
-            "Listed first on the depth chart at WR"
-          ],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "16:25",
-            "kickoffISO": "2026-09-13T20:25:00.000Z",
-            "matchup": "at LV"
-          },
-          "usageSignal": 143.4,
-          "score": 77,
-          "reasons": [
-            "Projected 6.2 points, 2.8 below your worst WR at 9.0",
-            "Rostered percentage up 0 points today",
-            "Played 98% of snaps",
-            "Saw 29.6% of targets",
-            "8 touches a game, mostly through the air",
-            "Listed first on the depth chart at WR"
-          ]
-        },
-        {
-          "playerId": "4243331",
-          "espnId": "4243331",
-          "name": "Cade Otton",
-          "position": "TE",
-          "team": "TB",
-          "injuryStatus": null,
-          "projected": 7.4,
-          "seasonProjected": 138.3,
-          "percentOwned": 2.8,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4243331.png",
-          "usage": {
-            "snapPct": 98,
-            "snapTrend": null,
-            "targetShare": 18.5,
-            "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 1,
-            "depthPosition": "TE",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 98% of snaps",
-            "Saw 18.5% of targets",
-            "Listed first on the depth chart at TE"
-          ],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "at CIN"
-          },
-          "usageSignal": 126.75,
-          "score": 77,
-          "reasons": [
-            "Projected 7.4 points, 1.4 below your worst TE at 8.8",
-            "Rostered percentage up 0 points today",
-            "Played 98% of snaps",
-            "Saw 18.5% of targets",
-            "Listed first on the depth chart at TE"
           ]
         },
         {
@@ -8732,172 +8665,42 @@
             "matchup": "vs MIA"
           },
           "usageSignal": null,
-          "score": 77,
+          "score": 87,
           "reasons": [
             "Projected 4.8 points, 0.1 above your worst DEF at 4.7",
             "Rostered percentage up 0 points today"
           ]
         },
         {
-          "playerId": "-16027",
-          "espnId": "-16027",
-          "name": "Buccaneers D/ST",
+          "playerId": "-16006",
+          "espnId": "-16006",
+          "name": "Cowboys D/ST",
           "position": "DEF",
-          "team": "TB",
+          "team": "DAL",
           "injuryStatus": null,
-          "projected": 4.5,
-          "seasonProjected": 106.1,
-          "percentOwned": 12.8,
-          "ownershipChange": 0,
+          "projected": 4.9,
+          "seasonProjected": 60.2,
+          "percentOwned": 12.2,
+          "ownershipChange": -0.1,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/tb.png",
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png",
           "usage": null,
           "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "at CIN"
-          },
-          "usageSignal": null,
-          "score": 76,
-          "reasons": [
-            "Projected 4.5 points, 0.2 below your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "4682648",
-          "espnId": "4682648",
-          "name": "Malachi Fields",
-          "position": "WR",
-          "team": "NYG",
-          "injuryStatus": null,
-          "projected": 6.9,
-          "seasonProjected": 100.5,
-          "percentOwned": 10.8,
-          "ownershipChange": 0.3,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4682648.png",
-          "usage": {
-            "snapPct": 72,
-            "snapTrend": null,
-            "targetShare": 13.8,
-            "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 2,
-            "depthPosition": "WR",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 72% of snaps",
-            "Saw 13.8% of targets",
-            "Listed second at WR"
-          ],
           "game": {
             "weekday": "Sunday",
             "date": "2026-09-13",
             "kickoff": "20:20",
             "kickoffISO": "2026-09-14T00:20:00.000Z",
-            "matchup": "vs DAL"
-          },
-          "usageSignal": 76.7,
-          "score": 76,
-          "reasons": [
-            "Projected 6.9 points, 2.1 below your worst WR at 9.0",
-            "Rostered percentage up 0.3 points today",
-            "Played 72% of snaps",
-            "Saw 13.8% of targets",
-            "Listed second at WR"
-          ]
-        },
-        {
-          "playerId": "-16016",
-          "espnId": "-16016",
-          "name": "Vikings D/ST",
-          "position": "DEF",
-          "team": "MIN",
-          "injuryStatus": null,
-          "projected": 4.4,
-          "seasonProjected": 120.7,
-          "percentOwned": 13.1,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/min.png",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "16:25",
-            "kickoffISO": "2026-09-13T20:25:00.000Z",
-            "matchup": "vs GB"
+            "matchup": "at NYG"
           },
           "usageSignal": null,
-          "score": 75,
+          "score": 86,
           "reasons": [
-            "Projected 4.4 points, 0.3 below your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "4686728",
-          "espnId": "4686728",
-          "name": "Gunnar Helm",
-          "position": "TE",
-          "team": "TEN",
-          "injuryStatus": null,
-          "projected": 7.5,
-          "seasonProjected": 63.5,
-          "percentOwned": 5.6,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4686728.png",
-          "usage": {
-            "snapPct": 76,
-            "snapTrend": null,
-            "targetShare": 17.9,
-            "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 1,
-            "depthPosition": "TE",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 76% of snaps",
-            "Saw 17.9% of targets",
-            "Listed first on the depth chart at TE"
-          ],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "vs NYJ"
-          },
-          "usageSignal": 114.85,
-          "score": 75,
-          "reasons": [
-            "Projected 7.5 points, 1.3 below your worst TE at 8.8",
-            "Rostered percentage up 0 points today",
-            "Played 76% of snaps",
-            "Saw 17.9% of targets",
-            "Listed first on the depth chart at TE"
+            "Projected 4.9 points, 0.2 above your worst DEF at 4.7",
+            "Rostered percentage down 0.1 points today"
           ]
         },
         {
@@ -8909,8 +8712,8 @@
           "injuryStatus": null,
           "projected": 2.5,
           "seasonProjected": 76.6,
-          "percentOwned": 7.3,
-          "ownershipChange": 0.1,
+          "percentOwned": 7.6,
+          "ownershipChange": 0.3,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
@@ -8926,10 +8729,10 @@
             "matchup": "at LAR"
           },
           "usageSignal": null,
-          "score": 74,
+          "score": 85,
           "reasons": [
             "Projected 2.5 points, 2.2 below your worst DEF at 4.7",
-            "Rostered percentage up 0.1 points today"
+            "Rostered percentage up 0.3 points today"
           ]
         },
         {
@@ -8958,42 +8761,74 @@
             "matchup": "at PIT"
           },
           "usageSignal": null,
-          "score": 74,
+          "score": 85,
           "reasons": [
             "Projected 4 points, 0.7 below your worst DEF at 4.7",
             "Rostered percentage up 0 points today"
           ]
         },
         {
-          "playerId": "-16012",
-          "espnId": "-16012",
-          "name": "Chiefs D/ST",
+          "playerId": "-16016",
+          "espnId": "-16016",
+          "name": "Vikings D/ST",
           "position": "DEF",
-          "team": "KC",
+          "team": "MIN",
           "injuryStatus": null,
-          "projected": 5.3,
-          "seasonProjected": 97,
-          "percentOwned": 35,
+          "projected": 4.4,
+          "seasonProjected": 120.7,
+          "percentOwned": 13,
           "ownershipChange": -0.1,
           "trendAdds": 0,
           "searchRank": null,
           "sleeperId": null,
           "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/min.png",
           "usage": null,
           "usageNotes": [],
           "game": {
-            "weekday": "Monday",
-            "date": "2026-09-14",
-            "kickoff": "20:15",
-            "kickoffISO": "2026-09-15T00:15:00.000Z",
-            "matchup": "vs DEN"
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "16:25",
+            "kickoffISO": "2026-09-13T20:25:00.000Z",
+            "matchup": "vs GB"
           },
           "usageSignal": null,
-          "score": 73,
+          "score": 84,
           "reasons": [
-            "Projected 5.3 points, 0.6 above your worst DEF at 4.7",
+            "Projected 4.4 points, 0.3 below your worst DEF at 4.7",
             "Rostered percentage down 0.1 points today"
+          ]
+        },
+        {
+          "playerId": "-16010",
+          "espnId": "-16010",
+          "name": "Titans D/ST",
+          "position": "DEF",
+          "team": "TEN",
+          "injuryStatus": null,
+          "projected": 6.8,
+          "seasonProjected": 77.9,
+          "percentOwned": 11.3,
+          "ownershipChange": -0.5,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png",
+          "usage": null,
+          "usageNotes": [],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "vs NYJ"
+          },
+          "usageSignal": null,
+          "score": 84,
+          "reasons": [
+            "Projected 6.8 points, 2.1 above your worst DEF at 4.7",
+            "Rostered percentage down 0.5 points today"
           ]
         },
         {
@@ -9005,7 +8840,7 @@
           "injuryStatus": null,
           "projected": 8.4,
           "seasonProjected": 126.1,
-          "percentOwned": 19.8,
+          "percentOwned": 19.7,
           "ownershipChange": -0.1,
           "trendAdds": 0,
           "searchRank": null,
@@ -9037,7 +8872,7 @@
             "matchup": "vs BUF"
           },
           "usageSignal": 115.4,
-          "score": 73,
+          "score": 83,
           "reasons": [
             "Projected 8.4 points, 0.4 below your worst TE at 8.8",
             "Rostered percentage down 0.1 points today",
@@ -9048,32 +8883,76 @@
           ]
         },
         {
-          "playerId": "3116164",
-          "espnId": "3116164",
-          "name": "Mike Gesicki",
-          "position": "TE",
-          "team": "CIN",
+          "playerId": "4569603",
+          "espnId": "4569603",
+          "name": "Malik Washington",
+          "position": "WR",
+          "team": "MIA",
           "injuryStatus": null,
-          "projected": 5.7,
-          "seasonProjected": 115.8,
-          "percentOwned": 1.5,
-          "ownershipChange": 0,
-          "trendAdds": 272324,
+          "projected": 6.2,
+          "seasonProjected": 56,
+          "percentOwned": 7.7,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
           "searchRank": null,
-          "sleeperId": "4993",
-          "news": [
-            {
-              "headline": "Fantasy football free agent pickups: Shough, Black, Coker highlight top options for Week 2",
-              "summary": "Eric Karabell lists who he thinks are the top available players worth adding for the week ahead.",
-              "published": "2026-09-14T19:29:43Z",
-              "url": "https://www.espn.com/fantasy/football/story/_/page/FFWaiverWirePickUp-49939032/fantasy-football-waiver-wire-free-agent-pickups-nfl-week-2"
-            }
-          ],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3116164.png",
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4569603.png",
           "usage": {
-            "snapPct": 33,
+            "snapPct": 98,
             "snapTrend": null,
-            "targetShare": 20.6,
+            "targetShare": 29.6,
+            "targetTrend": null,
+            "passRole": 100,
+            "touchesPerGame": 8,
+            "depthRank": 1,
+            "depthPosition": "WR",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 98% of snaps",
+            "Saw 29.6% of targets",
+            "8 touches a game, mostly through the air",
+            "Listed first on the depth chart at WR"
+          ],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "16:25",
+            "kickoffISO": "2026-09-13T20:25:00.000Z",
+            "matchup": "at LV"
+          },
+          "usageSignal": 143.4,
+          "score": 83,
+          "reasons": [
+            "Projected 6.2 points, 2.8 below your worst WR at 9.0",
+            "Rostered percentage down 0.1 points today",
+            "Played 98% of snaps",
+            "Saw 29.6% of targets",
+            "8 touches a game, mostly through the air",
+            "Listed first on the depth chart at WR"
+          ]
+        },
+        {
+          "playerId": "4243331",
+          "espnId": "4243331",
+          "name": "Cade Otton",
+          "position": "TE",
+          "team": "TB",
+          "injuryStatus": null,
+          "projected": 7.4,
+          "seasonProjected": 138.3,
+          "percentOwned": 2.7,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4243331.png",
+          "usage": {
+            "snapPct": 98,
+            "snapTrend": null,
+            "targetShare": 18.5,
             "targetTrend": null,
             "passRole": null,
             "touchesPerGame": null,
@@ -9082,8 +8961,8 @@
             "stale": false
           },
           "usageNotes": [
-            "Played 33% of snaps",
-            "Saw 20.6% of targets",
+            "Played 98% of snaps",
+            "Saw 18.5% of targets",
             "Listed first on the depth chart at TE"
           ],
           "game": {
@@ -9091,65 +8970,15 @@
             "date": "2026-09-13",
             "kickoff": "13:00",
             "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "vs TB"
+            "matchup": "at CIN"
           },
-          "usageSignal": 97.4,
-          "score": 73,
+          "usageSignal": 126.75,
+          "score": 83,
           "reasons": [
-            "Projected 5.7 points, 3.1 below your worst TE at 8.8",
-            "Added by 272,324 Sleeper managers in the last 24 hours",
-            "Rostered percentage up 0 points today",
-            "Played 33% of snaps",
-            "Saw 20.6% of targets",
-            "Listed first on the depth chart at TE"
-          ]
-        },
-        {
-          "playerId": "4576297",
-          "espnId": "4576297",
-          "name": "AJ Barner",
-          "position": "TE",
-          "team": "SEA",
-          "injuryStatus": null,
-          "projected": 7.2,
-          "seasonProjected": 81.8,
-          "percentOwned": 7,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4576297.png",
-          "usage": {
-            "snapPct": 88,
-            "snapTrend": null,
-            "targetShare": 8.3,
-            "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 1,
-            "depthPosition": "TE",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 88% of snaps",
-            "Saw 8.3% of targets",
-            "Listed first on the depth chart at TE"
-          ],
-          "game": {
-            "weekday": "Wednesday",
-            "date": "2026-09-09",
-            "kickoff": "20:20",
-            "kickoffISO": "2026-09-10T00:20:00.000Z",
-            "matchup": "vs NE"
-          },
-          "usageSignal": 106.45,
-          "score": 72,
-          "reasons": [
-            "Projected 7.2 points, 1.6 below your worst TE at 8.8",
-            "Rostered percentage up 0 points today",
-            "Played 88% of snaps",
-            "Saw 8.3% of targets",
+            "Projected 7.4 points, 1.4 below your worst TE at 8.8",
+            "Rostered percentage down 0.1 points today",
+            "Played 98% of snaps",
+            "Saw 18.5% of targets",
             "Listed first on the depth chart at TE"
           ]
         },
@@ -9179,7 +9008,7 @@
             "matchup": "vs DAL"
           },
           "usageSignal": null,
-          "score": 72,
+          "score": 83,
           "reasons": [
             "Projected 3.5 points, 1.2 below your worst DEF at 4.7",
             "Rostered percentage up 0 points today"
@@ -9211,7 +9040,7 @@
             "matchup": "vs CHI"
           },
           "usageSignal": null,
-          "score": 72,
+          "score": 83,
           "reasons": [
             "Projected 3.5 points, 1.2 below your worst DEF at 4.7",
             "Rostered percentage up 0 points today"
@@ -9243,123 +9072,10 @@
             "matchup": "at PHI"
           },
           "usageSignal": null,
-          "score": 72,
+          "score": 83,
           "reasons": [
             "Projected 3.5 points, 1.2 below your worst DEF at 4.7",
             "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "-16005",
-          "espnId": "-16005",
-          "name": "Browns D/ST",
-          "position": "DEF",
-          "team": "CLE",
-          "injuryStatus": null,
-          "projected": 4.8,
-          "seasonProjected": 68.6,
-          "percentOwned": 52.7,
-          "ownershipChange": -0.1,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "at JAX"
-          },
-          "usageSignal": null,
-          "score": 71,
-          "reasons": [
-            "Projected 4.8 points, 0.1 above your worst DEF at 4.7",
-            "Rostered percentage down 0.1 points today"
-          ]
-        },
-        {
-          "playerId": "-16011",
-          "espnId": "-16011",
-          "name": "Colts D/ST",
-          "position": "DEF",
-          "team": "IND",
-          "injuryStatus": null,
-          "projected": 3,
-          "seasonProjected": 111.5,
-          "percentOwned": 2,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ind.png",
-          "usage": null,
-          "usageNotes": [],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "13:00",
-            "kickoffISO": "2026-09-13T17:00:00.000Z",
-            "matchup": "vs BAL"
-          },
-          "usageSignal": null,
-          "score": 71,
-          "reasons": [
-            "Projected 3 points, 1.7 below your worst DEF at 4.7",
-            "Rostered percentage up 0 points today"
-          ]
-        },
-        {
-          "playerId": "4367209",
-          "espnId": "4367209",
-          "name": "Greg Dulcich",
-          "position": "TE",
-          "team": "MIA",
-          "injuryStatus": null,
-          "projected": 7.1,
-          "seasonProjected": 0,
-          "percentOwned": 3.4,
-          "ownershipChange": 0,
-          "trendAdds": 0,
-          "searchRank": null,
-          "sleeperId": null,
-          "news": [],
-          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4367209.png",
-          "usage": {
-            "snapPct": 77,
-            "snapTrend": null,
-            "targetShare": 7.4,
-            "targetTrend": null,
-            "passRole": null,
-            "touchesPerGame": null,
-            "depthRank": 1,
-            "depthPosition": "TE",
-            "stale": false
-          },
-          "usageNotes": [
-            "Played 77% of snaps",
-            "Saw 7.4% of targets",
-            "Listed first on the depth chart at TE"
-          ],
-          "game": {
-            "weekday": "Sunday",
-            "date": "2026-09-13",
-            "kickoff": "16:25",
-            "kickoffISO": "2026-09-13T20:25:00.000Z",
-            "matchup": "at LV"
-          },
-          "usageSignal": 99.6,
-          "score": 70,
-          "reasons": [
-            "Projected 7.1 points, 1.7 below your worst TE at 8.8",
-            "Rostered percentage up 0 points today",
-            "Played 77% of snaps",
-            "Saw 7.4% of targets",
-            "Listed first on the depth chart at TE"
           ]
         },
         {
@@ -9388,11 +9104,456 @@
             "matchup": "at DET"
           },
           "usageSignal": null,
-          "score": 70,
+          "score": 81,
           "reasons": [
             "Projected 2.8 points, 1.9 below your worst DEF at 4.7",
             "Rostered percentage up 0 points today"
           ]
+        },
+        {
+          "playerId": "-16011",
+          "espnId": "-16011",
+          "name": "Colts D/ST",
+          "position": "DEF",
+          "team": "IND",
+          "injuryStatus": null,
+          "projected": 3,
+          "seasonProjected": 111.5,
+          "percentOwned": 2,
+          "ownershipChange": 0,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/ind.png",
+          "usage": null,
+          "usageNotes": [],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "vs BAL"
+          },
+          "usageSignal": null,
+          "score": 81,
+          "reasons": [
+            "Projected 3 points, 1.7 below your worst DEF at 4.7",
+            "Rostered percentage up 0 points today"
+          ]
+        },
+        {
+          "playerId": "4689114",
+          "espnId": "4689114",
+          "name": "Jaxson Dart",
+          "position": "QB",
+          "team": "NYG",
+          "injuryStatus": null,
+          "projected": 18.5,
+          "seasonProjected": 132.2,
+          "percentOwned": 94,
+          "ownershipChange": 0,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4689114.png",
+          "usage": {
+            "snapPct": 100,
+            "snapTrend": null,
+            "targetShare": 0,
+            "targetTrend": null,
+            "passRole": 0,
+            "touchesPerGame": 11,
+            "depthRank": 1,
+            "depthPosition": "QB",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 100% of snaps",
+            "11 touches a game, almost entirely on handoffs",
+            "Listed first on the depth chart at QB"
+          ],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "20:20",
+            "kickoffISO": "2026-09-14T00:20:00.000Z",
+            "matchup": "vs DAL"
+          },
+          "usageSignal": 100,
+          "score": 80,
+          "reasons": [
+            "Projected 18.5 points, 0.8 below your worst QB at 19.3",
+            "Rostered percentage up 0 points today",
+            "Played 100% of snaps",
+            "11 touches a game, almost entirely on handoffs",
+            "Listed first on the depth chart at QB"
+          ]
+        },
+        {
+          "playerId": "-16005",
+          "espnId": "-16005",
+          "name": "Browns D/ST",
+          "position": "DEF",
+          "team": "CLE",
+          "injuryStatus": null,
+          "projected": 4.8,
+          "seasonProjected": 68.6,
+          "percentOwned": 52.4,
+          "ownershipChange": -0.4,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
+          "usage": null,
+          "usageNotes": [],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "at JAX"
+          },
+          "usageSignal": null,
+          "score": 80,
+          "reasons": [
+            "Projected 4.8 points, 0.1 above your worst DEF at 4.7",
+            "Rostered percentage down 0.4 points today"
+          ]
+        },
+        {
+          "playerId": "4869645",
+          "espnId": "4869645",
+          "name": "Caleb Douglas",
+          "position": "WR",
+          "team": "MIA",
+          "injuryStatus": null,
+          "projected": 7.4,
+          "seasonProjected": 144.5,
+          "percentOwned": 15.6,
+          "ownershipChange": 0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [
+            {
+              "headline": "Fantasy football buzz: Kenneth Walker III gives MVP effort in Chiefs debut",
+              "summary": "The Chiefs deployed new weapon Kenneth Walker III with dazzling results Monday night against the Broncos.",
+              "published": "2026-09-15T13:11:35Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/40699880/fantasy-football-injuries-position-battles-nfl-news-analysis"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4869645.png",
+          "usage": {
+            "snapPct": 91,
+            "snapTrend": null,
+            "targetShare": 25.9,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 2,
+            "depthPosition": "WR",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 91% of snaps",
+            "Saw 25.9% of targets",
+            "Listed second at WR"
+          ],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "16:25",
+            "kickoffISO": "2026-09-13T20:25:00.000Z",
+            "matchup": "at LV"
+          },
+          "usageSignal": 104.35,
+          "score": 80,
+          "reasons": [
+            "Projected 7.4 points, 1.6 below your worst WR at 9.0",
+            "Rostered percentage up 0.1 points today",
+            "Played 91% of snaps",
+            "Saw 25.9% of targets",
+            "Listed second at WR"
+          ]
+        },
+        {
+          "playerId": "4686728",
+          "espnId": "4686728",
+          "name": "Gunnar Helm",
+          "position": "TE",
+          "team": "TEN",
+          "injuryStatus": null,
+          "projected": 7.5,
+          "seasonProjected": 63.5,
+          "percentOwned": 5.5,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4686728.png",
+          "usage": {
+            "snapPct": 76,
+            "snapTrend": null,
+            "targetShare": 17.9,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 76% of snaps",
+            "Saw 17.9% of targets",
+            "Listed first on the depth chart at TE"
+          ],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "vs NYJ"
+          },
+          "usageSignal": 114.85,
+          "score": 80,
+          "reasons": [
+            "Projected 7.5 points, 1.3 below your worst TE at 8.8",
+            "Rostered percentage down 0.1 points today",
+            "Played 76% of snaps",
+            "Saw 17.9% of targets",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "3116164",
+          "espnId": "3116164",
+          "name": "Mike Gesicki",
+          "position": "TE",
+          "team": "CIN",
+          "injuryStatus": null,
+          "projected": 5.7,
+          "seasonProjected": 115.8,
+          "percentOwned": 1.6,
+          "ownershipChange": 0.1,
+          "trendAdds": 367832,
+          "searchRank": null,
+          "sleeperId": "4993",
+          "news": [
+            {
+              "headline": "Rest-of-season rankings: Williams, Dart on the rise while Achane, London fall",
+              "summary": "Need a quick free agent pickup -- or roster overhaul -- after Week 1? These rankings are designed to help.",
+              "published": "2026-09-15T15:54:56Z",
+              "url": "https://www.espn.com/fantasy/football/story/_/id/49949224/fantasy-football-2026-updated-rest-season-rankings"
+            }
+          ],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3116164.png",
+          "usage": {
+            "snapPct": 33,
+            "snapTrend": null,
+            "targetShare": 20.6,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 33% of snaps",
+            "Saw 20.6% of targets",
+            "Listed first on the depth chart at TE"
+          ],
+          "game": {
+            "weekday": "Sunday",
+            "date": "2026-09-13",
+            "kickoff": "13:00",
+            "kickoffISO": "2026-09-13T17:00:00.000Z",
+            "matchup": "vs TB"
+          },
+          "usageSignal": 97.4,
+          "score": 80,
+          "reasons": [
+            "Projected 5.7 points, 3.1 below your worst TE at 8.8",
+            "Added by 367,832 Sleeper managers in the last 24 hours",
+            "Rostered percentage up 0.1 points today",
+            "Played 33% of snaps",
+            "Saw 20.6% of targets",
+            "Listed first on the depth chart at TE"
+          ]
+        },
+        {
+          "playerId": "4576297",
+          "espnId": "4576297",
+          "name": "AJ Barner",
+          "position": "TE",
+          "team": "SEA",
+          "injuryStatus": null,
+          "projected": 7.2,
+          "seasonProjected": 81.8,
+          "percentOwned": 6.9,
+          "ownershipChange": -0.1,
+          "trendAdds": 0,
+          "searchRank": null,
+          "sleeperId": null,
+          "news": [],
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4576297.png",
+          "usage": {
+            "snapPct": 88,
+            "snapTrend": null,
+            "targetShare": 8.3,
+            "targetTrend": null,
+            "passRole": null,
+            "touchesPerGame": null,
+            "depthRank": 1,
+            "depthPosition": "TE",
+            "stale": false
+          },
+          "usageNotes": [
+            "Played 88% of snaps",
+            "Saw 8.3% of targets",
+            "Listed first on the depth chart at TE"
+          ],
+          "game": {
+            "weekday": "Wednesday",
+            "date": "2026-09-09",
+            "kickoff": "20:20",
+            "kickoffISO": "2026-09-10T00:20:00.000Z",
+            "matchup": "vs NE"
+          },
+          "usageSignal": 106.45,
+          "score": 78,
+          "reasons": [
+            "Projected 7.2 points, 1.6 below your worst TE at 8.8",
+            "Rostered percentage down 0.1 points today",
+            "Played 88% of snaps",
+            "Saw 8.3% of targets",
+            "Listed first on the depth chart at TE"
+          ]
+        }
+      ],
+      "consensus": [
+        {
+          "playerId": "3122840",
+          "name": "Deshaun Watson",
+          "position": "QB",
+          "team": "CLE",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3122840.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.05335458409228901
+        },
+        {
+          "playerId": "4360689",
+          "name": "Tyler Shough",
+          "position": "QB",
+          "team": "NO",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4360689.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.08114816700610998
+        },
+        {
+          "playerId": "4697745",
+          "name": "Tyler Loop",
+          "position": "K",
+          "team": "BAL",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4697745.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.0892742453436095
+        },
+        {
+          "playerId": "4689114",
+          "name": "Jaxson Dart",
+          "position": "QB",
+          "team": "NYG",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4689114.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": 80,
+          "modelRank": 20,
+          "firstPosition": 0.25860149767253593
+        },
+        {
+          "playerId": "4696044",
+          "name": "Kaelon Black",
+          "position": "RB",
+          "team": "SF",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/4696044.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.29862525458248473
+        },
+        {
+          "playerId": "3917315",
+          "name": "Kyler Murray",
+          "position": "QB",
+          "team": "MIN",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3917315.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.3267304189435337
+        },
+        {
+          "playerId": "3912547",
+          "name": "Sam Darnold",
+          "position": "QB",
+          "team": "SEA",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3912547.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.3327767658368751
+        },
+        {
+          "playerId": "3052587",
+          "name": "Baker Mayfield",
+          "position": "QB",
+          "team": "TB",
+          "image": "https://a.espncdn.com/i/headshots/nfl/players/full/3052587.png",
+          "sources": [
+            "Yahoo Sports"
+          ],
+          "count": 1,
+          "modelScore": null,
+          "modelRank": null,
+          "firstPosition": 0.3721412669500101
         }
       ]
     }

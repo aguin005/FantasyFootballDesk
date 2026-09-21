@@ -12,6 +12,7 @@ import { headshot } from './lib/images.mjs'
 import { loadSchedule, attachGame } from './lib/schedule.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
 import { fetchSocial } from './lib/social.mjs'
+import { buildFreeAgentPool, collectMentions, consensusForLeague } from './lib/consensus.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
 
@@ -104,6 +105,13 @@ async function main() {
     }
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)
+  }
+
+  // Waiver columns are read once, against the free agents across every league, then
+  // each league keeps only the names it can actually claim.
+  const mentions = await collectMentions(feedItems, buildFreeAgentPool(leagues), week)
+  for (const league of leagues) {
+    league.consensus = consensusForLeague(league, mentions)
     delete league.candidates
   }
 

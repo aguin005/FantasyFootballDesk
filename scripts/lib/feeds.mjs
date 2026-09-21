@@ -13,6 +13,9 @@
 const FEEDS = [
   { name: 'RotoWire', url: 'https://www.rotowire.com/rss/news.php?sport=NFL' },
   { name: 'ESPN', url: 'https://www.espn.com/espn/rss/nfl/news' },
+  { name: 'ESPN Fantasy', url: 'https://www.espn.com/espn/rss/fantasy/news' },
+  { name: 'CBS Fantasy', url: 'https://www.cbssports.com/rss/headlines/fantasy/football/' },
+  { name: 'FantasyPros', url: 'https://www.fantasypros.com/nfl/rss/news.php' },
   { name: 'Yahoo Sports', url: 'https://sports.yahoo.com/nfl/rss.xml' },
   { name: 'CBS Sports', url: 'https://www.cbssports.com/rss/headlines/nfl/' },
   { name: 'Pro Football Talk', url: 'https://profootballtalk.nbcsports.com/feed/' }

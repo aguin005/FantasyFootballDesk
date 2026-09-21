@@ -106,7 +106,7 @@ export default function App() {
             <ScheduleBoard roster={league.roster} timezone={data.timezone} />
           )}
           {view === 'news' && <NewsBoard news={data.news} leagueId={league.id} />}
-          {view === 'waivers' && <WaiverBoard waivers={league.waivers} />}
+          {view === 'waivers' && <WaiverBoard waivers={league.waivers} consensus={league.consensus} />}
           {view === 'trade' && <TradeBoard league={league} />}
         </section>
       )}
