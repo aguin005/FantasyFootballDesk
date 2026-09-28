@@ -1,3 +1,4 @@
+import { timedFetch } from './http.mjs'
 /**
  * Social accounts as a news source.
  *
@@ -54,7 +55,7 @@ export async function fetchSocial(accounts = []) {
 
 async function fetchBluesky(account) {
   const url = `${BLUESKY}?actor=${encodeURIComponent(account.handle)}&limit=50&filter=posts_no_replies`
-  const response = await fetch(url, {
+  const response = await timedFetch(url, {
     headers: { accept: 'application/json', 'user-agent': 'fantasy-dashboard/1.0 (personal use)' }
   })
   if (!response.ok) throw new Error(`HTTP ${response.status}`)
@@ -87,7 +88,7 @@ async function fetchTwitterApi(account) {
   const key = process.env[account.keyEnv || 'TWITTERAPI_KEY']
   if (!key) throw new Error(`${account.keyEnv || 'TWITTERAPI_KEY'} is not set`)
 
-  const response = await fetch(`${TWITTERAPI}?userName=${encodeURIComponent(account.handle)}`, {
+  const response = await timedFetch(`${TWITTERAPI}?userName=${encodeURIComponent(account.handle)}`, {
     headers: { accept: 'application/json', 'X-API-Key': key }
   })
   if (!response.ok) throw new Error(`HTTP ${response.status}`)

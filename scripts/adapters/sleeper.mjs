@@ -38,6 +38,22 @@ export function getLeagueUsers(leagueId) {
 }
 
 /**
+ * This week's head to head pairings. Rosters sharing a matchup_id play each other,
+ * and points update live on game day. A failure only costs the matchup card, so it
+ * resolves to an empty list rather than taking the league down with it.
+ */
+export async function getMatchups(leagueId, week) {
+  try {
+    return await getJSON(`${BASE}/league/${leagueId}/matchups/${week}`, {
+      label: `Sleeper matchups ${leagueId}`
+    })
+  } catch (error) {
+    console.warn(`Sleeper matchups unavailable for ${leagueId}: ${error.message}`)
+    return []
+  }
+}
+
+/**
  * Most added players, used as a "news just broke" signal across every league.
  * It is one waiver signal among four, so a failure here degrades to no trend data
  * rather than taking the whole refresh down with it.
@@ -116,11 +132,12 @@ function pointsFor(stats, key) {
 }
 
 /** Everything the dashboard needs for one Sleeper league, in our normalized shape. */
-export async function loadLeague(leagueId, userId, players, trending, projections, seasonProjections) {
-  const [league, rosters, users] = await Promise.all([
+export async function loadLeague(leagueId, userId, players, trending, projections, seasonProjections, week) {
+  const [league, rosters, users, matchups] = await Promise.all([
     getLeague(leagueId),
     getRosters(leagueId),
-    getLeagueUsers(leagueId)
+    getLeagueUsers(leagueId),
+    getMatchups(leagueId, week)
   ])
 
   const myRoster = rosters.find((roster) => roster.owner_id === userId)
@@ -131,11 +148,23 @@ export async function loadLeague(leagueId, userId, players, trending, projection
   const season = seasonProjections || new Map()
 
   const owner = users.find((user) => user.user_id === userId)
-  const slots = starterSlots(league.roster_positions, myRoster.starters)
-  const reserve = new Set(myRoster.reserve || [])
-  const taxi = new Set(myRoster.taxi || [])
   const rostered = new Set(rosters.flatMap((roster) => roster.players || []))
+  const byRoster = new Map((matchups || []).map((entry) => [entry.roster_id, entry]))
 
+  /** Lineup slot and this week's points for each player on one roster. */
+  const lineupFor = (entry) => {
+    const slots = starterSlots(league.roster_positions, entry.starters)
+    const reserve = new Set(entry.reserve || [])
+    const taxi = new Set(entry.taxi || [])
+    const scored = byRoster.get(entry.roster_id)?.players_points || {}
+    return (playerId) => ({
+      slot: slots.get(playerId) || (reserve.has(playerId) ? 'IR' : taxi.has(playerId) ? 'TAXI' : 'BE'),
+      starter: slots.has(playerId),
+      points: typeof scored[playerId] === 'number' ? Number(scored[playerId].toFixed(2)) : null
+    })
+  }
+
+  const myLineup = lineupFor(myRoster)
   const roster = (myRoster.players || []).map((playerId) => {
     const player = players[playerId] || {}
     return {
@@ -144,8 +173,7 @@ export async function loadLeague(leagueId, userId, players, trending, projection
       name: playerName(player, playerId),
       position: player.position || '',
       team: player.team || 'FA',
-      slot: slots.get(playerId) || (reserve.has(playerId) ? 'IR' : taxi.has(playerId) ? 'TAXI' : 'BE'),
-      starter: slots.has(playerId),
+      ...myLineup(playerId),
       injuryStatus: normalizeInjury(player.injury_status),
       injuryNote: player.injury_body_part || null,
       projected: pointsFor(weekly.get(playerId), key),
@@ -176,10 +204,11 @@ export async function loadLeague(leagueId, userId, players, trending, projection
     })
   }
 
-  // Every roster in the league, which is what the trade tab needs. Sleeper returns
-  // them all in the same call that returns yours.
+  // Every roster in the league, which the trade tab and the matchup both need.
+  // Sleeper returns them all in the same call that returns yours.
   const teams = rosters.map((entry) => {
     const owner = users.find((user) => user.user_id === entry.owner_id)
+    const lineup = lineupFor(entry)
     return {
       teamId: entry.roster_id,
       name: owner?.metadata?.team_name || owner?.display_name || `Roster ${entry.roster_id}`,
@@ -192,6 +221,7 @@ export async function loadLeague(leagueId, userId, players, trending, projection
           name: playerName(player, playerId),
           position: player.position || '',
           team: player.team || 'FA',
+          ...lineup(playerId),
           injuryStatus: normalizeInjury(player.injury_status),
           projected: pointsFor(weekly.get(playerId), key),
           seasonProjected: pointsFor(season.get(playerId), key)
@@ -208,9 +238,35 @@ export async function loadLeague(leagueId, userId, players, trending, projection
     teamName: owner?.metadata?.team_name || owner?.display_name || 'My team',
     record: formatRecord(myRoster.settings?.wins, myRoster.settings?.losses, myRoster.settings?.ties),
     scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
+    matchup: findMatchup(matchups, myRoster.roster_id, week),
     roster,
     candidates
   }
+}
+
+/**
+ * The roster you face this week and both live totals, or null on a bye week, in
+ * the playoffs once you are out, or when the matchups call failed.
+ */
+function findMatchup(matchups, rosterId, week) {
+  const mine = (matchups || []).find((entry) => entry.roster_id === rosterId)
+  if (mine?.matchup_id == null) return null
+  const theirs = matchups.find(
+    (entry) => entry.matchup_id === mine.matchup_id && entry.roster_id !== rosterId
+  )
+  if (!theirs) return null
+  return {
+    week,
+    opponentTeamId: theirs.roster_id,
+    score: totalPoints(mine),
+    opponentScore: totalPoints(theirs)
+  }
+}
+
+/** A commissioner's manual adjustment, when there is one, replaces the computed total. */
+function totalPoints(entry) {
+  const value = entry.custom_points ?? entry.points
+  return typeof value === 'number' ? Number(value.toFixed(2)) : null
 }
 
 const FANTASY_POSITIONS = new Set(['QB', 'RB', 'WR', 'TE', 'K', 'DEF'])

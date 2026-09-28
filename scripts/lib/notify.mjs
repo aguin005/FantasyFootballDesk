@@ -1,3 +1,4 @@
+import { timedFetch } from './http.mjs'
 /**
  * Push notifications through ntfy.sh.
  *
@@ -20,7 +21,7 @@ export async function sendNotifications(changes, topic) {
   for (const entry of worth) {
     const urgent = entry.severity >= 4
     try {
-      const response = await fetch(`https://ntfy.sh/${topic}`, {
+      const response = await timedFetch(`https://ntfy.sh/${topic}`, {
         method: 'POST',
         headers: {
           Title: `${entry.name} is ${entry.injuryStatus}`,

@@ -2,7 +2,13 @@ name: Refresh and deploy dashboard
 
 on:
   schedule:
-    - cron: '0,30 * * * *'
+    # GitHub delays scheduled runs when Actions is busy, and drops some outright.
+    # The busiest moments are the top and bottom of the hour, and on '0,30' this
+    # repo got 5 to 7 of its 48 daily runs, hours apart. Asking four times an hour
+    # on quiet minutes means more runs land, and a dropped one costs 15 minutes.
+    # For a guaranteed schedule, see "Keeping the schedule on time" in the README.
+    - cron: '8,23,38,53 * * * *'
+  # Also the endpoint an external scheduler calls, as described in the README.
   workflow_dispatch:
   push:
     branches: [main]
@@ -19,12 +25,15 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # A normal run takes under a minute. Without a limit, a hung request would hold
+    # the pages concurrency group for GitHub's default of six hours.
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - run: npm ci
@@ -56,6 +65,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

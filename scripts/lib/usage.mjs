@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { parseCSV, toNumber } from './csv.mjs'
+import { timedFetch } from './http.mjs'
 
 const RELEASES = 'https://github.com/nflverse/nflverse-data/releases/download'
 const CACHE_DIR = path.resolve('.cache')
@@ -215,9 +216,12 @@ async function loadCSV(assetPath, label) {
     // No cache yet.
   }
 
-  const response = await fetch(`${RELEASES}/${assetPath}`, {
-    headers: { 'user-agent': 'fantasy-dashboard/1.0 (personal use)' }
-  })
+  // These files run to tens of megabytes, so they get a longer deadline.
+  const response = await timedFetch(
+    `${RELEASES}/${assetPath}`,
+    { headers: { 'user-agent': 'fantasy-dashboard/1.0 (personal use)' } },
+    90 * 1000
+  )
   if (!response.ok) throw new Error(`${label} returned HTTP ${response.status}`)
 
   const text = await response.text()

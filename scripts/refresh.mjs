@@ -63,7 +63,8 @@ async function main() {
           players,
           trending,
           weekly,
-          seasonal
+          seasonal,
+          week
         )
         if (loaded) leagues.push(loaded)
       }
@@ -87,11 +88,13 @@ async function main() {
       attachGame(player, schedule)
     }
 
-    // Other teams only need enough to price a trade, so they skip news and images.
+    // Other teams only need enough to price a trade and follow the matchup, so they
+    // skip news. The game is what tells the matchup which starters have played.
     for (const team of league.teams || []) {
       for (const player of team.roster) {
         player.usage = usage.get(player.espnId) || null
         player.image = headshot(player)
+        attachGame(player, schedule)
       }
     }
 
@@ -179,7 +182,11 @@ function usageSignal(entry) {
   return signal
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exit(1)
-})
+// Exit as soon as the file is written. Idle keep-alive sockets otherwise hold the
+// process open for another ten seconds or so on every run.
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })

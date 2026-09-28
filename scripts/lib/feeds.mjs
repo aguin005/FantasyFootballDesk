@@ -1,3 +1,4 @@
+import { timedFetch } from './http.mjs'
 /**
  * News aggregation.
  *
@@ -30,7 +31,7 @@ export async function fetchFeeds(enabled) {
   const results = await Promise.all(
     active.map(async (feed) => {
       try {
-        const response = await fetch(feed.url, {
+        const response = await timedFetch(feed.url, {
           headers: {
             accept: 'application/rss+xml, application/xml, text/xml',
             'user-agent': 'fantasy-dashboard/1.0 (personal use)'

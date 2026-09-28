@@ -4,6 +4,7 @@ import Portrait from '../components/Portrait.jsx'
 import { Section, LinkButton, PlayerRow, Pill, ScoreRing, EmptyState } from '../components/ui.jsx'
 import { clockTime, formatPoints, localDayKey, shortAgo, timeAgo, signed, plural, weekday } from '../lib/format.js'
 import { slotOf } from '../lib/lineup.js'
+import { MatchupCard } from '../components/Matchup.jsx'
 
 const CHANGE_KINDS = {
   downgrade: { label: 'Injury', tone: 'red' },
@@ -25,16 +26,30 @@ const SCORING = {
 
 /**
  * The first screen. It answers the questions you open the app with, in order:
- * is my lineup safe, what changed since I last looked, and is there anyone worth
- * grabbing. Every block links through to the tab with the full detail.
+ * how is my matchup going, is my lineup safe, what changed since I last looked,
+ * and is there anyone worth grabbing. Every block links through to the detail.
  */
-export default function TodayView({ league, report, changes, news, now, onOpenPlayer, onNavigate }) {
+export default function TodayView({
+  league,
+  report,
+  matchup,
+  changes,
+  news,
+  now,
+  onOpenPlayer,
+  onOpenMatchup,
+  onNavigate
+}) {
   const leagueChanges = changes.filter((entry) => entry.leagueId === league.id)
   const leagueNews = news.filter((item) => item.players.some((player) => player.leagueId === league.id))
 
   return (
     <>
-      <Summary league={league} report={report} now={now} />
+      {matchup ? (
+        <MatchupCard matchup={matchup} league={league} nextKickoff={report.nextKickoff} onOpen={onOpenMatchup} />
+      ) : (
+        <Summary league={league} report={report} now={now} />
+      )}
       <LineupCheck report={report} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
       <Changes entries={leagueChanges} now={now} onOpenPlayer={onOpenPlayer} />
 

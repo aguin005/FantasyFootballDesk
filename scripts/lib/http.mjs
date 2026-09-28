@@ -7,6 +7,15 @@ const PLAIN_UA = 'fantasy-dashboard/1.0 (personal use)'
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
+// Node's fetch has no overall deadline. A server that accepts the connection and
+// then stalls would hold the whole run until the job timeout, and every scheduled
+// run behind it would wait too. Every request in the refresh goes through this.
+const REQUEST_TIMEOUT_MS = 30 * 1000
+
+export function timedFetch(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
+  return fetch(url, { signal: AbortSignal.timeout(timeoutMs), ...options })
+}
+
 export class AuthError extends Error {}
 export class BlockedError extends Error {}
 
@@ -25,7 +34,7 @@ export async function getJSON(url, options = {}) {
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      const response = await fetch(url, {
+      const response = await timedFetch(url, {
         headers: { accept: 'application/json', 'user-agent': userAgent, ...headers }
       })
 

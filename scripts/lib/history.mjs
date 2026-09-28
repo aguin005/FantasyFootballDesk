@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { timedFetch } from './http.mjs'
 
 const LOCAL = path.resolve('web/public/data/dashboard.json')
 const CARRY_FORWARD_MS = 24 * 60 * 60 * 1000
@@ -29,7 +30,7 @@ export async function loadPrevious(siteUrl) {
   if (!url) return null
 
   try {
-    const response = await fetch(`${url}data/dashboard.json?t=${Date.now()}`)
+    const response = await timedFetch(`${url}data/dashboard.json?t=${Date.now()}`)
     if (!response.ok) return null
     console.log(`Comparing against the copy already published at ${url}`)
     return await response.json()
@@ -48,8 +49,8 @@ function deployedUrl() {
 /**
  * What changed since the previous run.
  *
- * Changes younger than a day are carried forward, because a refresh every 30
- * minutes would otherwise wipe the strip clean before you ever looked at it. The
+ * Changes younger than a day are carried forward, because a refresh every 15
+ * minutes would otherwise wipe the list clean before you ever looked at it. The
  * point is what changed since you last looked, and this script has no idea when
  * that was.
  */
