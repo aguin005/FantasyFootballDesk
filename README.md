@@ -129,7 +129,9 @@ After that it refreshes every 30 minutes on its own.
 ## Step 9. Put it on your phone
 
 Open the URL in Safari or Chrome on your phone, then Add to Home Screen. The manifest makes it open
-full screen without browser chrome.
+full screen without browser chrome, and a service worker keeps the last copy of your data so it
+still opens with no signal. Pull down from the top of any screen to fetch the newest data, the same
+gesture as any iOS list.
 
 ## How the pieces fit
 
@@ -142,7 +144,12 @@ scripts/
   lib/news.mjs           ESPN news and injury feeds
   lib/waivers.mjs        the ranking model
   lib/http.mjs           fetch with retries
-web/                     Vite and React dashboard
+web/src/
+  App.jsx                the shell: nav bar, tab bar, league switcher, player sheet
+  views/                 one file per tab
+  lib/lineup.js          start and sit, lineup alerts, game states, all of it pure logic
+  styles.css             the design system, including the Liquid Glass material
+web/public/sw.js         offline support for the installed app
 .github/workflows/       the scheduled job
 ```
 
@@ -180,7 +187,8 @@ him would actually change your lineup. Tune the weights in `leagues.config.json`
 
 ## What changed, rather than what is true
 
-The top strip answers one question: what is different since you last looked. Each run is diffed
+The What changed section on the Today tab answers one question: what is different since you last
+looked. Each run is diffed
 against the previous one and reports injury status changes, new stories, roster adds and drops, and
 players climbing into the top of the waiver board.
 
@@ -188,8 +196,9 @@ Finding the previous run needs no database. Locally the last `dashboard.json` is
 Actions the checkout is clean, so the script fetches the copy already deployed to your Pages URL,
 which it works out from `GITHUB_REPOSITORY`. Nothing is committed back to the repo.
 
-Changes stay on the board for 24 hours. A refresh every 30 minutes would otherwise clear the strip
-long before you opened it, and the script has no way to know when you last looked.
+Changes stay on the board for 24 hours. A refresh every 30 minutes would otherwise clear the list
+long before you opened it, and the script has no way to know when you last looked. New changes in a
+league you are not looking at show as a red count on that league's chip.
 
 ## Push notifications
 
@@ -238,21 +247,35 @@ No images are downloaded or stored. The JSON holds URLs and the browser fetches 
 
 ## The tabs
 
-**Lineup** is your roster with news, injury designations, and role notes.
+Tap any player anywhere to open their sheet: projections, this week's game, injury detail, role
+notes, why the waiver model likes them, which outlets named them, and every story that mentions
+them.
 
-**Start / sit** compares every starter against the bench players who could legally replace them,
-same position, or any of RB, WR, and TE when the starter sits in a flex slot. Only swaps worth at
-least a point are shown, since projections are not precise enough for anything tighter to mean
-much. Starters who are hurt or on bye are surfaced regardless of the gap.
+**Today** is the first screen, and it answers what you open the app to find out. A summary card
+totals your starters' projections and shows how many have played, are playing, and are still to
+play. The lineup check flags starters who are out, doubtful, or on bye along with who to start
+instead, and questionable starters with their backup. Below that are the last day's changes, the
+top three pickups, and the latest news.
 
-**Schedule** groups your roster by the day their NFL team kicks off, using nflverse `games.csv`, so
-you can see how much of your lineup is still to play. Byes get their own group, and a starter on bye
-is flagged.
+**Lineup** has three views.
+
+- *Roster* is your starters, bench, and reserve, with injury designations and a dot on anyone with
+  fresh news.
+- *Start / sit* compares every open slot against the bench players who could legally fill it: same
+  position, RB, WR, or TE for a flex, and any of those plus QB for a superflex. Swaps are chosen
+  for the whole lineup at once, so one bench player is never offered for two slots and the single
+  biggest gain never blocks a better combination. Only upgrades worth at least a point are shown,
+  since projections are not precise enough for anything tighter to mean much. Starters who are out,
+  doubtful, or on bye are surfaced regardless of the gap. Anyone whose game has kicked off is
+  locked on both platforms, so those slots are left alone.
+- *Schedule* groups your roster by the day their NFL team kicks off, using nflverse `games.csv`,
+  with each game marked live or played once it starts. Byes get their own group, and a starter on
+  bye is flagged.
 
 **News** collects stories from several outlets and keeps only the ones that name a player on your
-roster. Sources are RotoWire, ESPN, Yahoo, CBS Sports, and Pro Football Talk, listed in
-`newsFeeds` in the config so you can drop any of them. Underdog has no public feed, their player
-notes are app only.
+roster, with a filter for starters only. Sources are RotoWire, ESPN, Yahoo, CBS Sports, and Pro
+Football Talk, listed in `newsFeeds` in the config so you can drop any of them. Underdog has no
+public feed, their player notes are app only.
 
 ESPN's JSON feed tags articles with athlete ids, which is exact. Everything else is RSS with no ids,
 so those are matched by name. Matching requires the full name, since a surname alone produces
@@ -260,16 +283,40 @@ constant false positives, and it indexes a suffix free variant because headlines
 Harrison" where your roster says "Marvin Harrison Jr.". Anything not about your players is dropped
 during the refresh, so it never reaches the browser.
 
-**Waivers** is the ranked free agent board.
+**Waivers** is the ranked free agent board, filterable by position, with what the waiver columns are
+recommending above it and where your own model ranks the same players.
 
-**Trade** appears on ESPN leagues only. ESPN returns every team's roster in the same call that
-returns yours, so pricing a trade needs no extra requests. Sleeper does not publish projections, so
-there is nothing to price against there.
+**Trade** appears whenever a league returns every team's roster, which both platforms do in the same
+call that returns yours, so pricing a trade needs no extra requests. Pick a trading partner, tick
+players on both sides, and a floating summary shows each side's total and the net.
 
-Trade math runs on rest of season projections, which ESPN files under `scoringPeriodId: 0` rather
-than a week number. The number shown is the change in projected points for each side. It does not
-try to price positional scarcity or roster construction, because one confident number would be more
-misleading than a rough one you interpret yourself.
+Trade math runs on season projections: ESPN files them under `scoringPeriodId: 0` rather than a week
+number, and Sleeper's come from the same projections host as its weekly numbers. The number shown
+is the change in projected points for your side. It does not try to price positional scarcity or
+roster construction, because one confident number would be more misleading than a rough one you
+interpret yourself.
+
+## Design
+
+The dashboard follows Apple's platform conventions so it feels at home on an iPhone: the system
+font, iOS system colors, grouped inset lists, a large title that collapses into the nav bar as you
+scroll, and sheets you can drag down to dismiss. It follows the device's light or dark appearance,
+and on an iPad or a desktop the tab bar turns into a sidebar.
+
+Everything that floats above the content uses Liquid Glass, Apple's material from iOS 26: the tab
+bar, the nav buttons, the player sheet, and the trade summary. On the web it is built from three
+layers. A translucent tint with a heavy backdrop blur and saturation boost is the body, a gradient
+rim that is brighter where light would catch the edges gives it thickness, and a soft sheen across
+the top reads as a curved surface. The tab bar's selection lens slides between tabs on a spring,
+which is the material's signature motion.
+
+Glass is kept to the navigation layer on purpose, the way Apple uses it. Content sits on solid cards
+because text on glass is harder to read. The glass turns solid under Reduce Transparency, motion
+stops under Reduce Motion, borders strengthen under Increase Contrast, and browsers without
+`backdrop-filter` get an opaque fallback.
+
+Kickoff times and "updated" times are shown in your device's time zone, so they stay right when you
+travel.
 
 ## A note on route participation
 

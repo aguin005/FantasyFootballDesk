@@ -1,0 +1,177 @@
+import { useEffect, useState } from 'react'
+import Sheet from './Sheet.jsx'
+import Portrait from './Portrait.jsx'
+import Icon from './Icon.jsx'
+import { InjuryPill, SlotPill } from './ui.jsx'
+import { gameState, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
+import { clockTime, formatPoints, timeAgo, weekday } from '../lib/format.js'
+
+/**
+ * Everything known about one player, in one place. The rows in every list stay
+ * short because the detail lives here: role notes, the waiver model's reasons,
+ * which outlets named them, and every story that mentions them.
+ */
+export default function PlayerSheet({ player, news, onClose, now }) {
+  // Keep showing the last player while the sheet animates closed.
+  const [shown, setShown] = useState(player)
+  useEffect(() => {
+    if (player) setShown(player)
+  }, [player])
+
+  return (
+    <Sheet open={Boolean(player)} onClose={onClose} labelledBy="player-sheet-title">
+      {shown && <PlayerDetail player={shown} news={news} now={now} />}
+    </Sheet>
+  )
+}
+
+function PlayerDetail({ player, news, now }) {
+  const stories = storiesFor(player, news)
+  const espnPage = /^\d+$/.test(String(player.espnId || '')) ? `https://www.espn.com/nfl/player/_/id/${player.espnId}` : null
+  const level = injuryLevel(player.injuryStatus)
+
+  const stats = [
+    player.projected != null && ['This week', formatPoints(player.projected), 'pts'],
+    player.seasonProjected != null && ['Season', formatPoints(player.seasonProjected, 0), 'pts'],
+    player.score != null && ['Waiver score', player.score, '/100'],
+    player.percentOwned != null && ['Rostered', `${formatPoints(player.percentOwned)}%`],
+    player.trendAdds > 0 && ['Adds, 24h', player.trendAdds.toLocaleString()],
+    player.count != null && ['Outlets', player.count]
+  ].filter(Boolean)
+
+  return (
+    <>
+      <header className="player-head">
+        <Portrait player={player} size="lg" />
+        <div>
+          <h2 id="player-sheet-title">{player.name}</h2>
+          <div className="player-sub">
+            <SlotPill label={player.position || '?'} position={player.position} />
+            <span>{player.team}</span>
+            <InjuryPill status={player.injuryStatus} long />
+          </div>
+        </div>
+      </header>
+
+      {stats.length > 0 && (
+        <div className="stat-grid">
+          {stats.map(([label, value, unit]) => (
+            <div className="stat" key={label}>
+              <span className="stat-label">{label}</span>
+              <span className="stat-value">
+                {value}
+                {unit && <small>{unit}</small>}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="card">
+        <ul className="facts">
+          <li>
+            <Icon name="calendar" />
+            <span>{gameLine(player, now)}</span>
+          </li>
+          <li>
+            <Icon name="lineup" />
+            <span>{rosterLine(player)}</span>
+          </li>
+          {player.injuryStatus && (
+            <li style={{ '--fact-tone': level >= 3 ? 'var(--red)' : 'var(--orange)' }}>
+              <Icon name="alert" />
+              <span>
+                {injuryLabel(player.injuryStatus)}
+                {player.injuryNote ? `, ${player.injuryNote}` : ''}
+              </span>
+            </li>
+          )}
+        </ul>
+      </div>
+
+      {player.reasons?.length > 0 && (
+        <FactSection title="Why the model likes this pickup" icon="sparkles" tone="var(--purple)" items={player.reasons} />
+      )}
+
+      {player.usageNotes?.length > 0 && !player.reasons?.length && (
+        <FactSection title="Role" icon="chart" tone="var(--mint)" items={player.usageNotes} />
+      )}
+
+      {player.sources?.length > 0 && (
+        <FactSection
+          title="Named in waiver columns by"
+          icon="news"
+          tone="var(--blue)"
+          items={[player.sources.join(', ')]}
+        />
+      )}
+
+      {stories.length > 0 && (
+        <div className="sheet-section">
+          <h3>News</h3>
+          <div className="card">
+            <ul className="list">
+              {stories.slice(0, 6).map((story) => (
+                <li key={story.url || story.headline}>
+                  <a className="story-link" href={story.url || undefined} target="_blank" rel="noreferrer">
+                    <span className="story-meta">
+                      {story.source || 'ESPN'}
+                      {story.published ? ` · ${timeAgo(story.published, now)}` : ''}
+                    </span>
+                    <span className="story-title">{story.headline}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {espnPage && (
+        <div className="sheet-actions">
+          <a className="btn btn-quiet press" href={espnPage} target="_blank" rel="noreferrer">
+            Player page on ESPN
+            <Icon name="external" strokeWidth={2.4} />
+          </a>
+        </div>
+      )}
+    </>
+  )
+}
+
+function FactSection({ title, icon, tone, items }) {
+  return (
+    <div className="sheet-section">
+      <h3>{title}</h3>
+      <div className="card">
+        <ul className="facts" style={{ '--fact-tone': tone }}>
+          {items.map((item) => (
+            <li key={item}>
+              <Icon name={icon} />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+function gameLine(player, now) {
+  const { game } = player
+  if (!game) return 'No game this week'
+  const state = gameState(player, now)
+  if (state === 'live') return `${game.matchup}, in progress`
+  if (state === 'played') return `${game.matchup}, already played`
+  if (!game.kickoffISO) return `${game.matchup}, ${game.weekday || 'time to be announced'}`
+  return `${game.matchup}, ${weekday(game.kickoffISO)} at ${clockTime(game.kickoffISO)}`
+}
+
+function rosterLine(player) {
+  if (player.ownerName) return `On ${player.ownerName}`
+  if (player.starter) return `Starting at ${slotOf(player)}`
+  if (player.slot === 'IR') return 'On your injured reserve'
+  if (player.slot === 'TAXI') return 'On your taxi squad'
+  if (player.slot === 'BE' || player.context === 'roster') return 'On your bench'
+  return 'Free agent in this league'
+}
