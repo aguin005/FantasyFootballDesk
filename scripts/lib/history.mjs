@@ -13,6 +13,10 @@ const rank = (status) => (status ? SEVERITY[status] ?? 1 : 0)
  * Locally that file is still sitting on disk from last time. In Actions the
  * checkout is clean, so the previously deployed copy is fetched from the live site
  * instead. Nothing needs committing back to the repo either way.
+ *
+ * The file is gitignored because of this. A committed copy would be on disk in the
+ * Actions checkout too, and every run would diff against that frozen snapshot
+ * rather than the run before it.
  */
 export async function loadPrevious(siteUrl) {
   try {

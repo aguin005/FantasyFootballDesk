@@ -194,7 +194,9 @@ players climbing into the top of the waiver board.
 
 Finding the previous run needs no database. Locally the last `dashboard.json` is still on disk. In
 Actions the checkout is clean, so the script fetches the copy already deployed to your Pages URL,
-which it works out from `GITHUB_REPOSITORY`. Nothing is committed back to the repo.
+which it works out from `GITHUB_REPOSITORY`. Nothing is committed back to the repo, and
+`dashboard.json` is gitignored so a stale copy can never end up in the checkout and pose as the
+previous run.
 
 Changes stay on the board for 24 hours. A refresh every 30 minutes would otherwise clear the list
 long before you opened it, and the script has no way to know when you last looked. New changes in a

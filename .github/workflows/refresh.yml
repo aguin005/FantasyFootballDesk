@@ -43,6 +43,8 @@ jobs:
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           SWID: ${{ secrets.SWID }}
+          # Optional. Empty when the secret is not set, which turns notifications off.
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: npm run refresh
 
       - run: npm run build
