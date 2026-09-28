@@ -4,8 +4,12 @@ const BASE = 'https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons'
 
 // ESPN speaks in numeric ids for almost everything.
 const POSITIONS = { 1: 'QB', 2: 'RB', 3: 'WR', 4: 'TE', 5: 'K', 16: 'DEF' }
+// Anything missing here falls through to bench, so every offensive slot a league
+// can configure needs an entry. Leaving out 7 (OP, ESPN's superflex) marked those
+// starters as bench players.
 const LINEUP_SLOTS = {
-  0: 'QB', 2: 'RB', 4: 'WR', 6: 'TE', 16: 'DEF', 17: 'K', 20: 'BE', 21: 'IR', 23: 'FLEX'
+  0: 'QB', 2: 'RB', 3: 'RB/WR', 4: 'WR', 5: 'WR/TE', 6: 'TE', 7: 'OP', 16: 'DEF', 17: 'K',
+  20: 'BE', 21: 'IR', 23: 'FLEX'
 }
 const PRO_TEAMS = {
   0: 'FA', 1: 'ATL', 2: 'BUF', 3: 'CHI', 4: 'CIN', 5: 'CLE', 6: 'DAL', 7: 'DEN', 8: 'DET',
@@ -181,7 +185,7 @@ export async function loadLeague(config, season, week) {
     platform: 'espn',
     name: label || league.settings?.name || `League ${leagueId}`,
     teamName: teamName(team),
-    record: `${team.record?.overall?.wins ?? 0}-${team.record?.overall?.losses ?? 0}`,
+    record: formatRecord(team.record?.overall),
     scoring: league.settings?.scoringSettings?.scoringType || 'See ESPN settings',
     roster,
     candidates
@@ -190,6 +194,11 @@ export async function loadLeague(config, season, week) {
 
 function teamName(team) {
   return team.name || `${team.location ?? ''} ${team.nickname ?? ''}`.trim() || `Team ${team.id}`
+}
+
+function formatRecord(overall = {}) {
+  const base = `${overall.wins ?? 0}-${overall.losses ?? 0}`
+  return overall.ties ? `${base}-${overall.ties}` : base
 }
 
 function round(value) {
