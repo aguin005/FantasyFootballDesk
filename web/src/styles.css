@@ -1724,6 +1724,285 @@ a.row:active {
   color: var(--label-2);
 }
 
+/* Matchup. The two sides mirror each other across the card, your team on the
+   left in the tint color, and the bar splits by projected points. */
+
+.matchup {
+  display: block;
+  width: 100%;
+  padding: 16px 18px 14px;
+  border: 0;
+  text-align: left;
+  color: inherit;
+  background:
+    radial-gradient(90% 120% at 0% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+    var(--card);
+}
+
+.matchup-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--label-2);
+}
+
+.matchup-top > span:first-child {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.matchup-sides {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.matchup-side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.matchup-side.is-end {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.matchup-name {
+  max-width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.matchup-score {
+  font-family: var(--font-rounded);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.matchup-side.is-behind .matchup-score {
+  color: var(--label-2);
+}
+
+.matchup-sub {
+  font-size: 13px;
+  color: var(--label-2);
+  white-space: nowrap;
+}
+
+.matchup-vs {
+  padding-bottom: 28px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-3);
+}
+
+.matchup-bar {
+  display: flex;
+  gap: 3px;
+  height: 8px;
+  margin-top: 14px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.matchup-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  transition: flex-grow 0.8s var(--ease);
+}
+
+.matchup-bar .is-me {
+  background: var(--tint);
+}
+
+.matchup-bar .is-them {
+  background: var(--label-3);
+}
+
+.matchup-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.matchup-foot .is-up,
+.h2h-margin.is-up {
+  color: var(--green-ink);
+}
+
+.matchup-foot .is-down,
+.h2h-margin.is-down {
+  color: var(--red-ink);
+}
+
+.matchup-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  font-weight: 500;
+  color: var(--tint-ink);
+}
+
+.matchup-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.matchup-next {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.sheet-title {
+  margin: 4px 40px 14px 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.h2h-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.h2h-team {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.h2h-team.is-end {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.h2h-total {
+  font-family: var(--font-rounded);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.h2h-margin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 4px;
+  font-family: var(--font-rounded);
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.h2h-margin small {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--label-2);
+}
+
+.h2h-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.h2h-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+}
+
+.h2h-list li + li {
+  box-shadow: inset 0 0.5px 0 var(--separator);
+}
+
+.h2h-player {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.h2h-player.is-end {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.h2h-player.is-empty {
+  font-size: 13px;
+  color: var(--label-3);
+}
+
+.h2h-name {
+  max-width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.h2h-meta {
+  font-size: 12px;
+  color: var(--label-2);
+  white-space: nowrap;
+}
+
+.h2h-points {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.h2h-player.is-end .h2h-points {
+  flex-direction: row-reverse;
+}
+
+.h2h-score {
+  font-family: var(--font-rounded);
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.h2h-proj {
+  font-size: 12px;
+  color: var(--label-2);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Start and sit */
 
 .swap {

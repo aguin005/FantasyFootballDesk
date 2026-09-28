@@ -57,6 +57,24 @@ export function getLeague(season, leagueId) {
 }
 
 /**
+ * The season's head to head schedule with live totals for the current week. Kept
+ * out of getLeague on purpose: a failure here only costs the matchup card, while
+ * a failure in the main call would lose the whole league.
+ */
+export async function getMatchups(season, leagueId, week) {
+  try {
+    return await getJSON(leagueUrl(season, leagueId, `view=mMatchupScore&scoringPeriodId=${week}`), {
+      headers: cookieHeader(),
+      label: `ESPN matchups ${leagueId}`,
+      authenticated: true
+    })
+  } catch (error) {
+    console.warn(`ESPN matchups unavailable for ${leagueId}: ${error.message}`)
+    return null
+  }
+}
+
+/**
  * Free agents and waiver players. The filter goes in a header rather than the
  * query string, which is the part of ESPN's API nobody would guess.
  */
@@ -88,6 +106,33 @@ function projectedPoints(player, week) {
   return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
 }
 
+/** Points actually scored this week sit beside it under statSourceId 0. */
+function actualPoints(player, week) {
+  const entry = (player.stats || []).find(
+    (stat) => stat.statSourceId === 0 && stat.scoringPeriodId === week
+  )
+  return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(2)) : null
+}
+
+/** One roster entry in the normalized shape, lineup slot and this week's points included. */
+function rosterPlayer(entry, week) {
+  const player = entry.playerPoolEntry?.player || {}
+  const slot = LINEUP_SLOTS[entry.lineupSlotId] || 'BE'
+  return {
+    playerId: String(player.id),
+    espnId: String(player.id),
+    name: player.fullName || 'Unknown player',
+    position: POSITIONS[player.defaultPositionId] || '',
+    team: PRO_TEAMS[player.proTeamId] || 'FA',
+    slot,
+    starter: slot !== 'BE' && slot !== 'IR',
+    injuryStatus: normalizeInjury(player.injuryStatus),
+    projected: projectedPoints(player, week),
+    points: actualPoints(player, week),
+    seasonProjected: seasonProjection(player)
+  }
+}
+
 /**
  * Rest of season projection, which is what trade evaluation needs. ESPN files the
  * full season total under scoringPeriodId 0 rather than a week number.
@@ -107,9 +152,10 @@ function normalizeInjury(status) {
 
 export async function loadLeague(config, season, week) {
   const { leagueId, teamId, label } = config
-  const [league, freeAgentData] = await Promise.all([
+  const [league, freeAgentData, matchupData] = await Promise.all([
     getLeague(season, leagueId),
-    getFreeAgents(season, leagueId, week)
+    getFreeAgents(season, leagueId, week),
+    getMatchups(season, leagueId, week)
   ])
 
   const team = league.teams?.find((entry) => entry.id === Number(teamId))
@@ -120,23 +166,10 @@ export async function loadLeague(config, season, week) {
     )
   }
 
-  const roster = (team.roster?.entries || []).map((entry) => {
-    const player = entry.playerPoolEntry?.player || {}
-    const slot = LINEUP_SLOTS[entry.lineupSlotId] || 'BE'
-    return {
-      playerId: String(player.id),
-      espnId: String(player.id),
-      name: player.fullName || 'Unknown player',
-      position: POSITIONS[player.defaultPositionId] || '',
-      team: PRO_TEAMS[player.proTeamId] || 'FA',
-      slot,
-      starter: slot !== 'BE' && slot !== 'IR',
-      injuryStatus: normalizeInjury(player.injuryStatus),
-      injuryNote: null,
-      projected: projectedPoints(player, week),
-      seasonProjected: seasonProjection(player)
-    }
-  })
+  const roster = (team.roster?.entries || []).map((entry) => ({
+    ...rosterPlayer(entry, week),
+    injuryNote: null
+  }))
 
   const candidates = (freeAgentData.players || []).map((entry) => {
     const player = entry.player || {}
@@ -157,25 +190,13 @@ export async function loadLeague(config, season, week) {
   })
 
   // Every team's roster comes back in the same response, which is what makes trade
-  // evaluation possible without any extra calls.
+  // evaluation and the matchup possible without any extra calls.
   const teams = (league.teams || []).map((entry) => ({
     teamId: entry.id,
     name: teamName(entry),
     isMine: entry.id === Number(teamId),
     roster: (entry.roster?.entries || [])
-      .map((slot) => {
-        const player = slot.playerPoolEntry?.player || {}
-        return {
-          playerId: String(player.id),
-          espnId: String(player.id),
-          name: player.fullName || 'Unknown player',
-          position: POSITIONS[player.defaultPositionId] || '',
-          team: PRO_TEAMS[player.proTeamId] || 'FA',
-          injuryStatus: normalizeInjury(player.injuryStatus),
-          projected: projectedPoints(player, week),
-          seasonProjected: seasonProjection(player)
-        }
-      })
+      .map((slot) => rosterPlayer(slot, week))
       .filter((player) => player.position)
   }))
 
@@ -187,9 +208,49 @@ export async function loadLeague(config, season, week) {
     teamName: teamName(team),
     record: formatRecord(team.record?.overall),
     scoring: league.settings?.scoringSettings?.scoringType || 'See ESPN settings',
+    matchup: findMatchup(matchupData?.schedule, team.id, matchupPeriodFor(league.settings, week), week),
     roster,
     candidates
   }
+}
+
+/**
+ * ESPN schedules by matchup period, not by week. They line up one to one in the
+ * regular season, but a playoff round can span two weeks, and the settings carry
+ * the map between them.
+ */
+function matchupPeriodFor(settings, week) {
+  const periods = settings?.scheduleSettings?.matchupPeriods || {}
+  for (const [period, weeks] of Object.entries(periods)) {
+    if (Array.isArray(weeks) && weeks.includes(week)) return Number(period)
+  }
+  return week
+}
+
+/**
+ * The team you face this period and both live totals. Null on a bye, which in the
+ * playoffs shows up as a matchup with no away side, or when the call failed.
+ */
+function findMatchup(schedule, teamId, period, week) {
+  const game = (schedule || []).find(
+    (entry) =>
+      entry.matchupPeriodId === period &&
+      (entry.home?.teamId === teamId || entry.away?.teamId === teamId)
+  )
+  if (!game?.home || !game?.away) return null
+  const [mine, theirs] = game.home.teamId === teamId ? [game.home, game.away] : [game.away, game.home]
+  return {
+    week,
+    opponentTeamId: theirs.teamId,
+    score: sideTotal(mine),
+    opponentScore: sideTotal(theirs)
+  }
+}
+
+/** The live total while games are on, the settled total otherwise. */
+function sideTotal(side) {
+  const value = side.totalPointsLive ?? side.totalPoints
+  return typeof value === 'number' ? Number(value.toFixed(2)) : null
 }
 
 function teamName(team) {

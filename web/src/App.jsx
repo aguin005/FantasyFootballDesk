@@ -3,6 +3,7 @@ import NavBar from './components/NavBar.jsx'
 import TabBar from './components/TabBar.jsx'
 import LeagueSwitcher from './components/LeagueSwitcher.jsx'
 import PlayerSheet from './components/PlayerSheet.jsx'
+import { MatchupSheet } from './components/Matchup.jsx'
 import Icon from './components/Icon.jsx'
 import { EmptyState, Notice } from './components/ui.jsx'
 import TodayView from './views/TodayView.jsx'
@@ -15,6 +16,7 @@ import { usePullToRefresh } from './lib/usePullToRefresh.js'
 import { useNow, useOnline, useScrolled } from './lib/hooks.js'
 import { useSetting } from './lib/storage.js'
 import { lineupReport, resolvePlayer } from './lib/lineup.js'
+import { matchupReport } from './lib/matchup.js'
 import { ageMs, longAgo, updatedLabel } from './lib/format.js'
 
 const TABS = {
@@ -40,6 +42,7 @@ export default function App() {
   const [segment, setSegment] = useSetting('lineup-view', 'roster')
   const [position, setPosition] = useState('ALL')
   const [sheetPlayer, setSheetPlayer] = useState(null)
+  const [matchupOpen, setMatchupOpen] = useState(false)
   const [toast, setToast] = useState(null)
   const [pulling, setPulling] = useState(false)
   const now = useNow()
@@ -49,6 +52,7 @@ export default function App() {
   const leagues = data?.leagues || []
   const league = leagues.find((entry) => entry.id === leagueId) || leagues[0] || null
   const report = useMemo(() => (league ? lineupReport(league.roster, now) : null), [league, now])
+  const matchup = useMemo(() => matchupReport(league, data?.generatedAt, now), [league, data, now])
 
   const tabs = useMemo(() => {
     if (!league) return []
@@ -72,7 +76,7 @@ export default function App() {
   const pull = usePullToRefresh(() => {
     setPulling(true)
     refresh().finally(() => setPulling(false))
-  }, Boolean(data) && !sheetPlayer)
+  }, Boolean(data) && !sheetPlayer && !matchupOpen)
 
   const selectTab = useCallback(
     (key) => {
@@ -98,6 +102,7 @@ export default function App() {
 
   const openPlayer = useCallback((player) => setSheetPlayer(resolvePlayer(league, player)), [league])
   const closePlayer = useCallback(() => setSheetPlayer(null), [])
+  const closeMatchup = useCallback(() => setMatchupOpen(false), [])
 
   useEffect(() => {
     if (!toast) return undefined
@@ -108,14 +113,14 @@ export default function App() {
   // Number keys switch tabs on a keyboard, the way Command and a number does on a Mac.
   useEffect(() => {
     const onKey = (event) => {
-      if (sheetPlayer || event.metaKey || event.ctrlKey || event.altKey) return
+      if (sheetPlayer || matchupOpen || event.metaKey || event.ctrlKey || event.altKey) return
       if (/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName)) return
       const index = Number(event.key) - 1
       if (index >= 0 && index < tabs.length) selectTab(tabs[index].key)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [tabs, selectTab, sheetPlayer])
+  }, [tabs, selectTab, sheetPlayer, matchupOpen])
 
   if (!data) return <Splash error={error} refreshing={refreshing} onRetry={reload} />
 
@@ -137,7 +142,7 @@ export default function App() {
   const stale = age > LATE_AFTER_MS
   const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
-  const sheetOpen = Boolean(sheetPlayer)
+  const sheetOpen = Boolean(sheetPlayer) || matchupOpen
 
   return (
     <div className="app" data-platform={league.platform}>
@@ -199,10 +204,12 @@ export default function App() {
             <TodayView
               league={league}
               report={report}
+              matchup={matchup}
               changes={data.changes || []}
               news={data.news || []}
               now={now}
               onOpenPlayer={openPlayer}
+              onOpenMatchup={() => setMatchupOpen(true)}
               onNavigate={navigate}
             />
           )}
@@ -230,6 +237,7 @@ export default function App() {
       <TabBar tabs={tabs} active={activeTab} onChange={selectTab} inert={sheetOpen} />
 
       <PlayerSheet player={sheetPlayer} news={data.news || []} onClose={closePlayer} now={now} />
+      <MatchupSheet open={matchupOpen} matchup={matchup} now={now} onClose={closeMatchup} />
 
       {toast && (
         <div key={toast.id} className="toast glass" role="status">

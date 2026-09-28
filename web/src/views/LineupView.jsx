@@ -63,7 +63,7 @@ function Roster({ report, now, onOpenPlayer }) {
                   lead={<SlotPill label={slotLabel(player)} position={player.position} />}
                   sub={[player.team, matchupText(player, now)].join(' · ')}
                   note={player.injuryNote || null}
-                  trail={<Points value={player.projected} />}
+                  trail={<RowPoints player={player} now={now} />}
                   onSelect={onOpenPlayer}
                   chevron={false}
                   newsDot
@@ -75,6 +75,15 @@ function Roster({ report, now, onOpenPlayer }) {
       </Section>
     )
   )
+}
+
+/** Points scored once the player's game starts, the projection before that. */
+function RowPoints({ player, now }) {
+  const state = gameState(player, now)
+  if (player.points != null && (state === 'live' || state === 'played')) {
+    return <Points value={player.points} caption={state === 'live' ? 'live' : 'pts'} />
+  }
+  return <Points value={player.projected} />
 }
 
 function StartSit({ report, now, onOpenPlayer, onNavigate }) {

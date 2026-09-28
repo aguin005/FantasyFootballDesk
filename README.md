@@ -149,6 +149,7 @@ web/src/
   App.jsx                the shell: nav bar, tab bar, league switcher, player sheet
   views/                 one file per tab
   lib/lineup.js          start and sit, lineup alerts, game states, all of it pure logic
+  lib/matchup.js         the head to head and its live projection
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
 .github/workflows/       the scheduled job
@@ -290,16 +291,19 @@ Tap any player anywhere to open their sheet: projections, this week's game, inju
 notes, why the waiver model likes them, which outlets named them, and every story that mentions
 them.
 
-**Today** is the first screen, and it answers what you open the app to find out. A summary card
-totals your starters' projections and shows how many have played, are playing, and are still to
-play. The lineup check flags starters who are out, doubtful, or on bye along with who to start
+**Today** is the first screen, and it answers what you open the app to find out. It leads with this
+week's matchup: your score and your opponent's, each side's projected final, how many starters each
+side still has to play, and whether you are projected to win. Before kickoff the big numbers are the
+projections, and once games start they become the live score. Tap it for the head to head, both
+lineups slot against slot with points and projections for every starter. On a bye week the card
+falls back to a summary of your own starters. The lineup check flags starters who are out, doubtful, or on bye along with who to start
 instead, and questionable starters with their backup. Below that are the last day's changes, the
 top three pickups, and the latest news.
 
 **Lineup** has three views.
 
 - *Roster* is your starters, bench, and reserve, with injury designations and a dot on anyone with
-  fresh news.
+  fresh news. Once a player's game starts, the projection gives way to the points they have scored.
 - *Start / sit* compares every open slot against the bench players who could legally fill it: same
   position, RB, WR, or TE for a flex, and any of those plus QB for a superflex. Swaps are chosen
   for the whole lineup at once, so one bench player is never offered for two slots and the single
@@ -343,7 +347,7 @@ scroll, and sheets you can drag down to dismiss. It follows the device's light o
 and on an iPad or a desktop the tab bar turns into a sidebar.
 
 Everything that floats above the content uses Liquid Glass, Apple's material from iOS 26: the tab
-bar, the nav buttons, the player sheet, and the trade summary. On the web it is built from three
+bar, the nav buttons, the player and matchup sheets, and the trade summary. On the web it is built from three
 layers. A translucent tint with a heavy backdrop blur and saturation boost is the body, a gradient
 rim that is brighter where light would catch the edges gives it thickness, and a soft sheen across
 the top reads as a curved surface. The tab bar's selection lens slides between tabs on a spring,
@@ -356,6 +360,20 @@ stops under Reduce Motion, borders strengthen under Increase Contrast, and brows
 
 Kickoff times and "updated" times are shown in your device's time zone, so they stay right when you
 travel.
+
+## How the live projection works
+
+Scores are only as fresh as the last refresh, so the projected final is worked out as of the moment
+the data was pulled rather than the moment you look. A starter whose game had not started counts
+their projection. One whose game had finished counts what they scored. One mid game counts their
+points so far plus the share of their projection still to be played, judged from how long the game
+had been running against a typical three hours and ten minutes. A matchup only reads as final once
+every game on both sides had ended when the data was pulled, so a score from halfway through Sunday
+night is never shown as the result.
+
+Sleeper's matchups come from its documented `/league/{id}/matchups/{week}` endpoint. ESPN's come from
+the `mMatchupScore` view in a call of their own, kept separate from the main league call so that if
+ESPN ever refuses it, only the matchup card is lost and the rest of the league still loads.
 
 ## A note on route participation
 
