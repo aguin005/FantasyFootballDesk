@@ -3,3 +3,7 @@ dist/
 .cache/
 .env
 .DS_Store
+# Written by npm run refresh on every run. Never commit it: in Actions the refresh
+# reads a copy on disk as the previous run, so a committed copy would replace the
+# live one as the baseline for "What changed".
+web/public/data/dashboard.json
