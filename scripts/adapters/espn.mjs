@@ -1,4 +1,5 @@
 import { getJSON, AuthError } from '../lib/http.mjs'
+import { normalizeInjury } from '../lib/injury.mjs'
 
 const BASE = 'https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons'
 
@@ -78,11 +79,11 @@ export async function getMatchups(season, leagueId, week) {
  * Free agents and waiver players. The filter goes in a header rather than the
  * query string, which is the part of ESPN's API nobody would guess.
  */
-export function getFreeAgents(season, leagueId, week, limit = 150) {
+export function getFreeAgents(season, leagueId, week, limit = 150, slotIds = [0, 2, 4, 6, 16, 17, 23]) {
   const filter = {
     players: {
       filterStatus: { value: ['FREEAGENT', 'WAIVERS'] },
-      filterSlotIds: { value: [0, 2, 4, 6, 16, 17, 23] },
+      filterSlotIds: { value: slotIds },
       filterRanksForScoringPeriodIds: { value: [week] },
       limit,
       offset: 0,
@@ -144,17 +145,18 @@ function seasonProjection(player) {
   return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
 }
 
-function normalizeInjury(status) {
-  if (!status || status === 'ACTIVE' || status === 'NORMAL') return null
-  if (status === 'INJURY_RESERVE') return 'IR'
-  return status
-}
-
 export async function loadLeague(config, season, week) {
   const { leagueId, teamId, label } = config
-  const [league, freeAgentData, matchupData] = await Promise.all([
+  const [league, freeAgentData, defenseData, matchupData] = await Promise.all([
     getLeague(season, leagueId),
     getFreeAgents(season, leagueId, week),
+    // The main list is the 150 most rostered free agents, which can leave out the
+    // barely rostered defenses a streamer is looking for. Only the board is lost if
+    // this fails, so it degrades to nothing.
+    getFreeAgents(season, leagueId, week, 40, [16]).catch((error) => {
+      console.warn(`ESPN free agent defenses unavailable for ${leagueId}: ${error.message}`)
+      return { players: [] }
+    }),
     getMatchups(season, leagueId, week)
   ])
 
@@ -171,7 +173,15 @@ export async function loadLeague(config, season, week) {
     injuryNote: null
   }))
 
-  const candidates = (freeAgentData.players || []).map((entry) => {
+  const seen = new Set()
+  const pool = [...(freeAgentData.players || []), ...(defenseData.players || [])].filter((entry) => {
+    const id = entry.player?.id
+    if (id == null || seen.has(id)) return false
+    seen.add(id)
+    return true
+  })
+
+  const candidates = pool.map((entry) => {
     const player = entry.player || {}
     return {
       playerId: String(player.id),

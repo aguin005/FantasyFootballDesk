@@ -9,7 +9,8 @@ import { loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame } from './lib/schedule.mjs'
+import { loadSchedule, attachGame, attachNextGame } from './lib/schedule.mjs'
+import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
 import { fetchSocial } from './lib/social.mjs'
 import { buildFreeAgentPool, collectMentions, consensusForLeague } from './lib/consensus.mjs'
@@ -29,7 +30,7 @@ async function main() {
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage, schedule, weekly, seasonal] =
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, schedule, nextSchedule, weekly, seasonal] =
     await Promise.all([
       sleeper.getAllPlayers(),
       sleeper.getTrendingAdds(),
@@ -37,9 +38,14 @@ async function main() {
       fetchInjuries(),
       loadUsage(season),
       loadSchedule(season, week),
+      loadSchedule(season, week + 1),
       sleeper.getProjections(season, week),
       sleeper.getProjections(season)
     ])
+
+  // Checked across the whole NFL once, then matched against each league's free agents.
+  const opportunities = findOpportunities(buildDepth(players, weekly, seasonal, injuriesByPlayer))
+  console.log(`${opportunities.size} players have an opening from a teammate's injury`)
 
   // Feeds are fetched alongside everything else but matched later, once the
   // rosters exist to match against.
@@ -64,7 +70,8 @@ async function main() {
           trending,
           weekly,
           seasonal,
-          week
+          week,
+          { include: new Set(opportunities.keys()) }
         )
         if (loaded) leagues.push(loaded)
       }
@@ -98,9 +105,20 @@ async function main() {
       }
     }
 
+    league.candidates.push(...openingCandidates(league, opportunities, players, weekly, seasonal))
+
+    for (const player of league.roster) {
+      if (player.position === 'DEF') attachNextGame(player, nextSchedule)
+    }
+
     for (const candidate of league.candidates) {
       enrich(candidate, crosswalk, newsByPlayer, injuriesByPlayer, usage)
       attachGame(candidate, schedule)
+      if (candidate.position === 'DEF') attachNextGame(candidate, nextSchedule)
+      // Sleeper ids are the player ids in a Sleeper league, and the crosswalk
+      // supplies them for ESPN players.
+      const sleeperId = league.platform === 'sleeper' ? candidate.playerId : candidate.sleeperId
+      candidate.opportunity = (sleeperId && opportunities.get(sleeperId)) || null
       if (!candidate.trendAdds && candidate.sleeperId) {
         candidate.trendAdds = trending.get(candidate.sleeperId) || 0
       }

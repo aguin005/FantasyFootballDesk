@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { parseCSV } from './csv.mjs'
+import { parseCSV, toNumber } from './csv.mjs'
 import { timedFetch } from './http.mjs'
 
 const GAMES_URL = 'https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv'
@@ -14,6 +14,11 @@ const normalize = (team) => ALIASES[team] || team
 /**
  * Kickoff day and time for every team in a given week, so the dashboard can group
  * your roster by the day they actually play. Teams missing from the map are on bye.
+ *
+ * nflverse also carries the betting line for each game, which is the best free
+ * read on how many points a team will score. That is what defense streaming ranks
+ * on: a defense facing a team the market expects to score 17 is worth more than
+ * one facing a team expected to score 27.
  */
 export async function loadSchedule(season, week) {
   try {
@@ -32,8 +37,10 @@ export async function loadSchedule(season, week) {
         kickoff: game.gametime || null,
         kickoffISO: toISO(game.gameday, game.gametime)
       }
-      byTeam.set(home, { ...shared, opponent: away, home: true })
-      byTeam.set(away, { ...shared, opponent: home, home: false })
+      const total = toNumber(game.total_line)
+      const spread = toNumber(game.spread_line)
+      byTeam.set(home, { ...shared, opponent: away, home: true, ...lines(total, spread, true) })
+      byTeam.set(away, { ...shared, opponent: home, home: false, ...lines(total, spread, false) })
     }
 
     console.log(`Schedule loaded for ${games.length} games in week ${week}`)
@@ -42,6 +49,31 @@ export async function loadSchedule(season, week) {
     console.warn(`Schedule unavailable: ${error.message}`)
     return new Map()
   }
+}
+
+/**
+ * Each side's implied points from the total and the spread. nflverse writes the
+ * spread from the home side, positive when the home team is favored, so the home
+ * team's share is half of the total plus half of the spread. Lines are missing
+ * until books post them, which leaves these null rather than guessed.
+ */
+function lines(total, spread, isHome) {
+  if (total == null || spread == null) {
+    return { total: null, spread: null, teamImplied: null, opponentImplied: null }
+  }
+  const home = (total + spread) / 2
+  const away = (total - spread) / 2
+  return {
+    total,
+    // From this team's side: positive means this team is favored.
+    spread: isHome ? spread : -spread,
+    teamImplied: round(isHome ? home : away),
+    opponentImplied: round(isHome ? away : home)
+  }
+}
+
+function round(value) {
+  return Number(value.toFixed(1))
 }
 
 async function readGames() {
@@ -116,15 +148,35 @@ function zoneOffset(date, timeZone) {
  * Washington player in a Sleeper league to the bye group.
  */
 export function attachGame(player, schedule) {
-  const game = schedule.get(normalize(player.team))
-  player.game = game
-    ? {
-        weekday: game.weekday,
-        date: game.date,
-        kickoff: game.kickoff,
-        kickoffISO: game.kickoffISO,
-        matchup: `${game.home ? 'vs' : 'at'} ${game.opponent}`
-      }
+  player.game = gameFor(player, schedule)
+  return player
+}
+
+/**
+ * Next week's game too, for defenses. Streaming is planned a week ahead, since
+ * the defense you claim today is often the one you start the week after.
+ */
+export function attachNextGame(player, schedule) {
+  const game = gameFor(player, schedule)
+  player.nextGame = game
+    ? { matchup: game.matchup, opponent: game.opponent, kickoffISO: game.kickoffISO, opponentImplied: game.opponentImplied }
     : null
   return player
+}
+
+function gameFor(player, schedule) {
+  const game = schedule.get(normalize(player.team))
+  if (!game) return null
+  return {
+    weekday: game.weekday,
+    date: game.date,
+    kickoff: game.kickoff,
+    kickoffISO: game.kickoffISO,
+    opponent: game.opponent,
+    matchup: `${game.home ? 'vs' : 'at'} ${game.opponent}`,
+    spread: game.spread,
+    total: game.total,
+    teamImplied: game.teamImplied,
+    opponentImplied: game.opponentImplied
+  }
 }
