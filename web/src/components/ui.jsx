@@ -75,7 +75,8 @@ export function PlayerRow({
   dim,
   selected,
   chevron = true,
-  newsDot = false
+  newsDot = false,
+  badge = null
 }) {
   const className = ['row', dim && 'is-dim', selected && 'is-selected'].filter(Boolean).join(' ')
   const body = (
@@ -87,6 +88,7 @@ export function PlayerRow({
           <span className="row-title">
             <span className="name">{player.name}</span>
             <InjuryPill status={player.injuryStatus} />
+            {badge}
             {newsDot && player.news?.length > 0 && <span className="news-dot" title="Recent news" />}
           </span>
           {sub && <span className="row-sub">{sub}</span>}

@@ -144,12 +144,15 @@ scripts/
   lib/crosswalk.mjs      maps Sleeper ids to ESPN ids so news matches players
   lib/news.mjs           ESPN news and injury feeds
   lib/waivers.mjs        the ranking model
+  lib/opportunity.mjs    next man up, from depth charts and injuries
+  lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
 web/src/
   App.jsx                the shell: nav bar, tab bar, league switcher, player sheet
   views/                 one file per tab
   lib/lineup.js          start and sit, lineup alerts, game states, all of it pure logic
   lib/matchup.js         the head to head and its live projection
+  lib/streaming.js       defense streaming ratings
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
 .github/workflows/       the scheduled job
@@ -161,11 +164,12 @@ articles with athlete ids, attach stories to players in your Sleeper leagues too
 
 ## How waivers are ranked
 
-Three signals, blended, each normalized to the pool of available players in that league:
+Five signals, blended, each normalized to the pool of available players in that league:
 
 | Signal | Weight | Where it comes from |
 | --- | --- | --- |
-| Projected points above your worst starter at that position | 0.40 | ESPN |
+| Projected points above your worst starter at that position | 0.40 | ESPN or Sleeper |
+| An injury ahead of them on the depth chart, see "Next man up" | 0.30 | Sleeper and ESPN |
 | Snap share, target share, and depth chart rank | 0.25 | nflverse |
 | Adds across Sleeper in the last 24 hours | 0.20 | Sleeper |
 | Change in rostered percentage today | 0.15 | ESPN |
@@ -174,7 +178,48 @@ Signals a platform cannot supply are dropped and the rest are renormalized, so a
 ranks on add velocity alone rather than being penalized for missing projections.
 
 Replacement level is your own roster, not a league average. A player only scores well if starting
-him would actually change your lineup. Tune the weights in `leagues.config.json`.
+them would actually change your lineup. Tune the weights in `leagues.config.json`. A weight missing
+from an older config falls back to the default above rather than to zero.
+
+The board keeps the best 25 overall plus at least eight at every position, and every free agent
+defense, so one crowded position can never push another off it. Before this, a week of strong
+defense projections filled an ESPN board with 17 defenses and not a single running back.
+
+## Next man up
+
+When a starter goes down, the player behind them inherits the role before any projection catches
+up, and that is the cheapest moment to claim them. Every run checks the whole NFL for these openings
+from data it already downloads. Sleeper's player database carries each player's team, position,
+depth chart order, and injury status. Sleeper's projections cover everyone, and ESPN's injury feed
+fills in any status Sleeper lacks.
+
+A free agent has an opening when a teammate at the same position who ranked ahead of them is out,
+doubtful, on IR, or suspended, and the healthy players left put them in the starting group: the lead
+back, the starting quarterback or tight end, or one of the top three receivers. Ranked ahead means a
+higher season projection, or a better spot on the depth chart for a starter whose season projection
+was cut after landing on IR. A back who moves up to RB2 counts too, at lower weight. Questionable
+starters open nothing, since most of them play.
+
+These players are kept on the board even when Sleeper ranks them too low to list, and added in ESPN
+leagues when ESPN's free agent list, which only covers the 150 most rostered players, leaves them
+out. When the injured player is on your own roster, the backup is marked as your handcuff and the
+Today tab's lineup check tells you to pick them up.
+
+## Streaming defenses
+
+A defense scores on sacks, turnovers, and points allowed, and all three depend on the offense it
+faces far more than on the defense itself. The betting market is the best free read on that offense,
+and the nflverse schedule the refresh already downloads carries every game's spread and over/under.
+Half of the total plus half of the spread, from each side, gives both teams' implied points.
+
+Each defense is rated 0 to 100 on this week's projection (45%), how few points the opponent is
+expected to score (40%), and how much its own team is favored by (15%), since a trailing offense
+throws more, and a thrown ball can be picked off or end in a sack. Your own defense is rated on the
+same scale, and the board says to stream when a free agent beats yours by 10 or more. Next week's
+opponent is shown too, since the defense you claim now is often the one you start next week.
+
+Lines are missing until books post them, and those games are rated on the projection alone. The
+schedule file is cached for a day, so lines update once a day.
 
 ## Things that will eventually break
 
@@ -326,8 +371,10 @@ constant false positives, and it indexes a suffix free variant because headlines
 Harrison" where your roster says "Marvin Harrison Jr.". Anything not about your players is dropped
 during the refresh, so it never reaches the browser.
 
-**Waivers** is the ranked free agent board, filterable by position, with what the waiver columns are
-recommending above it and where your own model ranks the same players.
+**Waivers** is organized by the hole you are filling. The overview leads with next man up
+openings, then the best two pickups at each position, then defenses to stream, then what the waiver
+columns are recommending. Each position chip opens the full list for that position beside your own
+players there, and the DEF chip opens the streaming board.
 
 **Trade** appears whenever a league returns every team's roster, which both platforms do in the same
 call that returns yours, so pricing a trade needs no extra requests. Pick a trading partner, tick

@@ -3,7 +3,7 @@ import Icon from '../components/Icon.jsx'
 import Portrait from '../components/Portrait.jsx'
 import { Section, LinkButton, PlayerRow, Pill, ScoreRing, EmptyState } from '../components/ui.jsx'
 import { clockTime, formatPoints, localDayKey, shortAgo, timeAgo, signed, plural, weekday } from '../lib/format.js'
-import { slotOf } from '../lib/lineup.js'
+import { coversRoster, slotOf } from '../lib/lineup.js'
 import { MatchupCard } from '../components/Matchup.jsx'
 
 const CHANGE_KINDS = {
@@ -41,6 +41,9 @@ export default function TodayView({
   onNavigate
 }) {
   const leagueChanges = changes.filter((entry) => entry.leagueId === league.id)
+  const rosterIds = new Set(league.roster.map((player) => player.playerId))
+  // Free agents stepping into the role of one of your own injured players.
+  const handcuffs = (league.waivers || []).filter((player) => coversRoster(player, rosterIds))
   const leagueNews = news.filter((item) => item.players.some((player) => player.leagueId === league.id))
 
   return (
@@ -50,7 +53,7 @@ export default function TodayView({
       ) : (
         <Summary league={league} report={report} now={now} />
       )}
-      <LineupCheck report={report} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
+      <LineupCheck report={report} handcuffs={handcuffs} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
       <Changes entries={leagueChanges} now={now} onOpenPlayer={onOpenPlayer} />
 
       {league.waivers?.length > 0 && (
@@ -66,6 +69,7 @@ export default function TodayView({
                   <PlayerRow
                     player={player}
                     sub={[player.position, player.team, player.reasons?.[0]].filter(Boolean).join(' · ')}
+                    badge={player.opportunity ? <Pill tone="green">Next up</Pill> : null}
                     trail={<ScoreRing value={player.score} />}
                     onSelect={onOpenPlayer}
                     chevron={false}
@@ -165,10 +169,11 @@ function dayWord(iso, now) {
   return weekday(iso)
 }
 
-function LineupCheck({ report, onOpenPlayer, onNavigate }) {
+function LineupCheck({ report, handcuffs, onOpenPlayer, onNavigate }) {
   const urgent = report.swaps.filter((swap) => swap.urgent)
   const upgrades = report.swaps.filter((swap) => !swap.urgent)
-  const nothing = urgent.length + upgrades.length + report.stranded.length + report.watch.length === 0
+  const nothing =
+    urgent.length + upgrades.length + report.stranded.length + report.watch.length + handcuffs.length === 0
   const allLocked = report.scheduleKnown && report.progress.upcoming === 0 && report.starters.length > 0
 
   return (
@@ -213,6 +218,17 @@ function LineupCheck({ report, onOpenPlayer, onNavigate }) {
                   title={`${starter.name} ${REASON_TEXT[reason]}`}
                   sub={`Nobody on your bench can play ${slotOf(starter)}. Check waivers.`}
                   onClick={() => onNavigate('waivers', null, starter.position)}
+                />
+              </li>
+            ))}
+            {handcuffs.map((player) => (
+              <li key={player.playerId}>
+                <AlertRow
+                  tone="green"
+                  icon="waivers"
+                  title={`Pick up ${player.name}`}
+                  sub={`${player.opportunity.note}. Available in this league.`}
+                  onClick={() => onNavigate('waivers', null, player.position)}
                 />
               </li>
             ))}

@@ -5,6 +5,7 @@ import Icon from './Icon.jsx'
 import { InjuryPill, SlotPill } from './ui.jsx'
 import { gameState, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
 import { clockTime, formatPoints, timeAgo, weekday } from '../lib/format.js'
+import { nextWeekLabel } from '../lib/streaming.js'
 
 /**
  * Everything known about one player, in one place. The rows in every list stay
@@ -33,7 +34,9 @@ function PlayerDetail({ player, news, now }) {
   const stats = [
     player.projected != null && ['This week', formatPoints(player.projected), 'pts'],
     player.seasonProjected != null && ['Season', formatPoints(player.seasonProjected, 0), 'pts'],
-    player.score != null && ['Waiver score', player.score, '/100'],
+    // A defense is judged on its matchup, which the facts below lay out, so the
+    // general waiver score would only contradict the streaming board.
+    player.score != null && player.position !== 'DEF' && ['Waiver score', player.score, '/100'],
     player.percentOwned != null && ['Rostered', `${formatPoints(player.percentOwned)}%`],
     player.trendAdds > 0 && ['Adds, 24h', player.trendAdds.toLocaleString()],
     player.count != null && ['Outlets', player.count]
@@ -73,6 +76,18 @@ function PlayerDetail({ player, news, now }) {
             <Icon name="calendar" />
             <span>{gameLine(player, now)}</span>
           </li>
+          {linesLine(player) && (
+            <li>
+              <Icon name="chart" />
+              <span>{linesLine(player)}</span>
+            </li>
+          )}
+          {player.position === 'DEF' && nextWeekLabel(player) && (
+            <li>
+              <Icon name="clock" />
+              <span>{nextWeekLabel(player)}</span>
+            </li>
+          )}
           <li>
             <Icon name="lineup" />
             <span>{rosterLine(player)}</span>
@@ -89,7 +104,7 @@ function PlayerDetail({ player, news, now }) {
         </ul>
       </div>
 
-      {player.reasons?.length > 0 && (
+      {player.reasons?.length > 0 && player.position !== 'DEF' && (
         <FactSection title="Why the model likes this pickup" icon="sparkles" tone="var(--purple)" items={player.reasons} />
       )}
 
@@ -165,6 +180,21 @@ function gameLine(player, now) {
   if (state === 'played') return `${game.matchup}, already played`
   if (!game.kickoffISO) return `${game.matchup}, ${game.weekday || 'time to be announced'}`
   return `${game.matchup}, ${weekday(game.kickoffISO)} at ${clockTime(game.kickoffISO)}`
+}
+
+/**
+ * What the betting line says about this game. A defense cares how many points
+ * the other side is expected to score, and everyone else cares about their own.
+ */
+function linesLine(player) {
+  const game = player.game
+  if (!game || game.teamImplied == null) return null
+  const side =
+    game.spread > 0 ? `favored by ${game.spread}` : game.spread < 0 ? `underdog by ${-game.spread}` : 'even game'
+  if (player.position === 'DEF') {
+    return `${game.opponent} expected to score ${game.opponentImplied.toFixed(1)}, ${side}`
+  }
+  return `${player.team} expected to score ${game.teamImplied.toFixed(1)}, ${side}`
 }
 
 function rosterLine(player) {

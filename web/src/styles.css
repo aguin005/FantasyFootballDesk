@@ -2156,6 +2156,33 @@ a.story-headline:active {
 
 /* Waivers */
 
+.roster-strip {
+  display: flex;
+  gap: 8px;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0 var(--gutter) 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.roster-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.roster-strip .player-chip {
+  flex: 0 0 auto;
+  background: var(--card);
+  box-shadow: var(--card-shadow);
+}
+
+.player-chip.is-bench {
+  opacity: 0.6;
+}
+
+.player-chip .chip-name {
+  white-space: nowrap;
+}
+
 .rank {
   flex: 0 0 auto;
   width: 22px;
