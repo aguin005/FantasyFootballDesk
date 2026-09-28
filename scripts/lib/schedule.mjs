@@ -107,9 +107,15 @@ function zoneOffset(date, timeZone) {
   return asUTC - date.getTime()
 }
 
-/** Attaches this week's game to a player, or marks the bye. */
+/**
+ * Attaches this week's game to a player, or marks the bye.
+ *
+ * The lookup goes through the same aliases as the schedule itself. Sleeper writes
+ * Washington as WAS while the schedule is keyed WSH, and skipping this sent every
+ * Washington player in a Sleeper league to the bye group.
+ */
 export function attachGame(player, schedule) {
-  const game = schedule.get(player.team)
+  const game = schedule.get(normalize(player.team))
   player.game = game
     ? {
         weekday: game.weekday,

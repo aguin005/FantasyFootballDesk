@@ -37,14 +37,22 @@ export function getLeagueUsers(leagueId) {
   return getJSON(`${BASE}/league/${leagueId}/users`, { label: `Sleeper users ${leagueId}` })
 }
 
-/** Most added players, used as a "news just broke" signal across every league. */
+/**
+ * Most added players, used as a "news just broke" signal across every league.
+ * It is one waiver signal among four, so a failure here degrades to no trend data
+ * rather than taking the whole refresh down with it.
+ */
 export async function getTrendingAdds(lookbackHours = 24, limit = 200) {
-  const rows = await getJSON(
-    `${BASE}/players/nfl/trending/add?lookback_hours=${lookbackHours}&limit=${limit}`,
-    { label: 'Sleeper trending' }
-  )
   const counts = new Map()
-  for (const row of rows) counts.set(row.player_id, row.count)
+  try {
+    const rows = await getJSON(
+      `${BASE}/players/nfl/trending/add?lookback_hours=${lookbackHours}&limit=${limit}`,
+      { label: 'Sleeper trending' }
+    )
+    for (const row of rows) counts.set(row.player_id, row.count)
+  } catch (error) {
+    console.warn(`Sleeper trending adds unavailable: ${error.message}`)
+  }
   return counts
 }
 
@@ -123,7 +131,9 @@ export async function loadLeague(leagueId, userId, players, trending, projection
   const season = seasonProjections || new Map()
 
   const owner = users.find((user) => user.user_id === userId)
-  const starters = new Set(myRoster.starters || [])
+  const slots = starterSlots(league.roster_positions, myRoster.starters)
+  const reserve = new Set(myRoster.reserve || [])
+  const taxi = new Set(myRoster.taxi || [])
   const rostered = new Set(rosters.flatMap((roster) => roster.players || []))
 
   const roster = (myRoster.players || []).map((playerId) => {
@@ -134,7 +144,8 @@ export async function loadLeague(leagueId, userId, players, trending, projection
       name: playerName(player, playerId),
       position: player.position || '',
       team: player.team || 'FA',
-      starter: starters.has(playerId),
+      slot: slots.get(playerId) || (reserve.has(playerId) ? 'IR' : taxi.has(playerId) ? 'TAXI' : 'BE'),
+      starter: slots.has(playerId),
       injuryStatus: normalizeInjury(player.injury_status),
       injuryNote: player.injury_body_part || null,
       projected: pointsFor(weekly.get(playerId), key),
@@ -195,7 +206,7 @@ export async function loadLeague(leagueId, userId, players, trending, projection
     platform: 'sleeper',
     name: league.name,
     teamName: owner?.metadata?.team_name || owner?.display_name || 'My team',
-    record: `${myRoster.settings?.wins ?? 0}-${myRoster.settings?.losses ?? 0}`,
+    record: formatRecord(myRoster.settings?.wins, myRoster.settings?.losses, myRoster.settings?.ties),
     scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
     roster,
     candidates
@@ -203,6 +214,32 @@ export async function loadLeague(leagueId, userId, players, trending, projection
 }
 
 const FANTASY_POSITIONS = new Set(['QB', 'RB', 'WR', 'TE', 'K', 'DEF'])
+
+const BENCH_SLOTS = new Set(['BN', 'IR', 'TAXI'])
+const SLOT_NAMES = { SUPER_FLEX: 'SFLEX', WRRB_FLEX: 'W/R', REC_FLEX: 'W/T', IDP_FLEX: 'IDP' }
+
+/**
+ * Sleeper lists the league's lineup in roster_positions, and every roster's starters
+ * array follows that order slot for slot with the bench left out. Zipping the two is
+ * the only way to know which starter is sitting in a flex spot, which start and sit
+ * needs, since a flex starter can be replaced by any RB, WR, or TE.
+ */
+function starterSlots(rosterPositions = [], starters = []) {
+  const lineup = rosterPositions.filter((position) => !BENCH_SLOTS.has(position))
+  const slots = new Map()
+  starters.forEach((playerId, index) => {
+    // An empty lineup spot comes back as "0" rather than being left out.
+    if (!playerId || playerId === '0') return
+    const position = lineup[index]
+    slots.set(playerId, SLOT_NAMES[position] || position || 'FLEX')
+  })
+  return slots
+}
+
+function formatRecord(wins, losses, ties) {
+  const base = `${wins ?? 0}-${losses ?? 0}`
+  return ties ? `${base}-${ties}` : base
+}
 
 function playerName(player, fallbackId) {
   if (player.full_name) return player.full_name
