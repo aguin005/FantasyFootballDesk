@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 const DATA_URL = `${import.meta.env.BASE_URL}data/dashboard.json`
 
 // A home screen app can sit in memory for days. Coming back to it after this long
-// fetches again, since the Action publishes new data every 30 minutes.
+// fetches again, since the Action can publish new data every 15 minutes.
 const REFETCH_AFTER_MS = 5 * 60 * 1000
 
 /**

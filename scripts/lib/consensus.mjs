@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { normalizeName } from './feeds.mjs'
+import { timedFetch } from './http.mjs'
 
 /**
  * What the fantasy press is telling everyone to add this week.
@@ -165,7 +166,7 @@ async function readArticle(url) {
   }
 
   try {
-    const response = await fetch(url, {
+    const response = await timedFetch(url, {
       headers: {
         accept: 'text/html',
         'user-agent': 'fantasy-dashboard/1.0 (personal use)'

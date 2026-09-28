@@ -9,7 +9,7 @@ No server. A scheduled GitHub Action fetches the data and rebuilds the site, Git
 and your phone opens it like an app.
 
 ```
-GitHub Actions (every 30 min)          GitHub Pages
+GitHub Actions (every 15 min)          GitHub Pages
 ┌───────────────────────────┐          ┌──────────────────┐
 │ scripts/refresh.mjs       │          │ React dashboard  │
 │  Sleeper API   (no auth)  │  writes  │                  │
@@ -124,7 +124,8 @@ Settings, then Pages, then under Build and deployment set Source to **GitHub Act
 Actions tab, pick "Refresh and deploy dashboard", then Run workflow. It runs in about a minute. When
 it finishes, your dashboard is at `https://YOUR_NAME.github.io/YOUR_REPO/`.
 
-After that it refreshes every 30 minutes on its own.
+After that it refreshes on its own, asking four times an hour. GitHub does not always run it that
+often, which is what the next section is about.
 
 ## Step 9. Put it on your phone
 
@@ -180,10 +181,46 @@ him would actually change your lineup. Tune the weights in `leagues.config.json`
   out everywhere. The workflow fails with an auth error. Repeat step 3 and update the secrets.
 - **Scheduled workflows get disabled** on public repos after about 60 days of no repository
   activity. GitHub emails you first. Push any commit to reset it.
-- **Cron is best effort.** Runs can land 5 to 15 minutes late when GitHub is busy.
+- **Cron is best effort.** GitHub runs scheduled workflows late, or skips them, when Actions is
+  busy. See "Keeping the schedule on time" below.
 - **ESPN's API is undocumented** and changes without notice, usually between seasons. If a view
   stops returning what it used to, open DevTools on the fantasy site, watch the Network tab, and
   copy what the site itself requests.
+
+## Keeping the schedule on time
+
+GitHub treats a workflow schedule as a request rather than a promise. When Actions is busy it starts
+scheduled runs late and drops some entirely, and the busiest moments are the top and bottom of every
+hour. Scheduled on `0,30`, this repo got 5 to 7 of its 48 daily runs in September 2026, with gaps of
+up to eight hours.
+
+The workflow now asks at minutes 8, 23, 38, and 53. Those are quiet minutes, so more of the runs
+land, and a dropped run costs 15 minutes instead of 30. Each run takes under a minute, and Actions
+minutes are free on public repositories, so the extra runs cost nothing.
+
+That makes it much better but still not guaranteed. For a schedule you can count on, have an outside
+service start the workflow instead of GitHub's scheduler. cron-job.org is free and works well.
+
+1. On GitHub, go to Settings, then Developer settings, then Personal access tokens, then
+   Fine-grained tokens, and generate a new one. Under Repository access pick only this repository.
+   Under Permissions, set **Actions** to Read and write. Nothing else is needed. The token can start
+   and manage workflow runs on this one repository, and it cannot read or change your code or
+   secrets.
+2. On cron-job.org, create a job that runs every 15 minutes with these settings:
+   - URL: `https://api.github.com/repos/YOUR_NAME/YOUR_REPO/actions/workflows/refresh.yml/dispatches`
+   - Request method: `POST`
+   - Headers: `Authorization: Bearer YOUR_TOKEN`, `Accept: application/vnd.github+json`, and
+     `X-GitHub-Api-Version: 2022-11-28`
+   - Request body: `{"ref":"main"}`
+3. Run it once from cron-job.org. A `204` response means it worked, and a new run appears in the
+   Actions tab within seconds.
+
+Leave the schedule in the workflow as a backup. If both fire at once, the newer run cancels the
+older one, so nothing deploys twice. Fine-grained tokens expire, a year at most, so set a reminder to
+renew it.
+
+The dashboard shows a note when the data is more than three hours old, and a stronger one after a
+day, which is when a stopped workflow is the likely cause rather than GitHub running late.
 
 ## What changed, rather than what is true
 
@@ -198,7 +235,7 @@ which it works out from `GITHUB_REPOSITORY`. Nothing is committed back to the re
 `dashboard.json` is gitignored so a stale copy can never end up in the checkout and pose as the
 previous run.
 
-Changes stay on the board for 24 hours. A refresh every 30 minutes would otherwise clear the list
+Changes stay on the board for 24 hours. A refresh every 15 minutes would otherwise clear the list
 long before you opened it, and the script has no way to know when you last looked. New changes in a
 league you are not looking at show as a red count on that league's chip.
 

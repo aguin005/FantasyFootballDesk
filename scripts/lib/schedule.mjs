@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { parseCSV } from './csv.mjs'
+import { timedFetch } from './http.mjs'
 
 const GAMES_URL = 'https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv'
 const CACHE = path.resolve('.cache/nflverse-games.csv')
@@ -51,7 +52,7 @@ async function readGames() {
     // No cache yet.
   }
 
-  const response = await fetch(GAMES_URL, {
+  const response = await timedFetch(GAMES_URL, {
     headers: { 'user-agent': 'fantasy-dashboard/1.0 (personal use)' }
   })
   if (!response.ok) throw new Error(`games.csv returned HTTP ${response.status}`)

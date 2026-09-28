@@ -25,9 +25,12 @@ const TABS = {
   trade: { label: 'Trade', icon: 'trade' }
 }
 
-// The Action runs every 30 minutes and GitHub can run it late, so anything past
-// three hours means runs are failing or the schedule has been switched off.
-const STALE_AFTER_MS = 3 * 60 * 60 * 1000
+// The Action is scheduled four times an hour, but GitHub runs scheduled workflows
+// late or skips them when it is busy. A few hours behind is GitHub. A whole day
+// behind means runs are failing, usually expired ESPN cookies, or GitHub switched
+// the schedule off after 60 days without a commit.
+const LATE_AFTER_MS = 3 * 60 * 60 * 1000
+const STOPPED_AFTER_MS = 24 * 60 * 60 * 1000
 const TOAST_MS = 2600
 
 export default function App() {
@@ -131,7 +134,8 @@ export default function App() {
   }
 
   const age = ageMs(data.generatedAt, now)
-  const stale = age > STALE_AFTER_MS
+  const stale = age > LATE_AFTER_MS
+  const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
   const sheetOpen = Boolean(sheetPlayer)
 
@@ -179,7 +183,9 @@ export default function App() {
         )}
         {online && stale && (
           <Notice title={`Last refreshed ${longAgo(data.generatedAt, now)}`}>
-            The refresh workflow may have stopped. Check the latest run in the repository's Actions tab.
+            {stopped
+              ? 'The refresh may have stopped. Check the latest run in the Actions tab on GitHub.'
+              : 'GitHub is running the scheduled refresh late. It usually catches up on its own.'}
           </Notice>
         )}
         {activeTab === 'today' && data.problems?.length > 0 && (
