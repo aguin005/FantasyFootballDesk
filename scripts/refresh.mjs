@@ -9,14 +9,16 @@ import { loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame } from './lib/schedule.mjs'
+import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished } from './lib/schedule.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
+import { loadPointsAllowed, rankDefenses, opponentDefenseFor } from './lib/defense.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
 import { fetchSocial } from './lib/social.mjs'
 import { buildFreeAgentPool, collectMentions, consensusForLeague } from './lib/consensus.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
+const LAST_WEEK = 18
 
 async function main() {
   const config = JSON.parse(await fs.readFile(path.resolve('leagues.config.json'), 'utf8'))
@@ -25,13 +27,22 @@ async function main() {
 
   const state = await sleeper.getState()
   const season = state.season
-  const week = state.display_week || state.week || 1
-  console.log(`Refreshing ${season} week ${week}`)
+  const scoringWeek = state.display_week || state.week || 1
+  const scoringSchedule = await loadSchedule(season, scoringWeek)
+  // Once Monday night is over the dashboard plans for the next week: its waivers,
+  // its matchups and its lineup. The regular season ends at week 18.
+  const rolled = scoringWeek < LAST_WEEK && weekFinished(scoringSchedule)
+  const week = rolled ? scoringWeek + 1 : scoringWeek
+  console.log(
+    rolled
+      ? `Week ${scoringWeek} is over, refreshing ${season} week ${week}`
+      : `Refreshing ${season} week ${week}`
+  )
 
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, schedule, nextSchedule, weekly, seasonal] =
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, allowed, schedule, nextSchedule, weekly, seasonal] =
     await Promise.all([
       sleeper.getAllPlayers(),
       sleeper.getTrendingAdds(),
@@ -39,7 +50,8 @@ async function main() {
       fetchInjuries(),
       loadUsage(season),
       loadGameLogs(season),
-      loadSchedule(season, week),
+      loadPointsAllowed(season),
+      rolled ? loadSchedule(season, week) : scoringSchedule,
       loadSchedule(season, week + 1),
       sleeper.getProjections(season, week),
       sleeper.getProjections(season)
@@ -73,7 +85,7 @@ async function main() {
           weekly,
           seasonal,
           week,
-          { include: new Set(opportunities.keys()) }
+          { include: new Set(opportunities.keys()), lastWeek: week - 1 }
         )
         if (loaded) leagues.push(loaded)
       }
@@ -85,7 +97,7 @@ async function main() {
   for (const league of config.espn || []) {
     if (String(league.leagueId).startsWith('0000')) continue
     try {
-      leagues.push(await espn.loadLeague(league, season, week))
+      leagues.push(await espn.loadLeague(league, season, week, { lastWeek: week - 1 }))
     } catch (error) {
       problems.push(`ESPN ${league.leagueId}: ${error.message}`)
     }
@@ -128,10 +140,13 @@ async function main() {
     }
 
     // Your players and free agents are the ones the player sheet opens for, so
-    // they carry this season's log and last season against this week's opponent.
+    // they carry this season's log, last season against this week's opponent, and
+    // how that opponent's defense has held up against their position.
+    const defenses = rankDefenses(allowed, league.receptionPoints)
     for (const player of [...league.roster, ...league.candidates]) {
       player.gameLog = gameLogFor(player, logs, league.receptionPoints)
       player.vsOpponent = opponentHistoryFor(player, logs, league.receptionPoints)
+      player.opponentDefense = opponentDefenseFor(player, defenses)
     }
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)
@@ -170,6 +185,11 @@ async function main() {
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true })
   await fs.writeFile(OUTPUT, JSON.stringify(current, null, 2))
+
+  // The workflow reads this to decide whether to queue the next run itself.
+  const gameWindow = inGameWindow(schedule)
+  if (process.env.GITHUB_OUTPUT) await fs.appendFile(process.env.GITHUB_OUTPUT, `game_window=${gameWindow}\n`)
+  if (gameWindow) console.log('Games are on or about to start, so the workflow will run again in about 10 minutes')
 
   const fresh = current.changes.filter((entry) => entry.isNew).length
   console.log(

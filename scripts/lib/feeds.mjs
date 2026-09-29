@@ -11,65 +11,91 @@ import { timedFetch } from './http.mjs'
  * Underdog has no public feed. Their player notes are in the app only.
  */
 
-const FEEDS = [
-  { name: 'RotoWire', url: 'https://www.rotowire.com/rss/news.php?sport=NFL' },
-  { name: 'ESPN', url: 'https://www.espn.com/espn/rss/nfl/news' },
-  { name: 'ESPN Fantasy', url: 'https://www.espn.com/espn/rss/fantasy/news' },
-  { name: 'CBS Fantasy', url: 'https://www.cbssports.com/rss/headlines/fantasy/football/' },
-  { name: 'FantasyPros', url: 'https://www.fantasypros.com/nfl/rss/news.php' },
-  { name: 'Yahoo Sports', url: 'https://sports.yahoo.com/nfl/rss.xml' },
-  { name: 'CBS Sports', url: 'https://www.cbssports.com/rss/headlines/nfl/' },
-  { name: 'Pro Football Talk', url: 'https://profootballtalk.nbcsports.com/feed/' }
+// Each feed lists the URLs to try in order. Publishers move feeds without notice,
+// and the refresh log only shows a count, so a fallback keeps a source alive while
+// npm run feeds shows which URL actually answered.
+//
+// Player news wires come first, since those are short items about one player.
+// The fantasy sites after them publish the waiver and streaming columns that
+// Writers' picks reads. CBS dropped its fantasy feed in 2026 and only its general
+// NFL feed remains. ESPN's RSS answers scripts with an empty page, and ESPN
+// stories arrive through its JSON API instead, tagged with player ids.
+export const FEEDS = [
+  { name: 'RotoWire', urls: ['https://www.rotowire.com/rss/news.php?sport=NFL'] },
+  { name: 'FFToday', urls: ['https://www.fftoday.com/rss/news.xml'] },
+  { name: 'Pro Football Rumors', urls: ['https://www.profootballrumors.com/feed'] },
+  {
+    name: 'RotoBaller',
+    urls: ['https://www.rotoballer.com/category/nfl/feed', 'https://www.rotoballer.com/feed']
+  },
+  { name: 'FantasyPros', urls: ['https://www.fantasypros.com/feed/'] },
+  { name: 'Fantasy Footballers', urls: ['https://www.thefantasyfootballers.com/feed/'] },
+  { name: 'PFF', urls: ['https://www.pff.com/feed'] },
+  { name: 'Yahoo Sports', urls: ['https://sports.yahoo.com/nfl/rss/', 'https://sports.yahoo.com/nfl/rss.xml'] },
+  { name: 'CBS Sports', urls: ['https://www.cbssports.com/rss/headlines/nfl/'] },
+  {
+    name: 'Pro Football Talk',
+    urls: ['https://www.nbcsports.com/profootballtalk.rss', 'https://profootballtalk.nbcsports.com/feed/']
+  }
 ]
+
+export const FEED_HEADERS = {
+  accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5',
+  'user-agent': 'fantasy-dashboard/1.0 (personal use)'
+}
 
 const WINDOW_MS = 7 * 24 * 60 * 60 * 1000
 const MAX_ITEMS = 60
 
 export async function fetchFeeds(enabled) {
   const active = enabled?.length ? FEEDS.filter((feed) => enabled.includes(feed.name)) : FEEDS
-
-  const results = await Promise.all(
-    active.map(async (feed) => {
-      try {
-        const response = await timedFetch(feed.url, {
-          headers: {
-            accept: 'application/rss+xml, application/xml, text/xml',
-            'user-agent': 'fantasy-dashboard/1.0 (personal use)'
-          }
-        })
-        if (!response.ok) throw new Error(`HTTP ${response.status}`)
-        const items = parseRSS(await response.text(), feed.name)
-        console.log(`${feed.name}: ${items.length} items`)
-        return items
-      } catch (error) {
-        console.warn(`${feed.name} feed unavailable: ${error.message}`)
-        return []
-      }
-    })
-  )
-
+  const results = await Promise.all(active.map((feed) => fetchFeed(feed)))
   return results.flat()
 }
 
 /**
- * A small RSS reader. Feeds here are plain RSS 2.0, so pulling item blocks out and
- * reading four tags is enough, and it avoids adding an XML parser dependency to a
- * project that has none.
+ * The first URL that returns items wins. A 200 with no items counts as a miss,
+ * because a moved feed often redirects to an ordinary web page rather than failing.
  */
-export function parseRSS(xml, source) {
+async function fetchFeed(feed) {
+  const misses = []
+  for (const url of feed.urls) {
+    try {
+      const response = await timedFetch(url, { headers: FEED_HEADERS })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const items = parseFeed(await response.text(), feed.name)
+      if (items.length === 0) throw new Error('no items')
+      console.log(`${feed.name}: ${items.length} items${misses.length ? ` from ${new URL(url).hostname}` : ''}`)
+      return items
+    } catch (error) {
+      misses.push(error.message)
+    }
+  }
+  console.warn(`${feed.name} feed unavailable: ${misses.join(', ')}`)
+  return []
+}
+
+/**
+ * A small feed reader. Most feeds here are RSS 2.0, a few publishers serve Atom,
+ * and the two differ only in tag names, so pulling entry blocks out and reading a
+ * handful of tags covers both without adding an XML parser to a project that has
+ * no dependencies outside the site itself.
+ */
+export function parseFeed(xml, source) {
   const items = []
-  const blocks = xml.match(/<item[\s>][\s\S]*?<\/item>/gi) || []
+  const blocks = xml.match(/<item[\s>][\s\S]*?<\/item>|<entry[\s>][\s\S]*?<\/entry>/gi) || []
 
   for (const block of blocks) {
     const headline = clean(tag(block, 'title'))
     if (!headline) continue
-    const published = Date.parse(tag(block, 'pubDate') || '') || null
+    const date = tag(block, 'pubDate') || tag(block, 'published') || tag(block, 'updated') || tag(block, 'dc:date')
+    const published = Date.parse(clean(date)) || null
 
     items.push({
       source,
       headline,
-      summary: clean(tag(block, 'description')).slice(0, 400),
-      url: clean(tag(block, 'link')) || null,
+      summary: clean(tag(block, 'description') || tag(block, 'summary') || tag(block, 'content')).slice(0, 400),
+      url: linkOf(block),
       published: published ? new Date(published).toISOString() : null
     })
   }
@@ -77,23 +103,41 @@ export function parseRSS(xml, source) {
   return items
 }
 
+/** RSS puts the link in the tag body, Atom in an href, and some RSS only in the guid. */
+function linkOf(block) {
+  const body = clean(tag(block, 'link'))
+  if (/^https?:\/\//.test(body)) return body
+  const atom =
+    block.match(/<link\b[^>]*rel=["']alternate["'][^>]*href=["']([^"']+)["']/i) ||
+    block.match(/<link\b[^>]*href=["']([^"']+)["']/i)
+  if (atom) return clean(atom[1])
+  const guid = clean(tag(block, 'guid'))
+  return /^https?:\/\//.test(guid) ? guid : null
+}
+
 function tag(block, name) {
-  const match = block.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, 'i'))
+  const match = block.match(new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${name}>`, 'i'))
   return match ? match[1] : ''
 }
 
 function clean(value) {
-  return value
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/\s+/g, ' ')
-    .trim()
+  return (
+    value
+      .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+      .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;|&apos;/g, "'")
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      // Descriptions often carry escaped HTML, which only becomes tags once decoded.
+      .replace(/<\/?[a-z][^>]*>/gi, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  )
 }
 
 const SUFFIXES = /\s+(jr|sr|ii|iii|iv|v)$/

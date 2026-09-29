@@ -2,8 +2,10 @@ import Sheet from './Sheet.jsx'
 import Icon from './Icon.jsx'
 import { Pill, SlotPill } from './ui.jsx'
 import { clockTime, formatPoints, kickoffLabel, signed } from '../lib/format.js'
+import { lastResult } from '../lib/matchup.js'
 
 const OUTCOME_TONE = { ahead: 'is-up', behind: 'is-down', even: '' }
+const LAST_OUTCOME = { won: 'Won', lost: 'Lost', tied: 'Tied' }
 
 /**
  * This week's matchup at the top of Today. Before kickoff the big numbers are the
@@ -16,6 +18,7 @@ export function MatchupCard({ matchup, league, nextKickoff, onOpen }) {
   // start, while the verdict below keeps judging the projection. Trailing now and
   // projected to win is a real and common state on a Sunday afternoon.
   const lead = started ? me.score - them.score : me.projection - them.projection
+  const last = started ? null : lastResult(league)
   return (
     <section className="section" aria-label="This week's matchup">
       <button type="button" className="card matchup press" onClick={onOpen}>
@@ -49,6 +52,16 @@ export function MatchupCard({ matchup, league, nextKickoff, onOpen }) {
 
         {!final && nextKickoff && (
           <span className="matchup-next">Next kickoff {kickoffLabel({ kickoffISO: nextKickoff })}</span>
+        )}
+
+        {last && (
+          <span className="matchup-last">
+            <span className={last.outcome === 'won' ? 'is-up' : last.outcome === 'lost' ? 'is-down' : undefined}>
+              Week {last.week}: {LAST_OUTCOME[last.outcome]}
+            </span>{' '}
+            {formatPoints(last.score)} to {formatPoints(last.opponentScore)}
+            {last.opponent ? ` against ${last.opponent}` : ''}
+          </span>
         )}
       </button>
     </section>

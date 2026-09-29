@@ -10,7 +10,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "doctor": "node scripts/doctor.mjs"
+    "doctor": "node scripts/doctor.mjs",
+    "feeds": "node scripts/check-feeds.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

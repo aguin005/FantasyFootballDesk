@@ -47,9 +47,13 @@ function leagueUrl(season, leagueId, params) {
   return `${BASE}/${season}/segments/0/leagues/${leagueId}?${params}`
 }
 
-/** Rosters, team names, records, and league settings in one call. */
-export function getLeague(season, leagueId) {
-  const params = 'view=mRoster&view=mTeam&view=mSettings'
+/**
+ * Rosters, team names, records, and league settings in one call. The scoring
+ * period is explicit because ESPN otherwise answers with its own current week,
+ * and the lineups and projections have to match the week the refresh is planning.
+ */
+export function getLeague(season, leagueId, week) {
+  const params = `view=mRoster&view=mTeam&view=mSettings${week ? `&scoringPeriodId=${week}` : ''}`
   return getJSON(leagueUrl(season, leagueId, params), {
     headers: cookieHeader(),
     label: `ESPN league ${leagueId}`,
@@ -145,10 +149,10 @@ function seasonProjection(player) {
   return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
 }
 
-export async function loadLeague(config, season, week) {
+export async function loadLeague(config, season, week, options = {}) {
   const { leagueId, teamId, label } = config
   const [league, freeAgentData, defenseData, matchupData] = await Promise.all([
-    getLeague(season, leagueId),
+    getLeague(season, leagueId, week),
     getFreeAgents(season, leagueId, week),
     // The main list is the 150 most rostered free agents, which can leave out the
     // barely rostered defenses a streamer is looking for. Only the board is lost if
@@ -220,6 +224,7 @@ export async function loadLeague(config, season, week) {
     scoring: league.settings?.scoringSettings?.scoringType || 'See ESPN settings',
     receptionPoints: receptionPoints(league.settings),
     matchup: findMatchup(matchupData?.schedule, team.id, matchupPeriodFor(league.settings, week), week),
+    lastMatchup: lastMatchupFor(matchupData?.schedule, team.id, league.settings, week, options.lastWeek),
     roster,
     candidates
   }
@@ -236,6 +241,17 @@ function matchupPeriodFor(settings, week) {
     if (Array.isArray(weeks) && weeks.includes(week)) return Number(period)
   }
   return week
+}
+
+/**
+ * Last week's result, which the schedule already carries. A playoff round that
+ * spans both weeks is still in progress, so it has no separate result to show.
+ */
+function lastMatchupFor(schedule, teamId, settings, week, lastWeek) {
+  if (!(lastWeek >= 1)) return null
+  const period = matchupPeriodFor(settings, lastWeek)
+  if (period === matchupPeriodFor(settings, week)) return null
+  return findMatchup(schedule, teamId, period, lastWeek)
 }
 
 /**

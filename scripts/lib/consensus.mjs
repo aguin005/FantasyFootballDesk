@@ -17,12 +17,13 @@ const CACHE_DIR = path.resolve('.cache/articles')
 const MAX_ARTICLES = 12
 const MAX_BODY_CHARS = 40000
 const MIN_BODY_CHARS = 500
+const EXTRACTION_VERSION = 'v2'
 // Narrow on purpose. A wide window lets "drop Cade Otton for streaming options"
 // swallow the next player named after it, which is a false negative rather than a
 // false positive, and those are harder to notice.
 const NEGATIVE_WINDOW = 25
 
-const WAIVER_HEADLINE =
+export const WAIVER_HEADLINE =
   /(waiver|pickup|pick-up|add\/drop|must-add|streamer|sleeper pick|start 'em|adds? for week)/i
 
 // Names appearing just after these are being recommended away from, not toward.
@@ -155,9 +156,11 @@ export function consensusForLeague(league, mentions) {
     .slice(0, 8)
 }
 
-async function readArticle(url) {
+export async function readArticle(url) {
   const key = crypto.createHash('sha1').update(url).digest('hex')
-  const file = path.join(CACHE_DIR, `${key}.txt`)
+  // The version changes whenever the extraction does, so cached text from the
+  // old extraction is never mistaken for the new.
+  const file = path.join(CACHE_DIR, `${key}.${EXTRACTION_VERSION}.txt`)
 
   try {
     return await fs.readFile(file, 'utf8')
@@ -187,16 +190,50 @@ async function readArticle(url) {
   }
 }
 
-function stripHTML(html) {
-  return html
+/**
+ * The column's own text. Fantasy sites wrap each article in menus, related links,
+ * and "trending players" sidebars, and every one of those names players, which
+ * reads as the writer recommending them. The article element holds just the
+ * column on the sites that use one, so it is preferred when present.
+ */
+export function stripHTML(html) {
+  const page = html
     .replace(/<!--[\s\S]*?-->/g, ' ')
-    .replace(/<(script|style|nav|header|footer|aside|form)[\s>][\s\S]*?<\/\1>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&#39;|&apos;|&rsquo;/g, "'")
-    .replace(/&quot;|&ldquo;|&rdquo;/g, '"')
+    .replace(/<(script|style|noscript|svg|template)[\s>][\s\S]*?<\/\1>/gi, ' ')
+  return decode(
+    articleOf(page)
+      .replace(/<(nav|header|footer|aside|form|figure)[\s>][\s\S]*?<\/\1>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+  )
     .replace(/\s+/g, ' ')
     .trim()
     .slice(0, MAX_BODY_CHARS)
+}
+
+/**
+ * The longest article element, or main when there is none. A related-story card
+ * nested inside the article ends the match early, which costs the tail of the
+ * column rather than letting the rest of the page in.
+ */
+function articleOf(html) {
+  const articles = html.match(/<article[\s>][\s\S]*?<\/article>/gi) || []
+  const longest = articles.reduce((best, block) => (block.length > best.length ? block : best), '')
+  if (longest.length > 2000) return longest
+  const main = html.match(/<main[\s>][\s\S]*?<\/main>/i)
+  return main ? main[0] : html
+}
+
+/**
+ * Named and numeric entities. WordPress writes apostrophes as &#8217;, and left
+ * encoded they split names like Ja'Marr Chase so that they never match.
+ */
+function decode(text) {
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#39;|&apos;|&rsquo;|&lsquo;/g, "'")
+    .replace(/&quot;|&ldquo;|&rdquo;/g, '"')
+    .replace(/&ndash;|&mdash;/g, '-')
+    .replace(/&amp;/g, '&')
 }
