@@ -2754,7 +2754,8 @@ a.story-headline:active {
     padding-right: 12px;
   }
 
-  .avatar {
+  /* Rows only. The sheet's large portrait keeps its size. */
+  .row .avatar {
     width: 38px;
     height: 38px;
   }

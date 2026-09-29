@@ -7,6 +7,7 @@ import { gameState, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/
 import { clockTime, formatPoints, signed, timeAgo, weekday } from '../lib/format.js'
 import { nextWeekLabel } from '../lib/streaming.js'
 import PointsChart from './PointsChart.jsx'
+import { defenseSentence, matchupGrade } from '../lib/opponent.js'
 
 /**
  * Everything known about one player, in one place. The rows in every list stay
@@ -26,6 +27,9 @@ export default function PlayerSheet({ player, news, receptionPoints, onClose, no
     </Sheet>
   )
 }
+
+// Green for a soft matchup, red for a tough one, and the list's own tone otherwise.
+const GRADE_TONE = { soft: 'var(--green)', tough: 'var(--red)' }
 
 function PlayerDetail({ player, news, receptionPoints, now }) {
   const stories = storiesFor(player, news)
@@ -92,6 +96,12 @@ function PlayerDetail({ player, news, receptionPoints, now }) {
             <li>
               <Icon name="chart" />
               <span>{linesLine(player)}</span>
+            </li>
+          )}
+          {defenseSentence(player) && (
+            <li style={{ '--fact-tone': GRADE_TONE[matchupGrade(player.opponentDefense)] }}>
+              <Icon name="shield" />
+              <span>{defenseSentence(player)}</span>
             </li>
           )}
           {player.position === 'DEF' && nextWeekLabel(player) && (

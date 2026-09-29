@@ -12,6 +12,7 @@ import { headshot } from './lib/images.mjs'
 import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished } from './lib/schedule.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
+import { loadPointsAllowed, rankDefenses, opponentDefenseFor } from './lib/defense.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
 import { fetchSocial } from './lib/social.mjs'
 import { buildFreeAgentPool, collectMentions, consensusForLeague } from './lib/consensus.mjs'
@@ -41,7 +42,7 @@ async function main() {
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, schedule, nextSchedule, weekly, seasonal] =
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, allowed, schedule, nextSchedule, weekly, seasonal] =
     await Promise.all([
       sleeper.getAllPlayers(),
       sleeper.getTrendingAdds(),
@@ -49,6 +50,7 @@ async function main() {
       fetchInjuries(),
       loadUsage(season),
       loadGameLogs(season),
+      loadPointsAllowed(season),
       rolled ? loadSchedule(season, week) : scoringSchedule,
       loadSchedule(season, week + 1),
       sleeper.getProjections(season, week),
@@ -138,10 +140,13 @@ async function main() {
     }
 
     // Your players and free agents are the ones the player sheet opens for, so
-    // they carry this season's log and last season against this week's opponent.
+    // they carry this season's log, last season against this week's opponent, and
+    // how that opponent's defense has held up against their position.
+    const defenses = rankDefenses(allowed, league.receptionPoints)
     for (const player of [...league.roster, ...league.candidates]) {
       player.gameLog = gameLogFor(player, logs, league.receptionPoints)
       player.vsOpponent = opponentHistoryFor(player, logs, league.receptionPoints)
+      player.opponentDefense = opponentDefenseFor(player, defenses)
     }
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)

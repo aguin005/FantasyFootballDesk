@@ -13,6 +13,7 @@ import {
 import Portrait from '../components/Portrait.jsx'
 import { formatPoints, signed, plural, clockTime, localDayKey } from '../lib/format.js'
 import { sortBySlot, slotLabel, slotOf, gameState } from '../lib/lineup.js'
+import { defenseNote, matchupGrade } from '../lib/opponent.js'
 
 const SEGMENTS = [
   { value: 'roster', label: 'Roster' },
@@ -62,7 +63,8 @@ function Roster({ report, now, onOpenPlayer }) {
                   player={player}
                   lead={<SlotPill label={slotLabel(player)} position={player.position} />}
                   sub={[player.team, matchupText(player, now)].join(' · ')}
-                  note={player.injuryNote || null}
+                  note={player.injuryNote || defenseNote(player)}
+                  noteAccent={!player.injuryNote && matchupGrade(player.opponentDefense) === 'soft'}
                   trail={<RowPoints player={player} now={now} />}
                   onSelect={onOpenPlayer}
                   chevron={false}
