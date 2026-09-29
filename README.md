@@ -143,11 +143,15 @@ scripts/
   adapters/espn.mjs      ESPN API, cookie auth, the X-Fantasy-Filter header
   lib/crosswalk.mjs      maps Sleeper ids to ESPN ids so news matches players
   lib/news.mjs           ESPN news and injury feeds
+  lib/feeds.mjs          RSS and Atom news feeds, each with fallback URLs
+  lib/consensus.mjs      reads the waiver columns behind Writers' picks
   lib/waivers.mjs        the ranking model
   lib/opportunity.mjs    next man up, from depth charts and injuries
   lib/gamelog.mjs        weekly points and last season against this week's opponent
+  lib/defense.mjs        points each defense allows to each position
   lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
+  check-feeds.mjs        npm run feeds, which feeds answer and which columns can be read
 web/src/
   App.jsx                the shell: nav bar, tab bar, league switcher, player sheet
   views/                 one file per tab
@@ -224,6 +228,23 @@ full PPR when a league never changed it. Box score scoring can differ a little f
 pays six for a passing touchdown or counts return yards, and the sheet says so. Quarterbacks,
 running backs, receivers, and tight ends only, since that file does not score kickers or defenses.
 
+## Matchup context
+
+How this week's opponent has defended the player's position, from the same nflverse file. Every row
+there is one player's game and the defense on the other side, so adding up a position's points by opponent
+and dividing by that defense's games played gives points allowed per game. Each league ranks the
+defenses in its own scoring, and rank 1 allows the most, which is the matchup you want.
+
+- **Player sheet:** "MIN allow 27.4 points a game to RBs, the 3rd most in the league. The average
+  is 22.1, through 3 games."
+- **Roster rows:** a note appears only for the six softest and six toughest defenses at that
+  position, "Soft matchup, MIN allow the 3rd most to RBs", so the list stays quiet about ordinary
+  matchups. An injury note takes the spot when there is one.
+
+Defenses are ranked once they have played two games, so weeks 1 and 2 show none of this. Early
+ranks rest on two or three games and move a lot from week to week, which is why the sheet says how
+many games are behind the number.
+
 ## Streaming defenses
 
 A defense scores on sacks, turnovers, and points allowed, and all three depend on the offense it
@@ -251,6 +272,10 @@ schedule file is cached for a day, so lines update once a day.
 - **ESPN's API is undocumented** and changes without notice, usually between seasons. If a view
   stops returning what it used to, open DevTools on the fantasy site, watch the Network tab, and
   copy what the site itself requests.
+- **News feeds move.** In 2026 CBS dropped its fantasy feed, FantasyPros moved theirs, and ESPN's
+  RSS started answering scripts with an empty page. The refresh log shows `feed unavailable` for a
+  source that stops working. Run `npm run feeds` to see what every feed returns, try a replacement
+  with `npm run feeds -- <url>`, and add it to the source's `urls` list in `scripts/lib/feeds.mjs`.
 
 ## Keeping the schedule on time
 
@@ -263,8 +288,35 @@ The workflow now asks at minutes 8, 23, 38, and 53. Those are quiet minutes, so 
 land, and a dropped run costs 15 minutes instead of 30. Each run takes under a minute, and Actions
 minutes are free on public repositories, so the extra runs cost nothing.
 
-That makes it much better but still not guaranteed. For a schedule you can count on, have an outside
-service start the workflow instead of GitHub's scheduler. cron-job.org is free and works well.
+That made little difference in practice. On September 29, the day after the change, scheduled runs
+still landed 5 and 6.5 hours apart.
+
+### Game day mode
+
+Around kickoff the workflow stops waiting on GitHub's schedule. When a run finds a game within three
+hours of starting or still being played, a final job waits eight minutes and then starts the next
+run itself, so scores, inactives, and injury news land about every ten minutes until the last game of
+the day ends. After that the job is skipped and the regular schedule takes over.
+
+- **Why this is allowed:** events caused by the workflow's own token normally start nothing, and
+  `workflow_dispatch` is one of the two exceptions GitHub makes. The job needs the `actions: write`
+  permission, which the workflow grants to that one job only.
+- **No doubled pace:** a scheduled run can land in the middle of the loop. Before starting the next
+  run, the waiting job checks for a newer run that is still going, and if there is one it steps aside
+  and lets that run carry on.
+- **Cost:** a waiting job holds a runner for most of each game window, up to about 28 hours in a
+  week with one Thursday, Sunday, and Monday slate. Actions minutes are free on public repositories. On a private repository this would use up the free minutes quickly,
+  so delete the `next` job there and use the outside trigger below.
+- **How it starts:** the loop starts with the first run that lands inside a window, so on a slow day
+  the first refresh after kickoff can still be late. The outside trigger below closes that gap.
+
+During those windows the app expects a refresh every ten minutes. If half an hour passes without
+one, it says so, and the next scheduled run restarts the loop.
+
+### An outside trigger for the rest of the week
+
+For a schedule you can count on every day, have an outside service start the workflow instead of
+GitHub's scheduler. cron-job.org is free and works well.
 
 1. On GitHub, go to Settings, then Developer settings, then Personal access tokens, then
    Fine-grained tokens, and generate a new one. Under Repository access pick only this repository.
@@ -281,11 +333,24 @@ service start the workflow instead of GitHub's scheduler. cron-job.org is free a
    Actions tab within seconds.
 
 Leave the schedule in the workflow as a backup. If both fire at once, the newer run cancels the
-older one, so nothing deploys twice. Fine-grained tokens expire, a year at most, so set a reminder to
+older one's refresh, so nothing deploys twice. Fine-grained tokens expire, a year at most, so set a reminder to
 renew it.
 
-The dashboard shows a note when the data is more than three hours old, and a stronger one after a
-day, which is when a stopped workflow is the likely cause rather than GitHub running late.
+The dashboard shows a note when the data is more than three hours old, or 30 minutes old around
+kickoff, and a stronger one after a day, which is when a stopped workflow is the likely cause rather
+than GitHub running late.
+
+## When the week turns over
+
+Sleeper keeps calling it the old week until Wednesday, but Monday night to Wednesday is when waiver
+claims and next week's lineup get decided. So once every game of the week has had four hours to
+finish, the refresh moves on to the next week on its own: waivers rank on next week's projections,
+defenses are graded on next week's opponents, start and sit covers next week's lineup, and the
+matchup card shows next week's opponent. ESPN is asked for that week explicitly, since it would
+otherwise answer with whichever week it considers current.
+
+Last week's result stays on the matchup card, as "Week 3: Won 118.4 to 102.1 against Crashee Rice",
+until the new week's first game starts.
 
 ## What changed, rather than what is true
 
@@ -381,9 +446,14 @@ top three pickups, and the latest news.
   bye is flagged.
 
 **News** collects stories from several outlets and keeps only the ones that name a player on your
-roster, with a filter for starters only. Sources are RotoWire, ESPN, Yahoo, CBS Sports, and Pro
-Football Talk, listed in `newsFeeds` in the config so you can drop any of them. Underdog has no
-public feed, their player notes are app only.
+roster, with a filter for starters only. Sources are ESPN, RotoWire, FFToday, Pro Football Rumors,
+RotoBaller, FantasyPros, The Fantasy Footballers, PFF, Yahoo, CBS Sports, and Pro Football Talk. To
+use only some of them, list their names in `newsFeeds` in the config. Underdog has no public feed,
+their player notes are app only.
+
+The fantasy sites among them also publish the waiver and streaming columns that Writers' picks on the
+Waivers tab is built from. Each column is read in full, but only the article itself: menus, related
+links, and trending sidebars name players too, and counting those would read as a recommendation.
 
 ESPN's JSON feed tags articles with athlete ids, which is exact. Everything else is RSS with no ids,
 so those are matched by name. Matching requires the full name, since a surname alone produces
@@ -455,5 +525,7 @@ measurement, and the dashboard words it as touches rather than routes so it does
 
 ## Worth building next
 
-- Matchup context, meaning how many points each defense has allowed to the position.
 - A season long log of your waiver claims scored against what those players actually did.
+- Live scores polled from the browser during games for Sleeper leagues, whose API answers any
+  site. ESPN leagues need your cookies, so they have to stay on the workflow.
+- Kicker matchups. The nflverse weekly file has no kicking, so they would need another source.
