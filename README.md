@@ -145,6 +145,7 @@ scripts/
   lib/news.mjs           ESPN news and injury feeds
   lib/waivers.mjs        the ranking model
   lib/opportunity.mjs    next man up, from depth charts and injuries
+  lib/gamelog.mjs        weekly points and last season against this week's opponent
   lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
 web/src/
@@ -204,6 +205,24 @@ These players are kept on the board even when Sleeper ranks them too low to list
 leagues when ESPN's free agent list, which only covers the 150 most rostered players, leaves them
 out. When the injured player is on your own roster, the backup is marked as your handcuff and the
 Today tab's lineup check tells you to pick them up.
+
+## Player history
+
+The player sheet charts fantasy points for every week this season, one column per week, with the
+season average drawn across it and the best week labeled. Tap or hover a week for its opponent and
+score, and open the table view for every number at once. A week with no column is a bye or a game
+the player missed.
+
+Under this week's game is how the player did against that same opponent last season, beside their
+average across all of last season, since 18 points is a big day for a tight end and a quiet one for
+a top quarterback. When they did not meet that team, it says so.
+
+Both come from nflverse's weekly player stats, which carry the opponent, standard fantasy points,
+and receptions for every game. Standard points plus your league's points per reception times
+receptions gives your league's score: Sleeper's own setting, and ESPN's receptions scoring item,
+full PPR when a league never changed it. Box score scoring can differ a little from a league that
+pays six for a passing touchdown or counts return yards, and the sheet says so. Quarterbacks,
+running backs, receivers, and tight ends only, since that file does not score kickers or defenses.
 
 ## Streaming defenses
 
@@ -332,9 +351,10 @@ No images are downloaded or stored. The JSON holds URLs and the browser fetches 
 
 ## The tabs
 
-Tap any player anywhere to open their sheet: projections, this week's game, injury detail, role
-notes, why the waiver model likes them, which outlets named them, and every story that mentions
-them.
+Tap any player anywhere to open their sheet: projections, a chart of their points in every week
+this season, this week's game, how they did against this week's opponent last season, injury
+detail, role notes, why the waiver model likes them, which outlets named them, and every story that
+mentions them.
 
 **Today** is the first screen, and it answers what you open the app to find out. It leads with this
 week's matchup: your score and your opponent's, each side's projected final, how many starters each

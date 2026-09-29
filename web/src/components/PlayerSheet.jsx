@@ -4,15 +4,16 @@ import Portrait from './Portrait.jsx'
 import Icon from './Icon.jsx'
 import { InjuryPill, SlotPill } from './ui.jsx'
 import { gameState, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
-import { clockTime, formatPoints, timeAgo, weekday } from '../lib/format.js'
+import { clockTime, formatPoints, signed, timeAgo, weekday } from '../lib/format.js'
 import { nextWeekLabel } from '../lib/streaming.js'
+import PointsChart from './PointsChart.jsx'
 
 /**
  * Everything known about one player, in one place. The rows in every list stay
  * short because the detail lives here: role notes, the waiver model's reasons,
  * which outlets named them, and every story that mentions them.
  */
-export default function PlayerSheet({ player, news, onClose, now }) {
+export default function PlayerSheet({ player, news, receptionPoints, onClose, now }) {
   // Keep showing the last player while the sheet animates closed.
   const [shown, setShown] = useState(player)
   useEffect(() => {
@@ -21,12 +22,12 @@ export default function PlayerSheet({ player, news, onClose, now }) {
 
   return (
     <Sheet open={Boolean(player)} onClose={onClose} labelledBy="player-sheet-title">
-      {shown && <PlayerDetail player={shown} news={news} now={now} />}
+      {shown && <PlayerDetail player={shown} news={news} receptionPoints={receptionPoints} now={now} />}
     </Sheet>
   )
 }
 
-function PlayerDetail({ player, news, now }) {
+function PlayerDetail({ player, news, receptionPoints, now }) {
   const stories = storiesFor(player, news)
   const espnPage = /^\d+$/.test(String(player.espnId || '')) ? `https://www.espn.com/nfl/player/_/id/${player.espnId}` : null
   const level = injuryLevel(player.injuryStatus)
@@ -70,6 +71,17 @@ function PlayerDetail({ player, news, now }) {
         </div>
       )}
 
+      {player.gameLog?.weeks?.length > 0 && (
+        <div className="sheet-section chart-section">
+          <div className="card card-pad">
+            <PointsChart log={player.gameLog} scoringLabel={scoringLabel(receptionPoints)} />
+          </div>
+          <p className="section-foot">
+            From NFL box scores, which can differ a little from your league's own scoring.
+          </p>
+        </div>
+      )}
+
       <div className="card">
         <ul className="facts">
           <li>
@@ -103,6 +115,8 @@ function PlayerDetail({ player, news, now }) {
           )}
         </ul>
       </div>
+
+      {player.vsOpponent && <OpponentHistory history={player.vsOpponent} />}
 
       {player.reasons?.length > 0 && player.position !== 'DEF' && (
         <FactSection title="Why the model likes this pickup" icon="sparkles" tone="var(--purple)" items={player.reasons} />
@@ -152,6 +166,64 @@ function PlayerDetail({ player, news, now }) {
       )}
     </>
   )
+}
+
+/**
+ * Last season against the team this player faces this week, beside their average
+ * across all of that season, since a number on its own says little: 18 points
+ * is a big day for a tight end and a quiet one for a top quarterback.
+ */
+function OpponentHistory({ history }) {
+  const { opponent, season, games, seasonAverage, seasonGames } = history
+  if (games.length === 0) {
+    return (
+      <div className="sheet-section">
+        <h3>Against {opponent} last season</h3>
+        <div className="card card-pad vs-empty">
+          Did not play {opponent} in {season}. Averaged {formatPoints(seasonAverage)} over{' '}
+          {seasonGames} {seasonGames === 1 ? 'game' : 'games'} that season.
+        </div>
+      </div>
+    )
+  }
+
+  const average = games.reduce((sum, [, points]) => sum + points, 0) / games.length
+  const difference = average - seasonAverage
+  return (
+    <div className="sheet-section">
+      <h3>Against {opponent} last season</h3>
+      <div className="stat-grid vs-stats">
+        <div className="stat">
+          <span className="stat-label">
+            vs {opponent}
+            {games.length > 1 ? `, ${games.length} games` : ''}
+          </span>
+          <span className="stat-value">{formatPoints(average)}</span>
+          <span className={difference >= 0 ? 'stat-delta is-up' : 'stat-delta is-down'}>
+            {signed(difference)} vs usual
+          </span>
+        </div>
+        <div className="stat">
+          <span className="stat-label">{season} average</span>
+          <span className="stat-value">{formatPoints(seasonAverage)}</span>
+          <span className="stat-delta">
+            {seasonGames} {seasonGames === 1 ? 'game' : 'games'}
+          </span>
+        </div>
+      </div>
+      <p className="vs-games">
+        {games.map(([week, points]) => `Week ${week}: ${formatPoints(points)}`).join(' · ')}
+      </p>
+    </div>
+  )
+}
+
+function scoringLabel(receptionPoints) {
+  if (receptionPoints == null) return null
+  if (receptionPoints === 1) return 'PPR'
+  if (receptionPoints === 0.5) return 'Half PPR'
+  if (receptionPoints === 0) return 'Standard'
+  return `${receptionPoints} per catch`
 }
 
 function FactSection({ title, icon, tone, items }) {

@@ -1487,6 +1487,7 @@ a.row:active {
   letter-spacing: 0.03em;
 }
 
+/* Proportional figures: a standalone number set in equal width digits looks loose. */
 .stat-value {
   display: block;
   margin-top: 2px;
@@ -1494,7 +1495,7 @@ a.row:active {
   font-size: 24px;
   font-weight: 700;
   line-height: 1.15;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: proportional-nums;
 }
 
 .stat-value small {
@@ -1578,6 +1579,236 @@ a.row:active {
 
 .sheet-actions .btn {
   flex: 1;
+}
+
+/* Points by week. Thin columns in the tint, rounded only at the data end, on a
+   hairline grid. Only the best week is labeled on the plot; the readout and the
+   table carry every other value. Text stays in the text colors throughout. */
+
+.chart {
+  margin: 0;
+}
+
+.chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.chart-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.chart-sub {
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.chart-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 12px 0 18px;
+}
+
+.chart-stats .stat {
+  padding: 10px 12px;
+}
+
+.chart-stats .stat-value {
+  font-size: 20px;
+}
+
+.chart-plot {
+  position: relative;
+  margin: 8px 0 0 26px;
+}
+
+.chart-grid,
+.chart-avg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px solid var(--separator);
+  pointer-events: none;
+}
+
+.chart-grid > span {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: -7px;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--label-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-grid.is-base {
+  border-top-color: var(--label-3);
+}
+
+.chart-avg {
+  z-index: 2;
+  border-top-color: var(--label-2);
+}
+
+.chart-avg > span {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--label-2);
+}
+
+.chart-cols {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+}
+
+.chart-col {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+}
+
+.chart-bar {
+  display: block;
+  width: calc(100% - 3px);
+  max-width: 24px;
+  min-height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: var(--tint);
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.chart-col.is-active .chart-bar {
+  background: var(--tint-ink);
+}
+
+@media (hover: hover) {
+  .chart-cols:hover .chart-col:not(:hover) .chart-bar {
+    opacity: 0.55;
+  }
+}
+
+.chart-value {
+  position: absolute;
+  left: 50%;
+  margin-bottom: 3px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--label);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-x {
+  display: flex;
+  margin: 6px 0 0 26px;
+}
+
+.chart-x span {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  font-size: 10px;
+  color: var(--label-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-x span.is-active {
+  color: var(--label);
+  font-weight: 700;
+}
+
+.chart-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 15px;
+}
+
+.chart-readout span {
+  color: var(--label-2);
+}
+
+.chart-table {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.chart-table summary {
+  cursor: pointer;
+  color: var(--tint-ink);
+  font-weight: 500;
+}
+
+.chart-table table {
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-table th,
+.chart-table td {
+  padding: 5px 4px;
+  text-align: left;
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+
+.chart-table th {
+  font-weight: 600;
+  color: var(--label-2);
+}
+
+.chart-table td:last-child,
+.chart-table th:last-child {
+  text-align: right;
+}
+
+.stat-delta {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--label-2);
+}
+
+.stat-delta.is-up {
+  color: var(--green-ink);
+}
+
+.stat-delta.is-down {
+  color: var(--red-ink);
+}
+
+.vs-games {
+  margin: 8px 4px 0;
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.vs-empty {
+  font-size: 15px;
+  color: var(--label-2);
 }
 
 /* Today */
