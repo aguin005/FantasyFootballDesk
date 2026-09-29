@@ -51,7 +51,7 @@ export async function loadUsage(season) {
   }
 }
 
-function buildIdMap(players) {
+export function buildIdMap(players) {
   const byGsis = new Map()
   const byPfr = new Map()
   for (const player of players) {
@@ -204,7 +204,24 @@ async function loadSeasonCSV(tag, filename, season) {
   }
 }
 
-async function loadCSV(assetPath, label) {
+// Several modules read the same nflverse files in the same run. Sharing the
+// pending read means each file is downloaded and parsed once.
+const pending = new Map()
+
+export function loadCSV(assetPath, label) {
+  if (!pending.has(assetPath)) {
+    pending.set(
+      assetPath,
+      readCSV(assetPath, label).catch((error) => {
+        pending.delete(assetPath)
+        throw error
+      })
+    )
+  }
+  return pending.get(assetPath)
+}
+
+async function readCSV(assetPath, label) {
   const cacheKey = path.join(CACHE_DIR, `nflverse-${assetPath.replace(/\//g, '-')}`)
 
   try {

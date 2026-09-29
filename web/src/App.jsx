@@ -236,7 +236,13 @@ export default function App() {
 
       <TabBar tabs={tabs} active={activeTab} onChange={selectTab} inert={sheetOpen} />
 
-      <PlayerSheet player={sheetPlayer} news={data.news || []} onClose={closePlayer} now={now} />
+      <PlayerSheet
+        player={sheetPlayer}
+        news={data.news || []}
+        receptionPoints={league.receptionPoints}
+        onClose={closePlayer}
+        now={now}
+      />
       <MatchupSheet open={matchupOpen} matchup={matchup} now={now} onClose={closeMatchup} />
 
       {toast && (

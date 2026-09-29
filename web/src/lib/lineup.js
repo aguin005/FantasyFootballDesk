@@ -274,6 +274,18 @@ function bestAssignment(starters, candidates, value) {
 }
 
 /**
+ * True when a free agent's opening comes from an injury to one of your own
+ * players, which makes them your handcuff rather than just a good pickup.
+ */
+export function coversRoster(player, rosterIds) {
+  return Boolean(
+    player.opportunity?.injured?.some(
+      (injured) => rosterIds.has(injured.sleeperId) || rosterIds.has(injured.espnId)
+    )
+  )
+}
+
+/**
  * Finds the fullest record of a player anywhere in a league. Change entries and
  * news chips only carry a name and an image, while the roster and waiver records
  * carry projections, usage, and news, which is what the player sheet shows.

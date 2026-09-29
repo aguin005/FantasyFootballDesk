@@ -1,4 +1,5 @@
 import { getJSON } from './http.mjs'
+import { normalizeInjury } from './injury.mjs'
 
 const NEWS_URL = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=50'
 const FANTASY_NEWS_URL =
@@ -68,7 +69,7 @@ export async function fetchInjuries() {
         const athleteId = record.athlete?.id
         if (!athleteId) continue
         byPlayer.set(String(athleteId), {
-          status: record.status || null,
+          status: normalizeInjury(record.status),
           detail: record.shortComment || record.longComment || record.details?.type || null,
           date: record.date || null
         })

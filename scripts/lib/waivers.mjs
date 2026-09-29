@@ -9,6 +9,8 @@
  *   ownershipChange ESPN's day over day change in percent rostered, same idea
  *   usage           snap share, target share, and depth chart rank from nflverse,
  *                   which move before projections do when a role changes
+ *   opportunity     a teammate ahead of the player at the position is out, doubtful,
+ *                   on IR, or suspended, which hands them the role this week
  *
  * Signals that a platform cannot supply are dropped and the remaining weights are
  * renormalized, so a Sleeper league ranks on trend alone rather than on zeros.
@@ -16,7 +18,20 @@
 
 const STARTABLE = new Set(['QB', 'RB', 'WR', 'TE', 'K', 'DEF'])
 
-export function rankCandidates(candidates, roster, weights, limit) {
+// Used when leagues.config.json predates a signal, so an older config still ranks
+// on everything instead of silently dropping the new signal to zero.
+const DEFAULT_WEIGHTS = { projection: 0.4, trend: 0.2, ownershipChange: 0.15, usage: 0.25, opportunity: 0.3 }
+
+// A starter's job outranks a move up to RB2.
+const OPPORTUNITY_VALUE = { starter: 1, backup: 0.6 }
+
+// Everyone who makes the overall cut, plus at least this many at each position, so
+// one crowded position can never push another off the board. Defenses are all kept,
+// since streaming compares every one of them.
+const PER_POSITION = 8
+
+export function rankCandidates(candidates, roster, configured, limit) {
+  const weights = { ...DEFAULT_WEIGHTS, ...configured }
   const baselines = replacementBaselines(roster)
   const usable = candidates.filter((player) => STARTABLE.has(player.position))
 
@@ -56,6 +71,9 @@ export function rankCandidates(candidates, roster, weights, limit) {
     if (player.usageSignal != null) {
       parts.push({ key: 'usage', value: scales.usage(player.usageSignal), raw: player.usageSignal })
     }
+    if (player.opportunity) {
+      parts.push({ key: 'opportunity', value: OPPORTUNITY_VALUE[player.opportunity.kind] ?? 0.5 })
+    }
 
     const totalWeight = parts.reduce((sum, part) => sum + (weights[part.key] ?? 0), 0)
     const score =
@@ -70,10 +88,18 @@ export function rankCandidates(candidates, roster, weights, limit) {
     }
   })
 
-  return ranked
+  const sorted = ranked
     .filter((player) => player.injuryStatus !== 'IR')
     .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
+
+  const keep = new Set(sorted.slice(0, limit))
+  const perPosition = new Map()
+  for (const player of sorted) {
+    const count = perPosition.get(player.position) || 0
+    if (player.position === 'DEF' || count < PER_POSITION) keep.add(player)
+    perPosition.set(player.position, count + 1)
+  }
+  return sorted.filter((player) => keep.has(player))
 }
 
 /**
@@ -103,7 +129,8 @@ function buildScale(values) {
 }
 
 function buildReasons(parts, player, baselines) {
-  const reasons = []
+  // An opening is the headline when there is one, since it explains everything else.
+  const reasons = player.opportunity ? [player.opportunity.note] : []
   for (const part of parts) {
     if (part.key === 'projection') {
       const baseline = baselines.get(player.position)

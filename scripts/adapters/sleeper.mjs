@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getJSON } from '../lib/http.mjs'
+import { sleeperInjury } from '../lib/injury.mjs'
 
 const BASE = 'https://api.sleeper.app/v1'
 // Sleeper's documented API has no projections, but the host their own app talks to
@@ -131,8 +132,22 @@ function pointsFor(stats, key) {
   return typeof value === 'number' ? Number(value.toFixed(1)) : null
 }
 
-/** Everything the dashboard needs for one Sleeper league, in our normalized shape. */
-export async function loadLeague(leagueId, userId, players, trending, projections, seasonProjections, week) {
+/**
+ * Everything the dashboard needs for one Sleeper league, in our normalized shape.
+ * options.include holds Sleeper ids to keep as free agents however obscure they
+ * are, which is how a backup with a fresh opening makes the board.
+ */
+export async function loadLeague(
+  leagueId,
+  userId,
+  players,
+  trending,
+  projections,
+  seasonProjections,
+  week,
+  options = {}
+) {
+  const include = options.include || new Set()
   const [league, rosters, users, matchups] = await Promise.all([
     getLeague(leagueId),
     getRosters(leagueId),
@@ -174,7 +189,7 @@ export async function loadLeague(leagueId, userId, players, trending, projection
       position: player.position || '',
       team: player.team || 'FA',
       ...myLineup(playerId),
-      injuryStatus: normalizeInjury(player.injury_status),
+      injuryStatus: sleeperInjury(player),
       injuryNote: player.injury_body_part || null,
       projected: pointsFor(weekly.get(playerId), key),
       seasonProjected: pointsFor(season.get(playerId), key)
@@ -187,14 +202,17 @@ export async function loadLeague(leagueId, userId, players, trending, projection
     if (!player.active) continue
     if (!FANTASY_POSITIONS.has(player.position)) continue
     const trendAdds = trending.get(playerId) || 0
-    if (trendAdds === 0 && (player.search_rank ?? 9999) > 300) continue
+    // Deep free agents are skipped to keep the pool small, except defenses, which
+    // Sleeper ranks low but streaming needs every one of, and anyone with an opening.
+    const keep = player.position === 'DEF' || include.has(playerId)
+    if (!keep && trendAdds === 0 && (player.search_rank ?? 9999) > 300) continue
     candidates.push({
       playerId,
       espnId: player.espn_id ? String(player.espn_id) : null,
       name: playerName(player, playerId),
       position: player.position,
       team: player.team || 'FA',
-      injuryStatus: normalizeInjury(player.injury_status),
+      injuryStatus: sleeperInjury(player),
       trendAdds,
       searchRank: player.search_rank ?? null,
       projected: pointsFor(weekly.get(playerId), key),
@@ -222,7 +240,7 @@ export async function loadLeague(leagueId, userId, players, trending, projection
           position: player.position || '',
           team: player.team || 'FA',
           ...lineup(playerId),
-          injuryStatus: normalizeInjury(player.injury_status),
+          injuryStatus: sleeperInjury(player),
           projected: pointsFor(weekly.get(playerId), key),
           seasonProjected: pointsFor(season.get(playerId), key)
         }
@@ -238,6 +256,7 @@ export async function loadLeague(leagueId, userId, players, trending, projection
     teamName: owner?.metadata?.team_name || owner?.display_name || 'My team',
     record: formatRecord(myRoster.settings?.wins, myRoster.settings?.losses, myRoster.settings?.ties),
     scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
+    receptionPoints: league.scoring_settings?.rec ?? 0,
     matchup: findMatchup(matchups, myRoster.roster_id, week),
     roster,
     candidates
@@ -301,10 +320,4 @@ function playerName(player, fallbackId) {
   if (player.full_name) return player.full_name
   if (player.first_name) return `${player.first_name} ${player.last_name}`.trim()
   return fallbackId
-}
-
-function normalizeInjury(status) {
-  if (!status) return null
-  const map = { Questionable: 'QUESTIONABLE', Doubtful: 'DOUBTFUL', Out: 'OUT', IR: 'IR', PUP: 'PUP', Sus: 'SUSPENDED' }
-  return map[status] || String(status).toUpperCase()
 }
