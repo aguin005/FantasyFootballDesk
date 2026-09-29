@@ -106,6 +106,20 @@ export function gameState(player, now = Date.now()) {
   return now < start + GAME_WINDOW_MS ? 'live' : 'played'
 }
 
+// Game day mode in the workflow refreshes about every ten minutes from three hours
+// before a kickoff until the game is over.
+const PREGAME_MS = 3 * 60 * 60 * 1000
+
+/** True while any of your players' games is close enough that refreshes should be frequent. */
+export function onGameClock(leagues, now = Date.now()) {
+  return leagues.some((league) =>
+    league.roster.some((player) => {
+      const start = Date.parse(player.game?.kickoffISO)
+      return Number.isFinite(start) && now >= start - PREGAME_MS && now < start + GAME_WINDOW_MS
+    })
+  )
+}
+
 export function isLocked(player, now = Date.now()) {
   const state = gameState(player, now)
   return state === 'live' || state === 'played'

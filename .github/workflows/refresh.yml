@@ -6,7 +6,8 @@ on:
     # The busiest moments are the top and bottom of the hour, and on '0,30' this
     # repo got 5 to 7 of its 48 daily runs, hours apart. Asking four times an hour
     # on quiet minutes means more runs land, and a dropped one costs 15 minutes.
-    # For a guaranteed schedule, see "Keeping the schedule on time" in the README.
+    # On game days the next job below takes over. For a guaranteed schedule the
+    # rest of the week, see "Keeping the schedule on time" in the README.
     - cron: '8,23,38,53 * * * *'
   # Also the endpoint an external scheduler calls, as described in the README.
   workflow_dispatch:
@@ -18,16 +19,20 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    # A newer run supersedes an older one that is still refreshing. This sits on
+    # the jobs rather than the whole workflow so that the next job below can start
+    # the following run without that run cancelling the one that started it.
+    concurrency:
+      group: refresh
+      cancel-in-progress: true
     # A normal run takes under a minute. Without a limit, a hung request would hold
-    # the pages concurrency group for GitHub's default of six hours.
+    # the concurrency group for GitHub's default of six hours.
     timeout-minutes: 10
+    outputs:
+      game_window: ${{ steps.refresh.outputs.game_window }}
     steps:
       - uses: actions/checkout@v4
 
@@ -49,6 +54,7 @@ jobs:
           key: sleeper-players-${{ steps.stamp.outputs.day }}
 
       - name: Refresh league data
+        id: refresh
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           SWID: ${{ secrets.SWID }}
@@ -66,9 +72,45 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Game day mode. GitHub starts scheduled runs hours apart when Actions is busy,
+  # which is fine on a Tuesday and useless on a Sunday. From three hours before a
+  # kickoff until the game ends, each run waits eight minutes and starts the next
+  # one itself, so scores and inactives land about every ten minutes. Outside that
+  # window this job is skipped and the schedule above takes over again.
+  #
+  # Events caused by the workflow's own token normally start nothing, and
+  # workflow_dispatch is one of the two exceptions GitHub makes. Public
+  # repositories get Actions minutes for free, so the waiting costs nothing.
+  next:
+    needs: [build, deploy]
+    if: needs.build.outputs.game_window == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: write
+    steps:
+      - name: Wait, then start the next refresh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          sleep 480
+          # A scheduled run can land while this one waits. The newer run carries
+          # on from here, so this one steps aside instead of doubling the pace.
+          newer=$(gh run list --workflow refresh.yml --limit 20 --json databaseId,status \
+            --jq '[.[] | select(.databaseId > ${{ github.run_id }} and .status != "completed")] | length')
+          if [ "$newer" -gt 0 ]; then
+            echo "A newer refresh is already running and will start the next one."
+            exit 0
+          fi
+          gh workflow run refresh.yml --ref main

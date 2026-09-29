@@ -8,6 +8,8 @@ const CACHE = path.resolve('.cache/nflverse-games.csv')
 const ONE_DAY_MS = 24 * 60 * 60 * 1000
 // Long enough for any game to finish, overtime and a weather delay included.
 const GAME_OVER_MS = 4 * 60 * 60 * 1000
+// Inactives come out 90 minutes before kickoff, and late injury news before that.
+const PREGAME_MS = 3 * 60 * 60 * 1000
 
 // nflverse uses a few abbreviations that differ from ESPN's.
 const ALIASES = { LA: 'LAR', WAS: 'WSH', JAC: 'JAX', SD: 'LAC', OAK: 'LV', STL: 'LAR' }
@@ -69,6 +71,18 @@ export function weekFinished(schedule, now = Date.now()) {
   return games.every((game) => {
     const kickoff = Date.parse(game.kickoffISO)
     return Number.isFinite(kickoff) && now > kickoff + GAME_OVER_MS
+  })
+}
+
+/**
+ * True from three hours before any kickoff this week until that game is over.
+ * The workflow refreshes every ten minutes inside this window instead of waiting
+ * on GitHub's schedule, which runs hours apart when Actions is busy.
+ */
+export function inGameWindow(schedule, now = Date.now()) {
+  return [...schedule.values()].some((game) => {
+    const kickoff = Date.parse(game.kickoffISO)
+    return Number.isFinite(kickoff) && now >= kickoff - PREGAME_MS && now <= kickoff + GAME_OVER_MS
   })
 }
 

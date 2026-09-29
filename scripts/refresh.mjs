@@ -9,7 +9,7 @@ import { loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame, weekFinished } from './lib/schedule.mjs'
+import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished } from './lib/schedule.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
@@ -180,6 +180,11 @@ async function main() {
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true })
   await fs.writeFile(OUTPUT, JSON.stringify(current, null, 2))
+
+  // The workflow reads this to decide whether to queue the next run itself.
+  const gameWindow = inGameWindow(schedule)
+  if (process.env.GITHUB_OUTPUT) await fs.appendFile(process.env.GITHUB_OUTPUT, `game_window=${gameWindow}\n`)
+  if (gameWindow) console.log('Games are on or about to start, so the workflow will run again in about 10 minutes')
 
   const fresh = current.changes.filter((entry) => entry.isNew).length
   console.log(

@@ -15,7 +15,7 @@ import { useDashboard } from './lib/useDashboard.js'
 import { usePullToRefresh } from './lib/usePullToRefresh.js'
 import { useNow, useOnline, useScrolled } from './lib/hooks.js'
 import { useSetting } from './lib/storage.js'
-import { lineupReport, resolvePlayer } from './lib/lineup.js'
+import { lineupReport, onGameClock, resolvePlayer } from './lib/lineup.js'
 import { matchupReport } from './lib/matchup.js'
 import { ageMs, longAgo, updatedLabel } from './lib/format.js'
 
@@ -33,6 +33,9 @@ const TABS = {
 // the schedule off after 60 days without a commit.
 const LATE_AFTER_MS = 3 * 60 * 60 * 1000
 const STOPPED_AFTER_MS = 24 * 60 * 60 * 1000
+// Around kickoff the workflow refreshes every ten minutes on its own, so half an
+// hour without one means that loop stopped and is waiting on the schedule.
+const GAME_DAY_LATE_MS = 30 * 60 * 1000
 const TOAST_MS = 2600
 
 export default function App() {
@@ -139,7 +142,8 @@ export default function App() {
   }
 
   const age = ageMs(data.generatedAt, now)
-  const stale = age > LATE_AFTER_MS
+  const gameDay = onGameClock(leagues, now)
+  const stale = age > (gameDay ? GAME_DAY_LATE_MS : LATE_AFTER_MS)
   const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
   const sheetOpen = Boolean(sheetPlayer) || matchupOpen
@@ -190,7 +194,9 @@ export default function App() {
           <Notice title={`Last refreshed ${longAgo(data.generatedAt, now)}`}>
             {stopped
               ? 'The refresh may have stopped. Check the latest run in the Actions tab on GitHub.'
-              : 'GitHub is running the scheduled refresh late. It usually catches up on its own.'}
+              : gameDay && age < LATE_AFTER_MS
+                ? 'Refreshes around kickoff should arrive every 10 minutes. The next scheduled run restarts them.'
+                : 'GitHub is running the scheduled refresh late. It usually catches up on its own.'}
           </Notice>
         )}
         {activeTab === 'today' && data.problems?.length > 0 && (
