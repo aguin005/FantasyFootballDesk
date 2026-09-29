@@ -9,7 +9,8 @@ const ONE_DAY_MS = 24 * 60 * 60 * 1000
 
 // nflverse uses a few abbreviations that differ from ESPN's.
 const ALIASES = { LA: 'LAR', WAS: 'WSH', JAC: 'JAX', SD: 'LAC', OAK: 'LV', STL: 'LAR' }
-const normalize = (team) => ALIASES[team] || team
+export const normalizeTeam = (team) => ALIASES[team] || team
+const normalize = normalizeTeam
 
 /**
  * Kickoff day and time for every team in a given week, so the dashboard can group

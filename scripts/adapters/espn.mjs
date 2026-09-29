@@ -218,6 +218,7 @@ export async function loadLeague(config, season, week) {
     teamName: teamName(team),
     record: formatRecord(team.record?.overall),
     scoring: league.settings?.scoringSettings?.scoringType || 'See ESPN settings',
+    receptionPoints: receptionPoints(league.settings),
     matchup: findMatchup(matchupData?.schedule, team.id, matchupPeriodFor(league.settings, week), week),
     roster,
     candidates
@@ -261,6 +262,17 @@ function findMatchup(schedule, teamId, period, week) {
 function sideTotal(side) {
   const value = side.totalPointsLive ?? side.totalPoints
   return typeof value === 'number' ? Number(value.toFixed(2)) : null
+}
+
+// ESPN's stat id for receptions. Its entry in the scoring items is the league's
+// points per catch, and a league that never changed it is full PPR.
+const RECEPTIONS_STAT = 53
+
+function receptionPoints(settings) {
+  const item = (settings?.scoringSettings?.scoringItems || []).find(
+    (entry) => entry.statId === RECEPTIONS_STAT
+  )
+  return typeof item?.points === 'number' ? item.points : 1
 }
 
 function teamName(team) {

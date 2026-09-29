@@ -256,6 +256,7 @@ export async function loadLeague(
     teamName: owner?.metadata?.team_name || owner?.display_name || 'My team',
     record: formatRecord(myRoster.settings?.wins, myRoster.settings?.losses, myRoster.settings?.ties),
     scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
+    receptionPoints: league.scoring_settings?.rec ?? 0,
     matchup: findMatchup(matchups, myRoster.roster_id, week),
     roster,
     candidates
