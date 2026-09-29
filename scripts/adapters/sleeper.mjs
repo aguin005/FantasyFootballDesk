@@ -45,9 +45,11 @@ export function getLeagueUsers(leagueId) {
  */
 export async function getMatchups(leagueId, week) {
   try {
-    return await getJSON(`${BASE}/league/${leagueId}/matchups/${week}`, {
+    const matchups = await getJSON(`${BASE}/league/${leagueId}/matchups/${week}`, {
       label: `Sleeper matchups ${leagueId}`
     })
+    // A week outside the league's schedule answers null rather than a list.
+    return Array.isArray(matchups) ? matchups : []
   } catch (error) {
     console.warn(`Sleeper matchups unavailable for ${leagueId}: ${error.message}`)
     return []
@@ -148,11 +150,13 @@ export async function loadLeague(
   options = {}
 ) {
   const include = options.include || new Set()
-  const [league, rosters, users, matchups] = await Promise.all([
+  const lastWeek = options.lastWeek >= 1 ? options.lastWeek : null
+  const [league, rosters, users, matchups, lastMatchups] = await Promise.all([
     getLeague(leagueId),
     getRosters(leagueId),
     getLeagueUsers(leagueId),
-    getMatchups(leagueId, week)
+    getMatchups(leagueId, week),
+    lastWeek ? getMatchups(leagueId, lastWeek) : []
   ])
 
   const myRoster = rosters.find((roster) => roster.owner_id === userId)
@@ -258,6 +262,7 @@ export async function loadLeague(
     scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
     receptionPoints: league.scoring_settings?.rec ?? 0,
     matchup: findMatchup(matchups, myRoster.roster_id, week),
+    lastMatchup: lastWeek ? findMatchup(lastMatchups, myRoster.roster_id, lastWeek) : null,
     roster,
     candidates
   }

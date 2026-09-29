@@ -2107,6 +2107,25 @@ a.row:active {
   color: var(--label-2);
 }
 
+.matchup-last {
+  display: block;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 0.5px solid var(--separator);
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.matchup-last .is-up {
+  color: var(--green-ink);
+  font-weight: 600;
+}
+
+.matchup-last .is-down {
+  color: var(--red-ink);
+  font-weight: 600;
+}
+
 .sheet-title {
   margin: 4px 40px 14px 0;
   font-size: 22px;

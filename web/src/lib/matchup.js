@@ -57,6 +57,26 @@ export function matchupReport(league, generatedAt, now = Date.now()) {
   }
 }
 
+/**
+ * Last week's final score, which Today keeps showing until this week's games
+ * begin, since Monday night to Thursday is when a result is still fresh news.
+ */
+export function lastResult(league) {
+  const last = league?.lastMatchup
+  if (!last || last.score == null || last.opponentScore == null) return null
+  // Both at zero means the week was never scored, not a tie.
+  if (last.score === 0 && last.opponentScore === 0) return null
+  const opponent = (league.teams || []).find((team) => String(team.teamId) === String(last.opponentTeamId))
+  const margin = last.score - last.opponentScore
+  return {
+    week: last.week,
+    score: last.score,
+    opponentScore: last.opponentScore,
+    opponent: opponent?.name || null,
+    outcome: Math.abs(margin) < 0.005 ? 'tied' : margin > 0 ? 'won' : 'lost'
+  }
+}
+
 function side(name, roster, score, asOf, now) {
   const known = scheduleKnown(roster)
   const rows = sortBySlot(roster.filter((player) => player.starter)).map((player) => ({

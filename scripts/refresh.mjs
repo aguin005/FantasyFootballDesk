@@ -9,7 +9,7 @@ import { loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame } from './lib/schedule.mjs'
+import { loadSchedule, attachGame, attachNextGame, weekFinished } from './lib/schedule.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
@@ -17,6 +17,7 @@ import { fetchSocial } from './lib/social.mjs'
 import { buildFreeAgentPool, collectMentions, consensusForLeague } from './lib/consensus.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
+const LAST_WEEK = 18
 
 async function main() {
   const config = JSON.parse(await fs.readFile(path.resolve('leagues.config.json'), 'utf8'))
@@ -25,8 +26,17 @@ async function main() {
 
   const state = await sleeper.getState()
   const season = state.season
-  const week = state.display_week || state.week || 1
-  console.log(`Refreshing ${season} week ${week}`)
+  const scoringWeek = state.display_week || state.week || 1
+  const scoringSchedule = await loadSchedule(season, scoringWeek)
+  // Once Monday night is over the dashboard plans for the next week: its waivers,
+  // its matchups and its lineup. The regular season ends at week 18.
+  const rolled = scoringWeek < LAST_WEEK && weekFinished(scoringSchedule)
+  const week = rolled ? scoringWeek + 1 : scoringWeek
+  console.log(
+    rolled
+      ? `Week ${scoringWeek} is over, refreshing ${season} week ${week}`
+      : `Refreshing ${season} week ${week}`
+  )
 
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
@@ -39,7 +49,7 @@ async function main() {
       fetchInjuries(),
       loadUsage(season),
       loadGameLogs(season),
-      loadSchedule(season, week),
+      rolled ? loadSchedule(season, week) : scoringSchedule,
       loadSchedule(season, week + 1),
       sleeper.getProjections(season, week),
       sleeper.getProjections(season)
@@ -73,7 +83,7 @@ async function main() {
           weekly,
           seasonal,
           week,
-          { include: new Set(opportunities.keys()) }
+          { include: new Set(opportunities.keys()), lastWeek: week - 1 }
         )
         if (loaded) leagues.push(loaded)
       }
@@ -85,7 +95,7 @@ async function main() {
   for (const league of config.espn || []) {
     if (String(league.leagueId).startsWith('0000')) continue
     try {
-      leagues.push(await espn.loadLeague(league, season, week))
+      leagues.push(await espn.loadLeague(league, season, week, { lastWeek: week - 1 }))
     } catch (error) {
       problems.push(`ESPN ${league.leagueId}: ${error.message}`)
     }
