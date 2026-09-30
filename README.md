@@ -158,14 +158,24 @@ web/src/
   lib/lineup.js          start and sit, lineup alerts, game states, all of it pure logic
   lib/matchup.js         the head to head and its live projection
   lib/streaming.js       defense streaming ratings
+  lib/nflSchedule.js     the schedule panel's days, game states, and your players in each game
+  lib/teams.js           team names and ESPN logo URLs
+  components/SchedulePanel.jsx   the NFL schedule that pulls out from the right edge
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
 .github/workflows/       the scheduled job
 ```
 
-The crosswalk is the quiet load bearing piece. Sleeper's player dump carries `espn_id` on every
-record, so one file gives you a map between the two platforms and lets ESPN's news feed, which tags
+The crosswalk is the quiet load bearing piece. Sleeper's player dump carries `espn_id` on most
+records, so one file gives you a map between the two platforms and lets ESPN's news feed, which tags
 articles with athlete ids, attach stories to players in your Sleeper leagues too.
+
+Most is not all. In September 2026, 9 of the 17 players on one real Sleeper roster had no
+`espn_id`, and every feature keyed to ESPN ids skipped them without a word: the weekly chart, ESPN
+news, injury designations, and snap and target share. Sleeper records do carry the NFL's own gsis
+id, and nflverse's players file, which the refresh already downloads, maps gsis ids to ESPN ids. So
+each run fills the gaps from there first, and falls back to name and position for active players
+when that pair is unique.
 
 ## How waivers are ranked
 
@@ -180,10 +190,19 @@ Five signals, blended, each normalized to the pool of available players in that 
 | Change in rostered percentage today | 0.15 | ESPN |
 
 Signals a platform cannot supply are dropped and the rest are renormalized, so a Sleeper league
-ranks on add velocity alone rather than being penalized for missing projections.
+ranks without ESPN's ownership change rather than being penalized for it. A single player missing a
+signal is different: where the league has projections, a player without one counts as projecting
+zero. Dropping it instead ranked an injured free agent with no team first among the receivers, on
+adds alone.
+
+Adds are compared on a log scale, since a few players get hundreds of thousands in a day and most
+get a handful, and a player nobody added takes part with zero. Leaving those out had ranked a
+player with 5 adds below an otherwise identical player with none.
 
 Replacement level is your own roster, not a league average. A player only scores well if starting
-them would actually change your lineup. Tune the weights in `leagues.config.json`. A weight missing
+them would actually change your lineup. Players who are not playing this week, on IR, out, or
+projecting zero, are left out of it: an injured back on the bench had set the baseline to zero, and
+every free agent back read as a big upgrade over "your worst RB at 0.0". Tune the weights in `leagues.config.json`. A weight missing
 from an older config falls back to the default above rather than to zero.
 
 The board keeps the best 25 overall plus at least eight at every position, and every free agent
@@ -454,6 +473,8 @@ their player notes are app only.
 The fantasy sites among them also publish the waiver and streaming columns that Writers' picks on the
 Waivers tab is built from. Each column is read in full, but only the article itself: menus, related
 links, and trending sidebars name players too, and counting those would read as a recommendation.
+Players who are out this week are left out too, since a column names an injured starter to explain
+why that player's backup is the add, which had Jayden Daniels showing as a pick from three writers.
 
 ESPN's JSON feed tags articles with athlete ids, which is exact. Everything else is RSS with no ids,
 so those are matched by name. Matching requires the full name, since a surname alone produces
@@ -475,6 +496,31 @@ number, and Sleeper's come from the same projections host as its weekly numbers.
 is the change in projected points for your side. It does not try to price positional scarcity or
 roster construction, because one confident number would be more misleading than a rough one you
 interpret yourself.
+
+## NFL schedule panel
+
+A slim tab on the right edge of the screen pulls out the whole week's NFL schedule. Tap it, or drag
+it toward the middle. Drag the panel back to the right, tap outside it, or press Escape to close it.
+
+- **In kickoff order,** grouped by day in your own time zone, so a 9:30 AM game in Europe sits at
+  the top of Sunday.
+- **Each game** shows both teams' logos and names. Before kickoff it shows the time. Once a game
+  starts it reads Live, and once nflverse records the score, the final with the loser grayed out.
+- **Your players** are listed under their game, starters first and bench players grayed, which is
+  usually why you are looking at the schedule.
+- **Teams on bye** are at the bottom, with any of your players who are sitting out.
+- **Tap a game** to open ESPN's game page, which is where live scores are. The dashboard itself has
+  no live scores between refreshes.
+- **It opens at today.** Once Thursday's game is over, the panel opens at Sunday.
+
+Logos come from ESPN's CDN, with the version ESPN draws for dark backgrounds in dark mode, so the
+Raiders' black shield stays visible. A logo that fails to load falls back to the standard version,
+then to the team's abbreviation.
+
+The schedule is nflverse's `games.csv`, which the refresh already reads for kickoff times and
+betting lines. It was cached for a day, and in Actions the cache is restored from the day's first
+run, so lines posted later that day, and now scores, waited until the next day. It is cached for an
+hour now.
 
 ## Design
 
