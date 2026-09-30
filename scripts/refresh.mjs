@@ -9,7 +9,7 @@ import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished } from './lib/schedule.mjs'
+import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished, weekSchedule } from './lib/schedule.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
 import { loadPointsAllowed, rankDefenses, opponentDefenseFor } from './lib/defense.mjs'
@@ -179,6 +179,7 @@ async function main() {
     news,
     season,
     week,
+    schedule: weekSchedule(schedule, week),
     leagues,
     problems
   }
