@@ -4,11 +4,15 @@ import { injuryLevel, injuryLabel, injuryShort, gameState } from '../lib/lineup.
 import { kickoffLabel } from '../lib/format.js'
 
 export function Section({ title, meta, action, foot, children, id }) {
+  // Ids built from titles like "You give" or "Sunday, Oct 4" carry spaces, and
+  // aria-labelledby reads a space as the start of another id, so the section lost
+  // its name for screen readers.
+  const headingId = title && id ? id.replace(/[^\w-]+/g, '-') : undefined
   return (
-    <section className="section" aria-labelledby={id}>
+    <section className="section" aria-labelledby={headingId}>
       {(title || action || meta) && (
         <div className="section-head">
-          {title && <h2 id={id}>{title}</h2>}
+          {title && <h2 id={headingId}>{title}</h2>}
           {action || (meta && <span className="section-meta">{meta}</span>)}
         </div>
       )}

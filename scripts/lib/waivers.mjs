@@ -1,7 +1,9 @@
+import { injuryLevel } from './injury.mjs'
+
 /**
  * Ranking free agents.
  *
- * Three signals, blended:
+ * Five signals, blended:
  *   projection      how many points the player is projected for this week, measured
  *                   against what you would start instead at that position
  *   trend           how many people added the player across Sleeper in the last day,
@@ -13,10 +15,12 @@
  *                   on IR, or suspended, which hands them the role this week
  *
  * Signals that a platform cannot supply are dropped and the remaining weights are
- * renormalized, so a Sleeper league ranks on trend alone rather than on zeros.
+ * renormalized, so a Sleeper league ranks without ESPN's ownership change rather
+ * than on zeros.
  */
 
 const STARTABLE = new Set(['QB', 'RB', 'WR', 'TE', 'K', 'DEF'])
+const RESERVE_SLOTS = new Set(['IR', 'TAXI'])
 
 // Used when leagues.config.json predates a signal, so an older config still ranks
 // on everything instead of silently dropping the new signal to zero.
@@ -35,16 +39,26 @@ export function rankCandidates(candidates, roster, configured, limit) {
   const baselines = replacementBaselines(roster)
   const usable = candidates.filter((player) => STARTABLE.has(player.position))
 
+  // Where the league has projections, a player without one counts as projecting
+  // zero. Dropping the signal instead ranked them on adds alone, which put an
+  // injured free agent with no team at the top of the receivers.
   const projectionGain = new Map()
-  for (const player of usable) {
-    if (player.projected == null) continue
-    const baseline = baselines.get(player.position) ?? 0
-    projectionGain.set(player.playerId, player.projected - baseline)
+  if (usable.some((player) => player.projected != null)) {
+    for (const player of usable) {
+      projectionGain.set(player.playerId, (player.projected ?? 0) - (baselines.get(player.position) ?? 0))
+    }
   }
+
+  // Adds are heavily skewed, a few players get hundreds of thousands and most get
+  // a handful, so they are compared on a log scale. Everyone takes part, including
+  // players nobody added. Leaving those out ranked a player with 5 adds below an
+  // otherwise identical player with none.
+  const trending = usable.some((player) => player.trendAdds > 0)
+  const adds = (player) => Math.log1p(player.trendAdds || 0)
 
   const scales = {
     projection: buildScale([...projectionGain.values()]),
-    trend: buildScale(usable.map((player) => player.trendAdds).filter(Boolean)),
+    trend: buildScale(trending ? usable.map(adds) : []),
     ownershipChange: buildScale(
       usable.map((player) => player.ownershipChange).filter((value) => value != null)
     ),
@@ -58,8 +72,8 @@ export function rankCandidates(candidates, roster, configured, limit) {
       const gain = projectionGain.get(player.playerId)
       parts.push({ key: 'projection', value: scales.projection(gain), raw: gain })
     }
-    if (player.trendAdds) {
-      parts.push({ key: 'trend', value: scales.trend(player.trendAdds), raw: player.trendAdds })
+    if (trending) {
+      parts.push({ key: 'trend', value: scales.trend(adds(player)), raw: player.trendAdds || 0 })
     }
     if (player.ownershipChange != null) {
       parts.push({
@@ -104,17 +118,23 @@ export function rankCandidates(candidates, roster, configured, limit) {
 
 /**
  * Replacement level is your own worst startable option at that position, so a
- * suggestion only scores well if it would actually change your lineup.
+ * suggestion only scores well if it would actually change your lineup. Players who
+ * are not playing this week are left out: an injured back projecting zero set the
+ * baseline to zero, and every free agent back read as a huge upgrade.
  */
 function replacementBaselines(roster) {
   const baselines = new Map()
   for (const position of STARTABLE) {
     const projections = roster
-      .filter((player) => player.position === position && player.projected != null)
+      .filter(
+        (player) =>
+          player.position === position &&
+          player.projected > 0 &&
+          !RESERVE_SLOTS.has(player.slot) &&
+          injuryLevel(player.injuryStatus) < 3
+      )
       .map((player) => player.projected)
-      .sort((a, b) => b - a)
-    if (projections.length === 0) continue
-    baselines.set(position, projections[projections.length - 1])
+    if (projections.length > 0) baselines.set(position, Math.min(...projections))
   }
   return baselines
 }
@@ -135,11 +155,15 @@ function buildReasons(parts, player, baselines) {
     if (part.key === 'projection') {
       const baseline = baselines.get(player.position)
       const verb = part.raw >= 0 ? 'above' : 'below'
-      reasons.push(
-        `Projected ${player.projected} points, ${Math.abs(part.raw).toFixed(1)} ${verb} your worst ${player.position} at ${baseline?.toFixed(1)}`
-      )
+      if (player.projected == null) reasons.push('No projection this week')
+      else if (baseline == null) reasons.push(`Projected ${player.projected} points`)
+      else {
+        reasons.push(
+          `Projected ${player.projected} points, ${Math.abs(part.raw).toFixed(1)} ${verb} your worst ${player.position} at ${baseline.toFixed(1)}`
+        )
+      }
     }
-    if (part.key === 'trend') {
+    if (part.key === 'trend' && part.raw > 0) {
       reasons.push(`Added by ${part.raw.toLocaleString()} Sleeper managers in the last 24 hours`)
     }
     if (part.key === 'ownershipChange') {

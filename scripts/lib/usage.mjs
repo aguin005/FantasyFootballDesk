@@ -154,7 +154,9 @@ function applyDepth(usage, rows) {
     const stamp = row.dt || ''
     const existing = latest.get(espnId)
     if (!existing || stamp >= existing.stamp) {
-      latest.set(espnId, { stamp, rank, position: row.pos_abb || row.pos_name })
+      // Depth charts call kickers PK, and everywhere else in the app they are K.
+      const position = row.pos_abb === 'PK' ? 'K' : row.pos_abb || row.pos_name
+      latest.set(espnId, { stamp, rank, position })
     }
   }
   for (const [espnId, record] of latest) {
