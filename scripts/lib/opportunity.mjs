@@ -151,8 +151,9 @@ export function openingCandidates(league, opportunities, players, weekly, season
     ...(league.teams || []).flatMap((team) => team.roster.map((player) => player.playerId))
   ])
   const espn = league.platform === 'espn'
-  // ESPN's default scoring is full PPR, and a league's own format is not in the data.
-  const key = espn ? 'pts_ppr' : 'pts_half_ppr'
+  // Sleeper projects every format, so pick the one this league scores in.
+  const perCatch = league.receptionPoints ?? 1
+  const key = perCatch >= 1 ? 'pts_ppr' : perCatch > 0 ? 'pts_half_ppr' : 'pts_std'
   const added = []
 
   for (const [sleeperId] of opportunities) {

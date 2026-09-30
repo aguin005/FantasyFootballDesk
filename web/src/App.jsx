@@ -4,6 +4,7 @@ import TabBar from './components/TabBar.jsx'
 import LeagueSwitcher from './components/LeagueSwitcher.jsx'
 import PlayerSheet from './components/PlayerSheet.jsx'
 import { MatchupSheet } from './components/Matchup.jsx'
+import SchedulePanel, { ScheduleTab } from './components/SchedulePanel.jsx'
 import Icon from './components/Icon.jsx'
 import { EmptyState, Notice } from './components/ui.jsx'
 import TodayView from './views/TodayView.jsx'
@@ -46,6 +47,7 @@ export default function App() {
   const [position, setPosition] = useState('ALL')
   const [sheetPlayer, setSheetPlayer] = useState(null)
   const [matchupOpen, setMatchupOpen] = useState(false)
+  const [scheduleOpen, setScheduleOpen] = useState(false)
   const [toast, setToast] = useState(null)
   const [pulling, setPulling] = useState(false)
   const now = useNow()
@@ -79,7 +81,7 @@ export default function App() {
   const pull = usePullToRefresh(() => {
     setPulling(true)
     refresh().finally(() => setPulling(false))
-  }, Boolean(data) && !sheetPlayer && !matchupOpen)
+  }, Boolean(data) && !sheetPlayer && !matchupOpen && !scheduleOpen)
 
   const selectTab = useCallback(
     (key) => {
@@ -106,6 +108,7 @@ export default function App() {
   const openPlayer = useCallback((player) => setSheetPlayer(resolvePlayer(league, player)), [league])
   const closePlayer = useCallback(() => setSheetPlayer(null), [])
   const closeMatchup = useCallback(() => setMatchupOpen(false), [])
+  const closeSchedule = useCallback(() => setScheduleOpen(false), [])
 
   useEffect(() => {
     if (!toast) return undefined
@@ -116,14 +119,14 @@ export default function App() {
   // Number keys switch tabs on a keyboard, the way Command and a number does on a Mac.
   useEffect(() => {
     const onKey = (event) => {
-      if (sheetPlayer || matchupOpen || event.metaKey || event.ctrlKey || event.altKey) return
+      if (sheetPlayer || matchupOpen || scheduleOpen || event.metaKey || event.ctrlKey || event.altKey) return
       if (/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName)) return
       const index = Number(event.key) - 1
       if (index >= 0 && index < tabs.length) selectTab(tabs[index].key)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [tabs, selectTab, sheetPlayer, matchupOpen])
+  }, [tabs, selectTab, sheetPlayer, matchupOpen, scheduleOpen])
 
   if (!data) return <Splash error={error} refreshing={refreshing} onRetry={reload} />
 
@@ -146,7 +149,7 @@ export default function App() {
   const stale = age > (gameDay ? GAME_DAY_LATE_MS : LATE_AFTER_MS)
   const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
-  const sheetOpen = Boolean(sheetPlayer) || matchupOpen
+  const sheetOpen = Boolean(sheetPlayer) || matchupOpen || scheduleOpen
 
   return (
     <div className="app" data-platform={league.platform}>
@@ -250,6 +253,14 @@ export default function App() {
         now={now}
       />
       <MatchupSheet open={matchupOpen} matchup={matchup} now={now} onClose={closeMatchup} />
+      {data.schedule?.games?.length > 0 && <ScheduleTab onOpen={() => setScheduleOpen(true)} inert={sheetOpen} />}
+      <SchedulePanel
+        open={scheduleOpen}
+        onClose={closeSchedule}
+        schedule={data.schedule}
+        league={league}
+        now={now}
+      />
 
       {toast && (
         <div key={toast.id} className="toast glass" role="status">

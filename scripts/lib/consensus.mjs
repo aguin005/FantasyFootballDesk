@@ -3,6 +3,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import { normalizeName } from './feeds.mjs'
 import { timedFetch } from './http.mjs'
+import { injuryLevel } from './injury.mjs'
 
 /**
  * What the fantasy press is telling everyone to add this week.
@@ -124,7 +125,9 @@ export function buildFreeAgentPool(leagues) {
 export function consensusForLeague(league, mentions) {
   const available = new Map()
   for (const candidate of league.candidates || []) {
-    if (!candidate.name) continue
+    // A column names an injured starter to explain why that player's backup is the
+    // add, so someone who is out this week is almost never the recommendation.
+    if (!candidate.name || injuryLevel(candidate.injuryStatus) >= 3) continue
     available.set(normalizeName(candidate.name).replace(SUFFIXES, ''), candidate)
   }
 

@@ -5,7 +5,9 @@ import { timedFetch } from './http.mjs'
 
 const GAMES_URL = 'https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv'
 const CACHE = path.resolve('.cache/nflverse-games.csv')
-const ONE_DAY_MS = 24 * 60 * 60 * 1000
+// Lines move through the week and scores land after each game. A day long cache,
+// restored in Actions from the day's first run, held both back until tomorrow.
+const MAX_AGE_MS = 60 * 60 * 1000
 // Long enough for any game to finish, overtime and a weather delay included.
 const GAME_OVER_MS = 4 * 60 * 60 * 1000
 // Inactives come out 90 minutes before kickoff, and late injury news before that.
@@ -40,12 +42,29 @@ export async function loadSchedule(season, week) {
         weekday: game.weekday,
         date: game.gameday,
         kickoff: game.gametime || null,
-        kickoffISO: toISO(game.gameday, game.gametime)
+        kickoffISO: toISO(game.gameday, game.gametime),
+        espnGameId: game.espn || null
       }
       const total = toNumber(game.total_line)
       const spread = toNumber(game.spread_line)
-      byTeam.set(home, { ...shared, opponent: away, home: true, ...lines(total, spread, true) })
-      byTeam.set(away, { ...shared, opponent: home, home: false, ...lines(total, spread, false) })
+      const homeScore = toNumber(game.home_score)
+      const awayScore = toNumber(game.away_score)
+      byTeam.set(home, {
+        ...shared,
+        opponent: away,
+        home: true,
+        score: homeScore,
+        opponentScore: awayScore,
+        ...lines(total, spread, true)
+      })
+      byTeam.set(away, {
+        ...shared,
+        opponent: home,
+        home: false,
+        score: awayScore,
+        opponentScore: homeScore,
+        ...lines(total, spread, false)
+      })
     }
 
     console.log(`Schedule loaded for ${games.length} games in week ${week}`)
@@ -86,6 +105,36 @@ export function inGameWindow(schedule, now = Date.now()) {
   })
 }
 
+export const NFL_TEAMS = [
+  'ARI', 'ATL', 'BAL', 'BUF', 'CAR', 'CHI', 'CIN', 'CLE', 'DAL', 'DEN', 'DET', 'GB', 'HOU', 'IND',
+  'JAX', 'KC', 'LAC', 'LAR', 'LV', 'MIA', 'MIN', 'NE', 'NO', 'NYG', 'NYJ', 'PHI', 'PIT', 'SEA', 'SF',
+  'TB', 'TEN', 'WSH'
+]
+
+/**
+ * The whole week for the schedule panel: every game once, in kickoff order, and
+ * the teams on bye. Scores are the final ones nflverse records after each game.
+ */
+export function weekSchedule(schedule, week) {
+  const games = []
+  for (const [team, game] of schedule) {
+    if (!game.home) continue
+    games.push({
+      away: game.opponent,
+      home: team,
+      kickoffISO: game.kickoffISO,
+      weekday: game.weekday,
+      awayScore: game.opponentScore,
+      homeScore: game.score,
+      espnGameId: game.espnGameId
+    })
+  }
+  const kickoff = (game) => Date.parse(game.kickoffISO) || Number.MAX_SAFE_INTEGER
+  games.sort((a, b) => kickoff(a) - kickoff(b) || a.away.localeCompare(b.away))
+  const byes = schedule.size > 0 ? NFL_TEAMS.filter((team) => !schedule.has(team)) : []
+  return { week, games, byes }
+}
+
 /**
  * Each side's implied points from the total and the spread. nflverse writes the
  * spread from the home side, positive when the home team is favored, so the home
@@ -114,7 +163,7 @@ function round(value) {
 async function readGames() {
   try {
     const stat = await fs.stat(CACHE)
-    if (Date.now() - stat.mtimeMs < ONE_DAY_MS) return await fs.readFile(CACHE, 'utf8')
+    if (Date.now() - stat.mtimeMs < MAX_AGE_MS) return await fs.readFile(CACHE, 'utf8')
   } catch {
     // No cache yet.
   }

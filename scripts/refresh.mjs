@@ -2,14 +2,14 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import * as sleeper from './adapters/sleeper.mjs'
 import * as espn from './adapters/espn.mjs'
-import { buildCrosswalk, linkIds } from './lib/crosswalk.mjs'
+import { buildCrosswalk, fillEspnIds, linkIds } from './lib/crosswalk.mjs'
 import { fetchNews, fetchInjuries, attachNews } from './lib/news.mjs'
 import { rankCandidates } from './lib/waivers.mjs'
-import { loadUsage, usageNotes } from './lib/usage.mjs'
+import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished } from './lib/schedule.mjs'
+import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished, weekSchedule } from './lib/schedule.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
 import { loadPointsAllowed, rankDefenses, opponentDefenseFor } from './lib/defense.mjs'
@@ -56,6 +56,11 @@ async function main() {
       sleeper.getProjections(season, week),
       sleeper.getProjections(season)
     ])
+
+  // The players file is already downloaded for usage, so this costs no request.
+  const nflversePlayers = await loadCSV('players/players.csv', 'nflverse players').catch(() => [])
+  const filled = fillEspnIds(players, nflversePlayers)
+  if (filled) console.log(`Filled ESPN ids for ${filled} Sleeper players from nflverse`)
 
   // Checked across the whole NFL once, then matched against each league's free agents.
   const opportunities = findOpportunities(buildDepth(players, weekly, seasonal, injuriesByPlayer))
@@ -174,6 +179,7 @@ async function main() {
     news,
     season,
     week,
+    schedule: weekSchedule(schedule, week),
     leagues,
     problems
   }

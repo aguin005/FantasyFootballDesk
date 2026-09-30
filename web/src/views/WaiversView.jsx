@@ -34,7 +34,8 @@ export default function WaiversView({ league, position, onPosition, onOpenPlayer
     () =>
       rateDefenses(
         waivers.filter((player) => player.position === 'DEF' && !myIds.has(player.playerId)),
-        league.roster.filter((player) => player.position === 'DEF' && !isReserve(player))
+        // Your starter first, so the board compares against the defense you play.
+        sortBySlot(league.roster.filter((player) => player.position === 'DEF' && !isReserve(player)))
       ),
     [waivers, league, myIds]
   )
