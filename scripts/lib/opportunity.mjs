@@ -1,4 +1,5 @@
 import { injuryLevel, sleeperInjury } from './injury.mjs'
+import { pointsKey } from '../adapters/sleeper.mjs'
 
 /**
  * Next man up.
@@ -152,8 +153,7 @@ export function openingCandidates(league, opportunities, players, weekly, season
   ])
   const espn = league.platform === 'espn'
   // Sleeper projects every format, so pick the one this league scores in.
-  const perCatch = league.receptionPoints ?? 1
-  const key = perCatch >= 1 ? 'pts_ppr' : perCatch > 0 ? 'pts_half_ppr' : 'pts_std'
+  const key = pointsKey(league.receptionPoints)
   const added = []
 
   for (const [sleeperId] of opportunities) {

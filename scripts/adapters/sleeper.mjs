@@ -57,6 +57,23 @@ export async function getMatchups(leagueId, week) {
 }
 
 /**
+ * Your starters in a past week, the lineup Sleeper kept for that week's matchup.
+ * Null when the matchup could not be read, so the caller can try again later
+ * rather than recording an empty lineup.
+ */
+export async function getStarters(leagueId, rosterId, week, players) {
+  const matchups = await getMatchups(leagueId, week)
+  const mine = matchups.find((entry) => entry.roster_id === rosterId)
+  if (!mine?.starters) return null
+  return mine.starters
+    .filter((playerId) => playerId && playerId !== '0')
+    .map((playerId) => {
+      const player = players[playerId] || {}
+      return { playerId, name: playerName(player, playerId), position: player.position || '', team: player.team || 'FA' }
+    })
+}
+
+/**
  * Most added players, used as a "news just broke" signal across every league.
  * It is one waiver signal among four, so a failure here degrades to no trend data
  * rather than taking the whole refresh down with it.
@@ -121,12 +138,39 @@ export async function getProjections(season, week) {
   }
 }
 
-/** Full PPR, half PPR, or standard, read off the league's own scoring settings. */
-function scoringKey(league) {
-  const reception = league.scoring_settings?.rec ?? 0
+/**
+ * Points actually scored in a finished week, for every player at every fantasy
+ * position, kickers and team defenses included, from the same host as the
+ * projections. A row without points is a player who played and scored nothing.
+ */
+export async function getStats(season, week) {
+  const positions = PROJECTION_POSITIONS.map((position) => `position[]=${position}`).join('&')
+  const url = `${INTERNAL}/stats/nfl/${season}/${week}?season_type=regular&${positions}`
+  try {
+    const rows = await getJSON(url, { label: `Sleeper stats ${season}/${week}` })
+    const byPlayer = new Map()
+    for (const row of rows) {
+      if (row?.player_id && row.stats) byPlayer.set(String(row.player_id), row.stats)
+    }
+    console.log(`Sleeper stats for ${season}/${week}: ${byPlayer.size} players`)
+    return byPlayer
+  } catch (error) {
+    console.warn(`Sleeper stats unavailable for ${season}/${week}: ${error.message}`)
+    return new Map()
+  }
+}
+
+/** Which of Sleeper's point totals matches a league's points per catch. */
+export function pointsKey(receptionPoints) {
+  const reception = receptionPoints ?? 1
   if (reception >= 1) return 'pts_ppr'
   if (reception > 0) return 'pts_half_ppr'
   return 'pts_std'
+}
+
+/** Full PPR, half PPR, or standard, read off the league's own scoring settings. */
+function scoringKey(league) {
+  return pointsKey(league.scoring_settings?.rec ?? 0)
 }
 
 function pointsFor(stats, key) {

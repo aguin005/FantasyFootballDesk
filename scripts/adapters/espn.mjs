@@ -149,6 +149,22 @@ function seasonProjection(player) {
   return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
 }
 
+/**
+ * Your starters in a past week, the lineup ESPN kept for that scoring period.
+ * Null when the league could not be read, so the week is tried again later.
+ */
+export async function getStarters(season, leagueId, teamId, week) {
+  try {
+    const league = await getLeague(season, leagueId, week)
+    const team = league.teams?.find((entry) => entry.id === Number(teamId))
+    if (!team) return null
+    return (team.roster?.entries || []).map((entry) => rosterPlayer(entry, week)).filter((player) => player.starter)
+  } catch (error) {
+    console.warn(`ESPN lineup for week ${week} unavailable for ${leagueId}: ${error.message}`)
+    return null
+  }
+}
+
 export async function loadLeague(config, season, week, options = {}) {
   const { leagueId, teamId, label } = config
   const [league, freeAgentData, defenseData, matchupData] = await Promise.all([
