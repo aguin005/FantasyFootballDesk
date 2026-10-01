@@ -249,6 +249,7 @@ export default function App() {
         player={sheetPlayer}
         news={data.news || []}
         receptionPoints={league.receptionPoints}
+        pickReport={league.pickReport}
         onClose={closePlayer}
         now={now}
       />

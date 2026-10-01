@@ -5,6 +5,7 @@ import { Section, LinkButton, PlayerRow, Pill, ScoreRing, EmptyState } from '../
 import { clockTime, formatPoints, localDayKey, shortAgo, timeAgo, signed, plural, weekday } from '../lib/format.js'
 import { coversRoster, slotOf } from '../lib/lineup.js'
 import { MatchupCard } from '../components/Matchup.jsx'
+import { topPickLine } from '../lib/picks.js'
 
 const CHANGE_KINDS = {
   downgrade: { label: 'Injury', tone: 'red' },
@@ -61,6 +62,7 @@ export default function TodayView({
           title="Top pickups"
           id="today-pickups"
           action={<LinkButton onClick={() => onNavigate('waivers')}>See all</LinkButton>}
+          foot={topPickLine(league.pickReport)}
         >
           <div className="card">
             <ul className="list">

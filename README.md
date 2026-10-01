@@ -149,6 +149,7 @@ scripts/
   lib/opportunity.mjs    next man up, from depth charts and injuries
   lib/gamelog.mjs        weekly points and last season against this week's opponent
   lib/defense.mjs        points each defense allows to each position
+  lib/picks.mjs          locks the top waiver picks each week and grades them against your starters
   lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
   check-feeds.mjs        npm run feeds, which feeds answer and which columns can be read
@@ -160,6 +161,7 @@ web/src/
   lib/streaming.js       defense streaming ratings
   lib/nflSchedule.js     the schedule panel's days, game states, and your players in each game
   lib/teams.js           team names and ESPN logo URLs
+  lib/picks.js           wording for the waiver track record
   components/SchedulePanel.jsx   the NFL schedule that pulls out from the right edge
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
@@ -246,6 +248,33 @@ receptions gives your league's score: Sleeper's own setting, and ESPN's receptio
 full PPR when a league never changed it. Box score scoring can differ a little from a league that
 pays six for a passing touchdown or counts return yards, and the sheet says so. Quarterbacks,
 running backs, receivers, and tight ends only, since that file does not score kickers or defenses.
+
+## Waiver track record
+
+Whether the app's waiver picks were any good. Each week the top three pickups lock in at the
+week's first kickoff, from the board as it stood just before, which is the last thing the app
+recommended. After every week that follows, each pick's points are set against your lowest scoring
+starter at the same position that week, which is the claim the waiver model makes.
+
+- **Waivers tab:** a line at the top of the Best view, "Week 4's top picks beat your starter 2 of 3
+  times", opens the Track record chip, every locked week with each pick's latest result, a Beat or
+  Missed tag, and its record since the pick.
+- **Player sheet:** a past pick shows every week since it was picked, "Week 5: 14.2 vs James Cook,
+  9.1".
+- **Today:** under Top pickups, how last week's top pick did.
+
+Both sides are scored from Sleeper's weekly stats, in your league's points per catch, so a league
+with custom rules will see totals a little off from its own, but the comparison stays fair. A bye
+week is skipped, and a pick who did not play scores zero, since that is what they would have scored
+for you. A starter Sleeper has no stats id for is left out instead of counted as zero, which would
+make any pick look good. Your lineup for a past week comes from Sleeper's matchup for that week or
+ESPN's lineup for that scoring period, so it is the lineup you actually played.
+
+The history is one small JSON file on its own branch, `pick-history`, so `main` never gets data
+commits. The build job reads it before the refresh. When the refresh changes it, which happens
+about twice a week, when picks lock and when a week is graded, a separate `history` job commits it.
+That job is the only one with permission to push, and it runs no project code, just git plumbing on
+the one file. Deleting the branch starts the record over, and a new season starts one on its own.
 
 ## Matchup context
 
@@ -571,7 +600,8 @@ measurement, and the dashboard words it as touches rather than routes so it does
 
 ## Worth building next
 
-- A season long log of your waiver claims scored against what those players actually did.
+- The same track record for your own claims, read from each league's transaction history, which
+  would work back to week 1.
 - Live scores polled from the browser during games for Sleeper leagues, whose API answers any
   site. ESPN leagues need your cookies, so they have to stay on the workflow.
 - Kicker matchups. The nflverse weekly file has no kicking, so they would need another source.

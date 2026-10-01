@@ -5,6 +5,7 @@ import { Section, Chips, PlayerRow, ScoreRing, EmptyState, LinkButton, Pill } fr
 import { POSITIONS, coversRoster, isReserve, sortBySlot, slotLabel } from '../lib/lineup.js'
 import { formatPoints, kickoffLabel } from '../lib/format.js'
 import { rateDefenses, nextWeekLabel, defenseName, GRADE_LABEL, GRADE_TONE } from '../lib/streaming.js'
+import { lastWeekRecord, resultLine, sumTally, tally, verdict } from '../lib/picks.js'
 
 const POSITION_NAMES = {
   QB: 'Quarterbacks',
@@ -14,6 +15,9 @@ const POSITION_NAMES = {
   K: 'Kickers',
   DEF: 'Defenses'
 }
+
+// The chip that opens how the app's past top picks did.
+const RECORD = 'RECORD'
 
 // A free agent defense has to beat yours by this much before the board says swap.
 // Smaller gaps are within the noise of a weekly matchup.
@@ -51,7 +55,8 @@ export default function WaiversView({ league, position, onPosition, onOpenPlayer
   }
 
   const present = POSITIONS.filter((pos) => waivers.some((player) => player.position === pos))
-  const view = present.includes(position) ? position : 'ALL'
+  const report = league.pickReport
+  const view = present.includes(position) || (position === RECORD && report) ? position : 'ALL'
   const shared = { league, waivers, myIds, onOpenPlayer }
 
   return (
@@ -62,13 +67,15 @@ export default function WaiversView({ league, position, onPosition, onOpenPlayer
         onChange={onPosition}
         options={[
           { value: 'ALL', label: 'Best' },
-          ...present.map((pos) => ({ value: pos, label: pos, position: pos }))
+          ...present.map((pos) => ({ value: pos, label: pos, position: pos })),
+          ...(report ? [{ value: RECORD, label: 'Track record' }] : [])
         ]}
       />
       <div key={view} className="view">
         {view === 'ALL' && <Overview {...shared} defenses={defenses} onPosition={onPosition} />}
         {view === 'DEF' && <DefenseBoard defenses={defenses} onOpenPlayer={onOpenPlayer} />}
-        {view !== 'ALL' && view !== 'DEF' && <PositionList {...shared} position={view} />}
+        {view === RECORD && <TrackRecord report={report} onOpenPlayer={onOpenPlayer} />}
+        {POSITIONS.includes(view) && view !== 'DEF' && <PositionList {...shared} position={view} />}
       </div>
     </>
   )
@@ -84,6 +91,8 @@ function Overview({ league, waivers, myIds, defenses, onPosition, onOpenPlayer }
 
   return (
     <>
+      <RecordSummary report={league.pickReport} onOpen={() => onPosition(RECORD)} />
+
       {openings.length > 0 && (
         <Section
           title="Next man up"
@@ -356,6 +365,122 @@ function WritersPicks({ consensus, onOpenPlayer }) {
         </ul>
       </div>
     </Section>
+  )
+}
+
+/**
+ * One line at the top of the overview: how last week's top picks did, or when
+ * this week's lock in. Opens the full track record.
+ */
+function RecordSummary({ report, onOpen }) {
+  if (!report) return null
+  const last = lastWeekRecord(report)
+  return (
+    <section className="section" aria-label="Track record">
+      <button type="button" className="card record-summary press" onClick={onOpen}>
+        <span className="icon-disc" data-tone={toneFor(last)}>
+          <Icon name="chart" strokeWidth={2.2} />
+        </span>
+        <span className="row-main">
+          <strong>
+            {last
+              ? `Week ${last.week}'s top picks beat your starter ${tally(last)}`
+              : report.weeks.length
+                ? `Week ${report.weeks[0].week}'s top picks are locked in`
+                : "This week's top picks lock at kickoff"}
+          </strong>
+          <span className="row-note">
+            {last
+              ? `Every week so far: ${tally(report.summary)}. See how each pick did.`
+              : 'Each pick is graded against your lowest scoring starter at the position once the week is over.'}
+          </span>
+        </span>
+        <Icon name="chevronRight" className="chev" strokeWidth={2.6} />
+      </button>
+    </section>
+  )
+}
+
+// Green when the picks won at least half the time, orange when not, blue before any results.
+function toneFor(record) {
+  if (!record?.graded) return 'blue'
+  return record.beat * 2 >= record.graded ? 'green' : 'orange'
+}
+
+/**
+ * Every week's locked picks, newest first, each with its latest result against
+ * your starter and its record since the pick.
+ */
+function TrackRecord({ report, onOpenPlayer }) {
+  const { summary, weeks, nextLock } = report
+  return (
+    <>
+      <div className="card all-clear">
+        <span className="icon-disc" data-tone={toneFor(summary)}>
+          <Icon name="chart" strokeWidth={2.2} />
+        </span>
+        <div>
+          <strong>
+            {summary.graded ? `Beat your starter ${tally(summary)}` : weeks.length ? 'Waiting on the first results' : 'Tracking starts this week'}
+          </strong>
+          <p>
+            {summary.graded
+              ? 'How often the app\'s top picks outscored your lowest scoring starter at their position, counting every week since each pick.'
+              : nextLock
+                ? `This week's top three picks lock at ${kickoffLabel({ kickoffISO: nextLock })} and are graded once the week's games are over.`
+                : 'The picks are graded once the week\'s games are over.'}
+          </p>
+        </div>
+      </div>
+
+      {weeks.map(({ week, picks }) => (
+        <Section
+          key={week}
+          title={`Week ${week} picks`}
+          id={`record-week-${week}`}
+          meta={sumTally(picks).graded ? `beat ${tally(sumTally(picks))}` : 'pending'}
+        >
+          <div className="card">
+            <ul className="list">
+              {picks.map((pick, index) => {
+                const call = verdict(pick)
+                return (
+                  <li key={pick.playerId}>
+                    <PlayerRow
+                      player={{ ...pick, context: 'pick' }}
+                      lead={<span className="rank">{index + 1}</span>}
+                      badge={call ? <Pill tone={call.tone}>{call.label}</Pill> : null}
+                      sub={[pick.position, pick.team, pick.perGame != null ? `${formatPoints(pick.perGame)} a game since` : null]
+                        .filter(Boolean)
+                        .join(' · ')}
+                      note={resultLine(pick)}
+                      trail={
+                        pick.graded ? (
+                          <span className="row-trail">
+                            <span className="row-value">
+                              {pick.beat}/{pick.graded}
+                            </span>
+                            <span className="row-caption">beat</span>
+                          </span>
+                        ) : null
+                      }
+                      onSelect={onOpenPlayer}
+                      chevron={false}
+                    />
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </Section>
+      ))}
+
+      <p className="section-foot">
+        The top three pickups lock at each week's first kickoff, from the board as it stood just before. Both
+        sides are scored from Sleeper's weekly stats in your league's points per catch, so totals can differ a
+        little from your league's own. A bye week is skipped, and a pick who did not play scores zero.
+      </p>
+    </>
   )
 }
 
