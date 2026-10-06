@@ -38,7 +38,8 @@ const PATHS = {
   shield: ['M12 3 5 6v5.5c0 4.3 3 7.9 7 9.5 4-1.6 7-5.2 7-9.5V6z'],
   heart: ['M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.5 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z'],
   trendUp: ['M3.5 16.5 9 11l4 4 7.5-7.5', 'M15 7.5h5.5V13'],
-  list: ['M9 6.5h11M9 12h11M9 17.5h11', 'M4.5 6.5v.1M4.5 12v.1M4.5 17.5v.1']
+  list: ['M9 6.5h11M9 12h11M9 17.5h11', 'M4.5 6.5v.1M4.5 12v.1M4.5 17.5v.1'],
+  pause: ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z', 'M10 9v6M14 9v6']
 }
 
 export default function Icon({ name, className, title, strokeWidth = 2 }) {

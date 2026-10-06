@@ -526,8 +526,11 @@ img {
 .leagues {
   display: flex;
   gap: 8px;
-  margin: 0 calc(-1 * var(--gutter)) 6px;
-  padding: 2px var(--gutter) 10px;
+  /* A scrolling row clips whatever leaves its padding, and the count badge sits
+     above its chip, 6px with its ring. The extra padding holds it, and the
+     negative margin takes the same space back so the row stays where it was. */
+  margin: -6px calc(-1 * var(--gutter)) 6px;
+  padding: 8px var(--gutter) 10px;
   overflow-x: auto;
   scrollbar-width: none;
   scroll-snap-type: x proximity;
@@ -1047,7 +1050,9 @@ a.row:active {
   position: relative;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  /* Equal columns whatever the labels, since the lens slides in equal steps. A
+     plain 1fr grows to fit a long label and leaves the lens beside its segment. */
+  grid-auto-columns: minmax(0, 1fr);
   padding: 3px;
   margin: 0 0 14px;
   border-radius: var(--radius-control);
@@ -1091,6 +1096,15 @@ a.row:active {
 
 .seg-item.is-on {
   font-weight: 600;
+}
+
+/* Four segments on a small phone. */
+@media (max-width: 400px) {
+  .seg-item {
+    gap: 3px;
+    padding: 0 2px;
+    font-size: 13px;
+  }
 }
 
 .seg-item .seg-count {
@@ -1693,6 +1707,64 @@ a.row:active {
 .bye-name .game-mine {
   margin-top: 1px;
   font-weight: 400;
+}
+
+/* Waiver track record */
+
+.record-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 14px 14px 16px;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.record-summary strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.pick-weeks > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  font-size: 15px;
+}
+
+.pick-weeks > li + li {
+  box-shadow: inset 0 0.5px 0 var(--separator);
+}
+
+.pick-week {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-2);
+  white-space: nowrap;
+}
+
+.pick-detail {
+  min-width: 0;
+  color: var(--label-2);
+}
+
+.pick-detail strong {
+  color: var(--label);
+  font-variant-numeric: tabular-nums;
+}
+
+.pick-pending {
+  margin: 0;
+  font-size: 15px;
+  color: var(--label-2);
 }
 
 /* Player sheet */
@@ -2584,6 +2656,78 @@ a.row:active {
 
 .swap-side.is-out .swap-verb {
   color: var(--label-2);
+}
+
+/* Bye weeks. Each starter's card is the start and sit swap card, with the
+   matchup and the cost of the move listed under it. */
+
+/* The kickoff is the point of the line, so it wraps rather than being cut off. */
+.bye-card .swap-side .row-sub {
+  white-space: normal;
+}
+
+.bye-notes {
+  display: grid;
+  gap: 4px;
+  list-style: none;
+  margin: 10px 2px 0;
+  padding: 0;
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.bye-notes li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.bye-notes li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--label-3);
+}
+
+.bye-notes li.is-plan {
+  color: var(--label);
+}
+
+.bye-notes li[data-grade='soft'] {
+  color: var(--green-ink);
+}
+
+.bye-notes li[data-grade='soft']::before {
+  background: var(--green);
+}
+
+.bye-notes li[data-grade='tough'] {
+  color: var(--red-ink);
+}
+
+.bye-notes li[data-grade='tough']::before {
+  background: var(--red);
+}
+
+.bye-quiet {
+  font-size: 15px;
+  color: var(--label-2);
+}
+
+.bye-week {
+  flex: 0 0 auto;
+  min-width: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-2);
+  white-space: nowrap;
+}
+
+.row-note.is-warn {
+  color: var(--orange-ink);
 }
 
 /* News */

@@ -1,6 +1,7 @@
+import { useEffect, useRef } from 'react'
 import Icon from './Icon.jsx'
 import Portrait from './Portrait.jsx'
-import { injuryLevel, injuryLabel, injuryShort, gameState } from '../lib/lineup.js'
+import { injuryLevel, injuryLabel, injuryShort, gameState, hasNoTeam } from '../lib/lineup.js'
 import { kickoffLabel } from '../lib/format.js'
 
 export function Section({ title, meta, action, foot, children, id }) {
@@ -58,7 +59,7 @@ export function Pill({ tone, icon, children }) {
 
 /** "vs DAL · Sun 1:00 PM", with the time swapped for a state once the game starts. */
 export function matchupText(player, now) {
-  if (!player.game) return 'Bye'
+  if (!player.game) return hasNoTeam(player) ? 'No NFL team' : 'Bye'
   const state = gameState(player, now)
   const when = state === 'live' ? 'Live' : state === 'played' ? 'Played' : kickoffLabel(player.game)
   return [player.game.matchup, when].filter(Boolean).join(' · ')
@@ -196,8 +197,20 @@ export function Segmented({ options, value, onChange, label, className = '' }) {
 }
 
 export function Chips({ options, value, onChange, label }) {
+  // Chips scroll sideways, so one chosen from elsewhere, like Track record from
+  // its summary row, can be off screen. Bring the chosen one into view.
+  const row = useRef(null)
+  useEffect(() => {
+    const chosen = row.current?.querySelector('[aria-checked="true"]')
+    if (!chosen) return
+    const box = row.current.getBoundingClientRect()
+    const chip = chosen.getBoundingClientRect()
+    if (chip.left < box.left || chip.right > box.right) {
+      row.current.scrollLeft += chip.left - box.left - (box.width - chip.width) / 2
+    }
+  }, [value])
   return (
-    <div className="chips" role="radiogroup" aria-label={label}>
+    <div className="chips" role="radiogroup" aria-label={label} ref={row}>
       {options.map((option) => (
         <button
           key={option.value}

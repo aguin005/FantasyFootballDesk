@@ -149,6 +149,22 @@ function seasonProjection(player) {
   return entry?.appliedTotal != null ? Number(entry.appliedTotal.toFixed(1)) : null
 }
 
+/**
+ * Your starters in a past week, the lineup ESPN kept for that scoring period.
+ * Null when the league could not be read, so the week is tried again later.
+ */
+export async function getStarters(season, leagueId, teamId, week) {
+  try {
+    const league = await getLeague(season, leagueId, week)
+    const team = league.teams?.find((entry) => entry.id === Number(teamId))
+    if (!team) return null
+    return (team.roster?.entries || []).map((entry) => rosterPlayer(entry, week)).filter((player) => player.starter)
+  } catch (error) {
+    console.warn(`ESPN lineup for week ${week} unavailable for ${leagueId}: ${error.message}`)
+    return null
+  }
+}
+
 export async function loadLeague(config, season, week, options = {}) {
   const { leagueId, teamId, label } = config
   const [league, freeAgentData, defenseData, matchupData] = await Promise.all([
@@ -223,6 +239,7 @@ export async function loadLeague(config, season, week, options = {}) {
     record: formatRecord(team.record?.overall),
     scoring: league.settings?.scoringSettings?.scoringType || 'See ESPN settings',
     receptionPoints: receptionPoints(league.settings),
+    rosterSpots: rosterSpots(league.settings),
     matchup: findMatchup(matchupData?.schedule, team.id, matchupPeriodFor(league.settings, week), week),
     lastMatchup: lastMatchupFor(matchupData?.schedule, team.id, league.settings, week, options.lastWeek),
     roster,
@@ -289,6 +306,17 @@ function receptionPoints(settings) {
     (entry) => entry.statId === RECEPTIONS_STAT
   )
   return typeof item?.points === 'number' ? item.points : 1
+}
+
+const IR_SLOT = 21
+
+/** Starting and bench spots, from how many of each slot the league has. */
+function rosterSpots(settings) {
+  const counts = settings?.rosterSettings?.lineupSlotCounts || {}
+  const total = Object.entries(counts)
+    .filter(([slot]) => Number(slot) !== IR_SLOT)
+    .reduce((sum, [, count]) => sum + (Number(count) || 0), 0)
+  return total || null
 }
 
 function teamName(team) {

@@ -33,6 +33,7 @@ jobs:
     timeout-minutes: 10
     outputs:
       game_window: ${{ steps.refresh.outputs.game_window }}
+      history_changed: ${{ steps.refresh.outputs.history_changed }}
     steps:
       - uses: actions/checkout@v4
 
@@ -53,6 +54,17 @@ jobs:
           path: .cache
           key: sleeper-players-${{ steps.stamp.outputs.day }}
 
+      # The app's past waiver picks and how they did live on their own branch, so
+      # main never gets data commits. The first run finds no branch and starts one.
+      - name: Load pick history
+        run: |
+          mkdir -p .history
+          if git fetch --depth=1 origin pick-history 2>/dev/null; then
+            git show FETCH_HEAD:picks.json > .history/picks.json || rm -f .history/picks.json
+          else
+            echo "No pick history yet"
+          fi
+
       - name: Refresh league data
         id: refresh
         env:
@@ -68,6 +80,14 @@ jobs:
         with:
           path: dist
 
+      - name: Hand the pick history to the job that saves it
+        if: steps.refresh.outputs.history_changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pick-history
+          path: .history/picks.json
+          retention-days: 1
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -81,6 +101,48 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Commits the pick history to the pick-history branch, only when it changed,
+  # which is about twice a week: when a week's picks lock at kickoff and when a
+  # finished week is graded. This is the only job that can push, and it runs no
+  # code from the refresh, just git plumbing on one JSON file.
+  history:
+    needs: build
+    if: needs.build.outputs.history_changed == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: pick-history
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+      - uses: actions/download-artifact@v4
+        with:
+          name: pick-history
+          path: .history
+      - name: Commit to the pick-history branch
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          blob=$(git hash-object -w .history/picks.json)
+          tree=$(printf '100644 blob %s\tpicks.json\n' "$blob" | git mktree)
+          if git fetch --depth=1 origin pick-history 2>/dev/null; then
+            if [ "$(git rev-parse 'FETCH_HEAD^{tree}')" = "$tree" ]; then
+              echo "Pick history unchanged"
+              exit 0
+            fi
+            commit=$(git commit-tree "$tree" -p FETCH_HEAD -m "Update pick history")
+          else
+            commit=$(git commit-tree "$tree" -m "Start pick history")
+          fi
+          git push origin "$commit:refs/heads/pick-history"
 
   # Game day mode. GitHub starts scheduled runs hours apart when Actions is busy,
   # which is fine on a Tuesday and useless on a Sunday. From three hours before a

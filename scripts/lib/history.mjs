@@ -118,8 +118,11 @@ export function diffRuns(previous, current) {
   )
   for (const entry of carried) entry.isNew = false
 
+  // A change already on the board keeps its place and stays read. After a run
+  // where a news feed failed, every story comes back looking new, and a status
+  // that flickers would otherwise be flagged, and pushed, again each time.
   const merged = new Map()
-  for (const entry of [...changes, ...carried]) {
+  for (const entry of [...carried, ...changes]) {
     if (!merged.has(entry.key)) merged.set(entry.key, entry)
   }
 

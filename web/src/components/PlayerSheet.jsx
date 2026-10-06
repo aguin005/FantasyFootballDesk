@@ -3,18 +3,20 @@ import Sheet from './Sheet.jsx'
 import Portrait from './Portrait.jsx'
 import Icon from './Icon.jsx'
 import { InjuryPill, SlotPill } from './ui.jsx'
-import { gameState, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
-import { clockTime, formatPoints, signed, timeAgo, weekday } from '../lib/format.js'
+import { gameState, hasNoTeam, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
+import { clockTime, formatPoints, plural, signed, timeAgo, weekday } from '../lib/format.js'
 import { nextWeekLabel } from '../lib/streaming.js'
 import PointsChart from './PointsChart.jsx'
 import { defenseSentence, matchupGrade } from '../lib/opponent.js'
+import { findPick, rivalWord, verdict } from '../lib/picks.js'
+import { byeLine } from '../lib/byes.js'
 
 /**
  * Everything known about one player, in one place. The rows in every list stay
  * short because the detail lives here: role notes, the waiver model's reasons,
  * which outlets named them, and every story that mentions them.
  */
-export default function PlayerSheet({ player, news, receptionPoints, onClose, now }) {
+export default function PlayerSheet({ player, news, receptionPoints, pickReport, byeWeeks, week, onClose, now }) {
   // Keep showing the last player while the sheet animates closed.
   const [shown, setShown] = useState(player)
   useEffect(() => {
@@ -23,7 +25,16 @@ export default function PlayerSheet({ player, news, receptionPoints, onClose, no
 
   return (
     <Sheet open={Boolean(player)} onClose={onClose} labelledBy="player-sheet-title">
-      {shown && <PlayerDetail player={shown} news={news} receptionPoints={receptionPoints} now={now} />}
+      {shown && (
+        <PlayerDetail
+          player={shown}
+          news={news}
+          receptionPoints={receptionPoints}
+          pick={findPick(pickReport, shown.playerId)}
+          bye={byeLine(shown, byeWeeks, week)}
+          now={now}
+        />
+      )}
     </Sheet>
   )
 }
@@ -31,7 +42,7 @@ export default function PlayerSheet({ player, news, receptionPoints, onClose, no
 // Green for a soft matchup, red for a tough one, and the list's own tone otherwise.
 const GRADE_TONE = { soft: 'var(--green)', tough: 'var(--red)' }
 
-function PlayerDetail({ player, news, receptionPoints, now }) {
+function PlayerDetail({ player, news, receptionPoints, pick, bye, now }) {
   const stories = storiesFor(player, news)
   const espnPage = /^\d+$/.test(String(player.espnId || '')) ? `https://www.espn.com/nfl/player/_/id/${player.espnId}` : null
   const level = injuryLevel(player.injuryStatus)
@@ -104,6 +115,12 @@ function PlayerDetail({ player, news, receptionPoints, now }) {
               <span>{defenseSentence(player)}</span>
             </li>
           )}
+          {bye && (
+            <li>
+              <Icon name="pause" />
+              <span>{bye}</span>
+            </li>
+          )}
           {player.position === 'DEF' && nextWeekLabel(player) && (
             <li>
               <Icon name="clock" />
@@ -127,6 +144,8 @@ function PlayerDetail({ player, news, receptionPoints, now }) {
       </div>
 
       {player.vsOpponent && <OpponentHistory history={player.vsOpponent} />}
+
+      {pick && <PickHistory pick={pick} />}
 
       {player.reasons?.length > 0 && player.position !== 'DEF' && (
         <FactSection title="Why the model likes this pickup" icon="sparkles" tone="var(--purple)" items={player.reasons} />
@@ -228,6 +247,49 @@ function OpponentHistory({ history }) {
   )
 }
 
+/** Every week since the app made this player a top pick, against your starter. */
+function PickHistory({ pick }) {
+  return (
+    <div className="sheet-section">
+      <h3>Top waiver pick in week {pick.week}</h3>
+      <div className="card">
+        {pick.results.length === 0 ? (
+          <p className="card-pad pick-pending">Graded against {rivalWord(pick.position)} once week {pick.week} is over.</p>
+        ) : (
+          <ul className="list pick-weeks">
+            {pick.results.map((result) => {
+              const call = verdict({ results: [result] })
+              return (
+                <li key={result.week}>
+                  <span className="pick-week">Week {result.week}</span>
+                  <span className="pick-detail">
+                    {result.bye ? (
+                      'Bye'
+                    ) : (
+                      <>
+                        <strong>{formatPoints(result.points)}</strong>
+                        {result.starter
+                          ? ` vs ${result.starter.name}, ${formatPoints(result.starter.points)}`
+                          : ` with no ${pick.position} in your lineup to compare`}
+                      </>
+                    )}
+                  </span>
+                  {call && <span className="pill" data-tone={call.tone}>{call.label}</span>}
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </div>
+      <p className="section-foot">
+        {pick.graded
+          ? `Beat ${rivalWord(pick.position)} in ${pick.beat} of ${plural(pick.graded, 'week')}, ${formatPoints(pick.perGame)} a game since the pick.`
+          : 'Scored from Sleeper\'s weekly stats in your league\'s points per catch.'}
+      </p>
+    </div>
+  )
+}
+
 function scoringLabel(receptionPoints) {
   if (receptionPoints == null) return null
   if (receptionPoints === 1) return 'PPR'
@@ -256,7 +318,7 @@ function FactSection({ title, icon, tone, items }) {
 
 function gameLine(player, now) {
   const { game } = player
-  if (!game) return 'No game this week'
+  if (!game) return hasNoTeam(player) ? 'Not on an NFL team' : 'No game this week'
   const state = gameState(player, now)
   if (state === 'live') return `${game.matchup}, in progress`
   if (state === 'played') return `${game.matchup}, already played`

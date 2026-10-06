@@ -8,27 +8,36 @@ import {
   Pill,
   EmptyState,
   InjuryPill,
+  Notice,
   matchupText
 } from '../components/ui.jsx'
 import Portrait from '../components/Portrait.jsx'
 import { formatPoints, signed, plural, clockTime, localDayKey } from '../lib/format.js'
 import { sortBySlot, slotLabel, slotOf, gameState } from '../lib/lineup.js'
 import { defenseNote, matchupGrade } from '../lib/opponent.js'
+import { CLEAR_GAIN, LOOKAHEAD, matchupLines, namesLine, planNotes, playLine, whenLabel } from '../lib/byes.js'
 
 const SEGMENTS = [
   { value: 'roster', label: 'Roster' },
   { value: 'startsit', label: 'Start / Sit' },
-  { value: 'schedule', label: 'Schedule' }
+  { value: 'schedule', label: 'Schedule' },
+  { value: 'byes', label: 'Byes' }
 ]
 
-const REASON_LABEL = { out: 'Out', doubtful: 'Doubtful', bye: 'On bye', upgrade: 'Upgrade' }
+const REASON_LABEL = { out: 'Out', doubtful: 'Doubtful', bye: 'On bye', noteam: 'No NFL team', upgrade: 'Upgrade' }
 
-export default function LineupView({ league, report, segment, onSegment, now, onOpenPlayer, onNavigate }) {
-  const current = SEGMENTS.some((option) => option.value === segment) ? segment : 'roster'
-  const options = SEGMENTS.map((option) =>
+export default function LineupView({ league, report, byes, segment, onSegment, now, onOpenPlayer, onNavigate }) {
+  // Byes needs the season's schedule, which older copies of the data lack.
+  const segments = byes ? SEGMENTS : SEGMENTS.filter((option) => option.value !== 'byes')
+  const current = segments.some((option) => option.value === segment) ? segment : 'roster'
+  // Starters out this week and next, the byes that call for a move now.
+  const soon = (byes?.weeks || []).filter((week) => week.offset <= 1).reduce((sum, week) => sum + week.out.length, 0)
+  const options = segments.map((option) =>
     option.value === 'startsit' && report.swaps.length + report.stranded.length > 0
       ? { ...option, count: report.swaps.length + report.stranded.length }
-      : option
+      : option.value === 'byes' && soon > 0
+        ? { ...option, count: soon }
+        : option
   )
 
   return (
@@ -40,6 +49,7 @@ export default function LineupView({ league, report, segment, onSegment, now, on
           <StartSit report={report} now={now} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
         )}
         {current === 'schedule' && <Schedule league={league} report={report} now={now} onOpenPlayer={onOpenPlayer} />}
+        {current === 'byes' && <Byes byes={byes} now={now} onOpenPlayer={onOpenPlayer} />}
       </div>
     </>
   )
@@ -221,7 +231,7 @@ function SwapCard({ swap, now, onOpenPlayer }) {
   )
 }
 
-function SwapSide({ verb, player, now, onOpenPlayer, out }) {
+function SwapSide({ verb, player, now, onOpenPlayer, out, sub, projected = player.projected }) {
   return (
     <button
       type="button"
@@ -236,10 +246,170 @@ function SwapSide({ verb, player, now, onOpenPlayer, out }) {
           <span className="name">{player.name}</span>
           <InjuryPill status={player.injuryStatus} />
         </span>
-        <span className="row-sub">{[player.position, player.team, matchupText(player, now)].join(' · ')}</span>
+        <span className="row-sub">{sub ?? [player.position, player.team, matchupText(player, now)].join(' · ')}</span>
       </span>
-      <Points value={player.projected} caption={null} />
+      <Points value={projected} caption={null} />
     </button>
+  )
+}
+
+/**
+ * Your players' bye weeks from this week on. The next three weeks name who to
+ * play for each starter, the rest of the season shows who is out and where your
+ * bench comes up short.
+ */
+function Byes({ byes, now, onOpenPlayer }) {
+  if (byes.weeks.length === 0) {
+    return (
+      <div className="card">
+        <EmptyState icon="checkCircle" title="No byes left">
+          None of your players has a bye week left this season.
+        </EmptyState>
+      </div>
+    )
+  }
+
+  const planned = byes.weeks.filter((week) => week.planned)
+  const later = byes.weeks.filter((week) => !week.planned)
+
+  return (
+    <>
+      {planned.map((week) => (
+        <ByeWeek key={week.week} week={week} now={now} onOpenPlayer={onOpenPlayer} />
+      ))}
+      {later.length > 0 && <LaterByes weeks={later} />}
+      <p className="section-foot">
+        Starters are the players in your current lineup. Picks cover the next {LOOKAHEAD} weeks. A free agent
+        has to project {CLEAR_GAIN} more points than your bench option to be worth a claim. Projections after
+        this week are Sleeper&apos;s, in your league&apos;s points per catch.
+      </p>
+    </>
+  )
+}
+
+function ByeWeek({ week, now, onOpenPlayer }) {
+  const { out, benched } = week
+  return (
+    <Section
+      title={`Week ${week.week}`}
+      meta={`${whenLabel(week)} · ${out.length ? `${plural(out.length, 'starter')} out` : 'bench only'}`}
+      id={`bye-week-${week.week}`}
+      foot={out.length > 0 && benched.length > 0 ? `Also on bye from your bench: ${namesLine(benched)}.` : null}
+    >
+      {week.stacked && (
+        <Notice title={`${out.length} starters on bye at once`}>
+          Plan your claims early so every slot is filled before kickoff.
+        </Notice>
+      )}
+      {out.length === 0 ? (
+        <div className="card card-pad bye-quiet">
+          Only bench players are on bye: {namesLine(benched)}. Your lineup is unchanged.
+        </div>
+      ) : (
+        out.map((entry) => <ByeCard key={entry.player.playerId} entry={entry} now={now} onOpenPlayer={onOpenPlayer} />)
+      )}
+    </Section>
+  )
+}
+
+const COVER_TAGS = {
+  pickup: { tone: 'purple', icon: 'waivers', label: 'Pick up' },
+  bench: { tone: 'blue', icon: 'swap', label: 'Bench' },
+  none: { tone: 'red', icon: 'alert', label: 'No cover' }
+}
+
+/** One starter's bye: who plays instead, with the matchup and what the move costs. */
+function ByeCard({ entry, now, onOpenPlayer }) {
+  const { player, slot } = entry
+  const play = entry.pickup || entry.bench
+  const tag = COVER_TAGS[entry.pickup ? 'pickup' : entry.bench ? 'bench' : 'none']
+  const matchup = play ? matchupLines(play) : []
+  const notes = planNotes(entry)
+
+  return (
+    <div className="card swap bye-card">
+      <div className="swap-head">
+        <span className="swap-tags">
+          <SlotPill label={slot} position={player.position} />
+          <Pill tone={tag.tone} icon={tag.icon}>
+            {tag.label}
+          </Pill>
+        </span>
+      </div>
+      <div className="swap-pair">
+        {play && (
+          <SwapSide
+            verb="Play"
+            player={play.player}
+            sub={playLine(play)}
+            projected={play.projected}
+            now={now}
+            onOpenPlayer={onOpenPlayer}
+          />
+        )}
+        <SwapSide
+          verb="Bye"
+          player={player}
+          sub={`${player.team} · On bye`}
+          projected={null}
+          now={now}
+          onOpenPlayer={onOpenPlayer}
+          out
+        />
+      </div>
+      {matchup.length + notes.length > 0 && (
+        <ul className="bye-notes">
+          {matchup.map((line) => (
+            <li key={line.text} data-grade={line.grade || undefined}>
+              {line.text}
+            </li>
+          ))}
+          {notes.map((note) => (
+            <li key={note} className="is-plan">
+              {note}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+/** Weeks past the window: who is out, and any slot your bench cannot fill. */
+function LaterByes({ weeks }) {
+  return (
+    <Section title="Later this season" meta={plural(weeks.length, 'week')} id="bye-later">
+      <div className="card">
+        <ul className="list">
+          {weeks.map((week) => {
+            const short = week.out.filter((entry) => entry.needed).map((entry) => entry.slot)
+            return (
+              <li key={week.week}>
+                <div className="row bye-later">
+                  <span className="bye-week">Wk {week.week}</span>
+                  <span className="row-body">
+                    <span className="row-main">
+                      <span className="row-title is-wrap">
+                        <span className="name">{week.out.length ? namesLine(week.out.map((entry) => entry.player)) : 'Bench only'}</span>
+                      </span>
+                      {week.benched.length > 0 && <span className="row-sub">Bench: {namesLine(week.benched)}</span>}
+                      {short.length > 0 && (
+                        <span className="row-note is-warn">Nobody on your bench can play {short.join(' or ')}</span>
+                      )}
+                    </span>
+                    {week.stacked ? (
+                      <Pill tone="red">{week.out.length} starters</Pill>
+                    ) : short.length > 0 ? (
+                      <Pill tone="orange">Pickup needed</Pill>
+                    ) : null}
+                  </span>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </Section>
   )
 }
 

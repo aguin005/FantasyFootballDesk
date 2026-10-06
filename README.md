@@ -149,6 +149,8 @@ scripts/
   lib/opportunity.mjs    next man up, from depth charts and injuries
   lib/gamelog.mjs        weekly points and last season against this week's opponent
   lib/defense.mjs        points each defense allows to each position
+  lib/picks.mjs          locks the top waiver picks each week and grades them against your starters
+  lib/byes.mjs           bye weeks, next weeks' projections, and free agents for each bye week
   lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
   check-feeds.mjs        npm run feeds, which feeds answer and which columns can be read
@@ -160,6 +162,8 @@ web/src/
   lib/streaming.js       defense streaming ratings
   lib/nflSchedule.js     the schedule panel's days, game states, and your players in each game
   lib/teams.js           team names and ESPN logo URLs
+  lib/picks.js           wording for the waiver track record
+  lib/byes.js            the bye planner: who covers each starter's bye, and what to drop
   components/SchedulePanel.jsx   the NFL schedule that pulls out from the right edge
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
@@ -246,6 +250,64 @@ receptions gives your league's score: Sleeper's own setting, and ESPN's receptio
 full PPR when a league never changed it. Box score scoring can differ a little from a league that
 pays six for a passing touchdown or counts return yards, and the sheet says so. Quarterbacks,
 running backs, receivers, and tight ends only, since that file does not score kickers or defenses.
+
+## Waiver track record
+
+Whether the app's waiver picks were any good. Each week the top three pickups lock in at the
+week's first kickoff, from the board as it stood just before, which is the last thing the app
+recommended. After every week that follows, each pick's points are set against your lowest scoring
+starter at the same position that week, which is the claim the waiver model makes.
+
+When there is no board from before kickoff, because the app was set up mid week or the refresh was
+down, a board from the first hour after kickoff stands in. Any later and the board has seen games,
+so that week is skipped rather than graded with hindsight.
+
+- **Waivers tab:** a line at the top of the Best view, "Week 4's top picks beat your starter 2 of 3
+  times", opens the Track record chip, every locked week with each pick's latest result, a Beat or
+  Missed tag, and its record since the pick.
+- **Player sheet:** a past pick shows every week since it was picked, "Week 5: 14.2 vs James Cook,
+  9.1".
+- **Today:** under Top pickups, how last week's top pick did.
+
+Both sides are scored from Sleeper's weekly stats, in your league's points per catch, so a league
+with custom rules will see totals a little off from its own, but the comparison stays fair. A bye
+week is skipped, and a pick who did not play scores zero, since that is what they would have scored
+for you. A starter Sleeper has no stats id for is left out instead of counted as zero, which would
+make any pick look good. Your lineup for a past week comes from Sleeper's matchup for that week or
+ESPN's lineup for that scoring period, so it is the lineup you actually played.
+
+The history is one small JSON file on its own branch, `pick-history`, so `main` never gets data
+commits. The build job reads it before the refresh. When the refresh changes it, which happens
+about twice a week, when picks lock and when a week is graded, a separate `history` job commits it.
+That job is the only one with permission to push, and it runs no project code, just git plumbing on
+the one file. Deleting the branch starts the record over, and a new season starts one on its own.
+
+## Bye weeks
+
+Which of your players have a bye coming up, and who to play that week.
+
+- **Lineup tab, Byes view:** this week and the next two each get a card for every starter on bye,
+  with who to play instead, the projection, the game, and the matchup. Later weeks list who is out
+  and flag any slot your bench cannot fill, and a week with three or more starters out is called
+  out.
+- **Today:** a starter on bye with no one on the bench to cover now names the free agent to pick up,
+  and a Byes next week card lists next week's byes while there is still time to claim.
+- **Player sheet:** every player's bye week.
+
+A starter's bye is covered from your bench first. A free agent takes over when nobody on the bench
+can play the slot, or when they project at least 3 points more, since a pickup costs a claim and a
+roster spot. Each pickup names the bench player to drop, the lowest season projection among those
+the plan does not need, or says you have an open roster spot. Starters are the players in your
+current lineup, and this week's bench choice is the one Start / sit makes, so the two never
+disagree. Free agents who are doubtful or worse, or whose team is also on bye, are left out, and so
+is anyone whose game this week has already kicked off.
+
+Byes come from nflverse's `games.csv`, which the refresh already reads. This week's numbers are your
+league's own. Later weeks use Sleeper's projections in your league's points per catch, for your
+bench and the free agents alike, so each comparison stays within one source. Sleeper projects every
+week of the season and adjusts for the opponent, but picks stop at three weeks out, since the free
+agent pool will have changed by then. The matchup line is how that opponent has defended the
+position this season, plus the betting line, which books usually post about a week ahead.
 
 ## Matchup context
 
@@ -388,6 +450,13 @@ Changes stay on the board for 24 hours. A refresh every 15 minutes would otherwi
 long before you opened it, and the script has no way to know when you last looked. New changes in a
 league you are not looking at show as a red count on that league's chip.
 
+A change already on the board stays read when a later run sees it again. That happens after a run
+where ESPN's news feed failed: the next run finds every story missing from the one before and would
+flag them all as new. For the same reason, when ESPN's injury feed fails, a designation that only
+that feed knows is kept from the run before. Without it the player would read as healthy for a run
+and as newly injured on the next, and the injury alert would go out twice. A designation from
+Sleeper or from your ESPN league itself is never held, so a player they clear is cleared.
+
 ## Push notifications
 
 Optional, and off until you set it up. ntfy.sh has no accounts and no API keys: you pick a topic
@@ -446,10 +515,10 @@ side still has to play, and whether you are projected to win. Before kickoff the
 projections, and once games start they become the live score. Tap it for the head to head, both
 lineups slot against slot with points and projections for every starter. On a bye week the card
 falls back to a summary of your own starters. The lineup check flags starters who are out, doubtful, or on bye along with who to start
-instead, and questionable starters with their backup. Below that are the last day's changes, the
-top three pickups, and the latest news.
+instead, and questionable starters with their backup. Next week's byes follow, with who to play for
+each. Below that are the last day's changes, the top three pickups, and the latest news.
 
-**Lineup** has three views.
+**Lineup** has four views.
 
 - *Roster* is your starters, bench, and reserve, with injury designations and a dot on anyone with
   fresh news. Once a player's game starts, the projection gives way to the points they have scored.
@@ -463,6 +532,7 @@ top three pickups, and the latest news.
 - *Schedule* groups your roster by the day their NFL team kicks off, using nflverse `games.csv`,
   with each game marked live or played once it starts. Byes get their own group, and a starter on
   bye is flagged.
+- *Byes* plans every bye week left this season, described under Bye weeks above.
 
 **News** collects stories from several outlets and keeps only the ones that name a player on your
 roster, with a filter for starters only. Sources are ESPN, RotoWire, FFToday, Pro Football Rumors,
@@ -571,7 +641,11 @@ measurement, and the dashboard words it as touches rather than routes so it does
 
 ## Worth building next
 
-- A season long log of your waiver claims scored against what those players actually did.
+- A claim by time on bye week pickups, from each league's waiver settings. Sleeper sends its waiver
+  day and ESPN its processing days and hour, so the app could say exactly when a claim has to go
+  in.
+- The same track record for your own claims, read from each league's transaction history, which
+  would work back to week 1.
 - Live scores polled from the browser during games for Sleeper leagues, whose API answers any
   site. ESPN leagues need your cookies, so they have to stay on the workflow.
 - Kicker matchups. The nflverse weekly file has no kicking, so they would need another source.

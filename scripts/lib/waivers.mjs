@@ -120,9 +120,12 @@ export function rankCandidates(candidates, roster, configured, limit) {
  * Replacement level is your own worst startable option at that position, so a
  * suggestion only scores well if it would actually change your lineup. Players who
  * are not playing this week are left out: an injured back projecting zero set the
- * baseline to zero, and every free agent back read as a huge upgrade.
+ * baseline to zero, and every free agent back read as a huge upgrade. So are
+ * players on bye, whose slot a free agent would fill outright. A roster with no
+ * games at all means the schedule did not load, which says nothing about byes.
  */
 function replacementBaselines(roster) {
+  const scheduleKnown = roster.some((player) => player.game)
   const baselines = new Map()
   for (const position of STARTABLE) {
     const projections = roster
@@ -130,6 +133,7 @@ function replacementBaselines(roster) {
         (player) =>
           player.position === position &&
           player.projected > 0 &&
+          (!scheduleKnown || player.game) &&
           !RESERVE_SLOTS.has(player.slot) &&
           injuryLevel(player.injuryStatus) < 3
       )

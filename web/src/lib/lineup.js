@@ -98,6 +98,14 @@ export function sortBySlot(players) {
   )
 }
 
+/**
+ * A player with no NFL team, usually one who was just released. They have no game
+ * any week, which is not the same as a bye.
+ */
+export function hasNoTeam(player) {
+  return player.team === 'FA'
+}
+
 /** upcoming, live, played, or bye. */
 export function gameState(player, now = Date.now()) {
   if (!player.game) return 'bye'
@@ -151,7 +159,7 @@ export function lineupReport(roster, now = Date.now()) {
   const bench = roster.filter((player) => !player.starter && !isReserve(player))
 
   const reasonFor = (player) => {
-    if (known && !player.game) return 'bye'
+    if (known && !player.game) return hasNoTeam(player) ? 'noteam' : 'bye'
     const level = injuryLevel(player.injuryStatus)
     if (level >= 3) return 'out'
     if (level === 2) return 'doubtful'
@@ -238,7 +246,7 @@ export function lineupReport(roster, now = Date.now()) {
  * bench players are used is instant. A very deep bench falls back to taking the
  * best remaining pair each time, which is close and still never double books.
  */
-function bestAssignment(starters, candidates, value) {
+export function bestAssignment(starters, candidates, value) {
   const pool = candidates.filter((candidate) =>
     starters.some((starter) => value(starter, candidate) != null)
   )

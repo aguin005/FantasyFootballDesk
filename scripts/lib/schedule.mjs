@@ -29,7 +29,7 @@ const normalize = normalizeTeam
  */
 export async function loadSchedule(season, week) {
   try {
-    const rows = parseCSV(await readGames())
+    const rows = await gameRows()
     const games = rows.filter(
       (row) => row.season === String(season) && row.week === String(week) && row.game_type === 'REG'
     )
@@ -72,6 +72,36 @@ export async function loadSchedule(season, week) {
   } catch (error) {
     console.warn(`Schedule unavailable: ${error.message}`)
     return new Map()
+  }
+}
+
+// No more than six teams rest in any one week, which leaves at least 13 games. A
+// week with fewer is missing games, and the teams in them would look idle.
+const FULL_WEEK_TEAMS = 24
+
+/**
+ * Every team's bye week this season. A week missing games on file is skipped, so
+ * a gap in the data never invents byes. Empty when the schedule could not be read.
+ */
+export async function loadByeWeeks(season) {
+  try {
+    const playing = new Map()
+    for (const row of await gameRows()) {
+      if (row.season !== String(season) || row.game_type !== 'REG') continue
+      const week = Number(row.week)
+      if (!playing.has(week)) playing.set(week, new Set())
+      playing.get(week).add(normalize(row.home_team)).add(normalize(row.away_team))
+    }
+    const byes = {}
+    for (const [week, teams] of playing) {
+      if (teams.size < FULL_WEEK_TEAMS) continue
+      for (const team of NFL_TEAMS) if (!teams.has(team)) byes[team] = week
+    }
+    console.log(`Bye weeks loaded for ${Object.keys(byes).length} teams`)
+    return byes
+  } catch (error) {
+    console.warn(`Bye weeks unavailable: ${error.message}`)
+    return {}
   }
 }
 
@@ -158,6 +188,17 @@ function lines(total, spread, isHome) {
 
 function round(value) {
   return Number(value.toFixed(1))
+}
+
+// One refresh asks for several weeks, so the file is parsed once per run. A
+// failure is not kept, which lets the next call try again.
+let parsed = null
+function gameRows() {
+  parsed ||= readGames().then(parseCSV)
+  parsed.catch(() => {
+    parsed = null
+  })
+  return parsed
 }
 
 async function readGames() {
@@ -248,7 +289,8 @@ export function attachNextGame(player, schedule) {
   return player
 }
 
-function gameFor(player, schedule) {
+/** A player's game in the given week's schedule, or null on a bye. */
+export function gameFor(player, schedule) {
   const game = schedule.get(normalize(player.team))
   if (!game) return null
   return {

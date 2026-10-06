@@ -18,6 +18,7 @@ import { useNow, useOnline, useScrolled } from './lib/hooks.js'
 import { useSetting } from './lib/storage.js'
 import { lineupReport, onGameClock, resolvePlayer } from './lib/lineup.js'
 import { matchupReport } from './lib/matchup.js'
+import { byeReport } from './lib/byes.js'
 import { ageMs, longAgo, updatedLabel } from './lib/format.js'
 
 const TABS = {
@@ -58,6 +59,7 @@ export default function App() {
   const league = leagues.find((entry) => entry.id === leagueId) || leagues[0] || null
   const report = useMemo(() => (league ? lineupReport(league.roster, now) : null), [league, now])
   const matchup = useMemo(() => matchupReport(league, data?.generatedAt, now), [league, data, now])
+  const byes = useMemo(() => byeReport(league, report, data?.byeWeeks, data?.week, now), [league, report, data, now])
 
   const tabs = useMemo(() => {
     if (!league) return []
@@ -213,6 +215,7 @@ export default function App() {
             <TodayView
               league={league}
               report={report}
+              byes={byes}
               matchup={matchup}
               changes={data.changes || []}
               news={data.news || []}
@@ -226,6 +229,7 @@ export default function App() {
             <LineupView
               league={league}
               report={report}
+              byes={byes}
               segment={segment}
               onSegment={setSegment}
               now={now}
@@ -249,6 +253,9 @@ export default function App() {
         player={sheetPlayer}
         news={data.news || []}
         receptionPoints={league.receptionPoints}
+        pickReport={league.pickReport}
+        byeWeeks={data.byeWeeks}
+        week={data.week}
         onClose={closePlayer}
         now={now}
       />

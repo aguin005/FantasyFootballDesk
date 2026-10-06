@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .cache/
+# The waiver pick history. The workflow keeps it on the pick-history branch.
+.history/
 .env
 .DS_Store
 # Written by npm run refresh on every run. Never commit it: in Actions the refresh

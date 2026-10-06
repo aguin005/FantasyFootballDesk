@@ -3,13 +3,23 @@ import path from 'node:path'
 import * as sleeper from './adapters/sleeper.mjs'
 import * as espn from './adapters/espn.mjs'
 import { buildCrosswalk, fillEspnIds, linkIds } from './lib/crosswalk.mjs'
-import { fetchNews, fetchInjuries, attachNews } from './lib/news.mjs'
+import { fetchNews, fetchInjuries, attachNews, holdFeedInjuries } from './lib/news.mjs'
 import { rankCandidates } from './lib/waivers.mjs'
 import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished, weekSchedule } from './lib/schedule.mjs'
+import {
+  loadSchedule,
+  loadByeWeeks,
+  attachGame,
+  attachNextGame,
+  inGameWindow,
+  weekFinished,
+  weekSchedule
+} from './lib/schedule.mjs'
+import { addByeOptions, laterWeeks } from './lib/byes.mjs'
+import { lockPicks, pickReport, readHistory, recordWeek, statsId, weeksToRecord, writeHistory } from './lib/picks.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
 import { loadPointsAllowed, rankDefenses, opponentDefenseFor } from './lib/defense.mjs'
@@ -42,7 +52,7 @@ async function main() {
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, allowed, schedule, nextSchedule, weekly, seasonal] =
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, allowed, schedule, nextSchedule, weekly, seasonal, byeWeeks] =
     await Promise.all([
       sleeper.getAllPlayers(),
       sleeper.getTrendingAdds(),
@@ -54,8 +64,18 @@ async function main() {
       rolled ? loadSchedule(season, week) : scoringSchedule,
       loadSchedule(season, week + 1),
       sleeper.getProjections(season, week),
-      sleeper.getProjections(season)
+      sleeper.getProjections(season),
+      loadByeWeeks(season)
     ])
+
+  // The bye planner looks two weeks past this one, at their games and projections.
+  const later = await Promise.all(
+    laterWeeks(week, LAST_WEEK).map(async (next) => ({
+      week: next,
+      schedule: next === week + 1 ? nextSchedule : await loadSchedule(season, next),
+      projections: await sleeper.getProjections(season, next)
+    }))
+  )
 
   // The players file is already downloaded for usage, so this costs no request.
   const nflversePlayers = await loadCSV('players/players.csv', 'nflverse players').catch(() => [])
@@ -113,6 +133,12 @@ async function main() {
       enrich(player, crosswalk, newsByPlayer, injuriesByPlayer, usage)
       attachGame(player, schedule)
     }
+    // The injury feed answers with hundreds of designations, so none at all means
+    // it failed, not that the league got healthy.
+    if (injuriesByPlayer.size === 0) {
+      const held = holdFeedInjuries([league], previous)
+      if (held) console.log(`Injury feed down, kept last run's designation for ${held} players in ${league.name}`)
+    }
 
     // Other teams only need enough to price a trade and follow the matchup, so they
     // skip news. The game is what tells the matchup which starters have played.
@@ -153,6 +179,7 @@ async function main() {
       player.vsOpponent = opponentHistoryFor(player, logs, league.receptionPoints)
       player.opponentDefense = opponentDefenseFor(player, defenses)
     }
+    addByeOptions(league, { week, later, defenses, byeWeeks })
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)
   }
@@ -164,6 +191,31 @@ async function main() {
     league.consensus = consensusForLeague(league, mentions)
     delete league.candidates
   }
+
+  // The app's own track record: this week's top picks lock at its first kickoff,
+  // every finished week since is recorded, and each pick is graded against your
+  // starters. The workflow keeps the file on its own branch.
+  const history = await readHistory(season)
+  const historyBefore = JSON.stringify(history)
+  if (history) {
+    const kickoffs = [...schedule.values()].map((game) => Date.parse(game.kickoffISO)).filter(Number.isFinite)
+    const firstKickoff = kickoffs.length ? Math.min(...kickoffs) : NaN
+    const locked = lockPicks(history, leagues, previous, week, firstKickoff)
+    if (locked.length) console.log(`Locked the week ${week} waiver picks for ${locked.join(', ')}`)
+    await recordFinishedWeeks(history, leagues, {
+      season,
+      lastFinished: rolled ? scoringWeek : scoringWeek - 1,
+      players,
+      crosswalk
+    })
+    for (const league of leagues) {
+      // A week skipped for a late start has no lock still to come.
+      const pending = !history.leagues[league.id]?.picks[week] && Date.now() < firstKickoff
+      league.pickReport = pickReport(history, league, pending ? new Date(firstKickoff).toISOString() : null)
+    }
+    await writeHistory(history)
+  }
+  const historyChanged = Boolean(history) && JSON.stringify(history) !== historyBefore
 
   const rosterIndex = buildRosterIndex(leagues)
   const news = mergeNews([
@@ -180,6 +232,7 @@ async function main() {
     season,
     week,
     schedule: weekSchedule(schedule, week),
+    byeWeeks,
     leagues,
     problems
   }
@@ -194,7 +247,9 @@ async function main() {
 
   // The workflow reads this to decide whether to queue the next run itself.
   const gameWindow = inGameWindow(schedule)
-  if (process.env.GITHUB_OUTPUT) await fs.appendFile(process.env.GITHUB_OUTPUT, `game_window=${gameWindow}\n`)
+  if (process.env.GITHUB_OUTPUT) {
+    await fs.appendFile(process.env.GITHUB_OUTPUT, `game_window=${gameWindow}\nhistory_changed=${historyChanged}\n`)
+  }
   if (gameWindow) console.log('Games are on or about to start, so the workflow will run again in about 10 minutes')
 
   const fresh = current.changes.filter((entry) => entry.isNew).length
@@ -206,6 +261,47 @@ async function main() {
   if (leagues.length === 0) {
     console.error('No leagues loaded. Check leagues.config.json and your ESPN secrets.')
     process.exit(1)
+  }
+}
+
+/**
+ * Records every finished week the pick history is missing. Stats and byes are
+ * fetched once per week and shared, lineups once per league per week, and only
+ * for weeks not yet on file, so a normal run makes no extra requests.
+ */
+async function recordFinishedWeeks(history, leagues, { season, lastFinished, players, crosswalk }) {
+  const needed = new Map(leagues.map((league) => [league, weeksToRecord(history, league, lastFinished)]))
+  const weeks = [...new Set([...needed.values()].flat())]
+  if (weeks.length === 0) return
+
+  const stats = new Map()
+  const byes = new Map()
+  for (const week of weeks) {
+    stats.set(week, await sleeper.getStats(season, week))
+    byes.set(week, weekSchedule(await loadSchedule(season, week), week).byes)
+  }
+
+  for (const [league, list] of needed) {
+    const mine = (league.teams || []).find((team) => team.isMine)
+    const [platform, leagueId] = league.id.split(':')
+    for (const week of list) {
+      const starters = !mine
+        ? null
+        : platform === 'sleeper'
+          ? await sleeper.getStarters(leagueId, mine.teamId, week, players)
+          : await espn.getStarters(season, leagueId, mine.teamId, week)
+      const withIds = starters?.map((player) => {
+        const sleeperId = platform === 'espn' ? crosswalk.byEspnId.get(player.espnId)?.sleeperId : player.sleeperId
+        return { ...player, statsId: statsId({ ...player, sleeperId }, platform) }
+      })
+      const saved = recordWeek(history, league, week, {
+        starters: withIds,
+        stats: stats.get(week),
+        key: sleeper.pointsKey(league.receptionPoints),
+        byes: byes.get(week)
+      })
+      console.log(saved ? `Graded the waiver picks against week ${week} for ${league.name}` : `Week ${week} could not be graded yet for ${league.name}`)
+    }
   }
 }
 
