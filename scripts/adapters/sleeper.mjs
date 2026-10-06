@@ -305,6 +305,9 @@ export async function loadLeague(
     record: formatRecord(myRoster.settings?.wins, myRoster.settings?.losses, myRoster.settings?.ties),
     scoring: key === 'pts_ppr' ? 'Full PPR' : key === 'pts_half_ppr' ? 'Half PPR' : 'Standard',
     receptionPoints: league.scoring_settings?.rec ?? 0,
+    // Every starting and bench spot. Injured reserve and taxi spots are settings
+    // of their own and not in this list.
+    rosterSpots: league.roster_positions?.length || null,
     matchup: findMatchup(matchups, myRoster.roster_id, week),
     lastMatchup: lastWeek ? findMatchup(lastMatchups, myRoster.roster_id, lastWeek) : null,
     roster,

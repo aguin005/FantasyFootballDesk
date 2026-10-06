@@ -57,9 +57,9 @@ function entryFor(history, league) {
 }
 
 /**
- * The id Sleeper's stats use for a player in either kind of league. A Sleeper
- * league already uses Sleeper ids, an ESPN league carries them from the crosswalk,
- * and defenses are keyed by team.
+ * The id Sleeper's stats and projections use for a player in either kind of
+ * league. A Sleeper league already uses Sleeper ids, an ESPN league carries them
+ * from the crosswalk, and defenses are keyed by team.
  */
 export function statsId(player, platform) {
   if (player.position === 'DEF') {

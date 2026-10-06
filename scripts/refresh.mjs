@@ -9,7 +9,16 @@ import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
-import { loadSchedule, attachGame, attachNextGame, inGameWindow, weekFinished, weekSchedule } from './lib/schedule.mjs'
+import {
+  loadSchedule,
+  loadByeWeeks,
+  attachGame,
+  attachNextGame,
+  inGameWindow,
+  weekFinished,
+  weekSchedule
+} from './lib/schedule.mjs'
+import { addByeOptions, laterWeeks } from './lib/byes.mjs'
 import { lockPicks, pickReport, readHistory, recordWeek, statsId, weeksToRecord, writeHistory } from './lib/picks.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
@@ -43,7 +52,7 @@ async function main() {
   // Read the last run before anything overwrites it.
   const previous = await loadPrevious(config.siteUrl)
 
-  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, allowed, schedule, nextSchedule, weekly, seasonal] =
+  const [players, trending, newsByPlayer, injuriesByPlayer, usage, logs, allowed, schedule, nextSchedule, weekly, seasonal, byeWeeks] =
     await Promise.all([
       sleeper.getAllPlayers(),
       sleeper.getTrendingAdds(),
@@ -55,8 +64,18 @@ async function main() {
       rolled ? loadSchedule(season, week) : scoringSchedule,
       loadSchedule(season, week + 1),
       sleeper.getProjections(season, week),
-      sleeper.getProjections(season)
+      sleeper.getProjections(season),
+      loadByeWeeks(season)
     ])
+
+  // The bye planner looks two weeks past this one, at their games and projections.
+  const later = await Promise.all(
+    laterWeeks(week, LAST_WEEK).map(async (next) => ({
+      week: next,
+      schedule: next === week + 1 ? nextSchedule : await loadSchedule(season, next),
+      projections: await sleeper.getProjections(season, next)
+    }))
+  )
 
   // The players file is already downloaded for usage, so this costs no request.
   const nflversePlayers = await loadCSV('players/players.csv', 'nflverse players').catch(() => [])
@@ -154,6 +173,7 @@ async function main() {
       player.vsOpponent = opponentHistoryFor(player, logs, league.receptionPoints)
       player.opponentDefense = opponentDefenseFor(player, defenses)
     }
+    addByeOptions(league, { week, later, defenses, byeWeeks })
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)
   }
@@ -205,6 +225,7 @@ async function main() {
     season,
     week,
     schedule: weekSchedule(schedule, week),
+    byeWeeks,
     leagues,
     problems
   }
