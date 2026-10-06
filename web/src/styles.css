@@ -526,8 +526,11 @@ img {
 .leagues {
   display: flex;
   gap: 8px;
-  margin: 0 calc(-1 * var(--gutter)) 6px;
-  padding: 2px var(--gutter) 10px;
+  /* A scrolling row clips whatever leaves its padding, and the count badge sits
+     above its chip, 6px with its ring. The extra padding holds it, and the
+     negative margin takes the same space back so the row stays where it was. */
+  margin: -6px calc(-1 * var(--gutter)) 6px;
+  padding: 8px var(--gutter) 10px;
   overflow-x: auto;
   scrollbar-width: none;
   scroll-snap-type: x proximity;
