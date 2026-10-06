@@ -3,7 +3,7 @@ import path from 'node:path'
 import * as sleeper from './adapters/sleeper.mjs'
 import * as espn from './adapters/espn.mjs'
 import { buildCrosswalk, fillEspnIds, linkIds } from './lib/crosswalk.mjs'
-import { fetchNews, fetchInjuries, attachNews } from './lib/news.mjs'
+import { fetchNews, fetchInjuries, attachNews, holdFeedInjuries } from './lib/news.mjs'
 import { rankCandidates } from './lib/waivers.mjs'
 import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
@@ -133,6 +133,12 @@ async function main() {
       enrich(player, crosswalk, newsByPlayer, injuriesByPlayer, usage)
       attachGame(player, schedule)
     }
+    // The injury feed answers with hundreds of designations, so none at all means
+    // it failed, not that the league got healthy.
+    if (injuriesByPlayer.size === 0) {
+      const held = holdFeedInjuries([league], previous)
+      if (held) console.log(`Injury feed down, kept last run's designation for ${held} players in ${league.name}`)
+    }
 
     // Other teams only need enough to price a trade and follow the matchup, so they
     // skip news. The game is what tells the matchup which starters have played.
@@ -203,7 +209,8 @@ async function main() {
       crosswalk
     })
     for (const league of leagues) {
-      const pending = !history.leagues[league.id]?.picks[week] && Number.isFinite(firstKickoff)
+      // A week skipped for a late start has no lock still to come.
+      const pending = !history.leagues[league.id]?.picks[week] && Date.now() < firstKickoff
       league.pickReport = pickReport(history, league, pending ? new Date(firstKickoff).toISOString() : null)
     }
     await writeHistory(history)

@@ -91,8 +91,37 @@ export function attachNews(player, newsByPlayer, injuriesByPlayer) {
 
   const injury = player.espnId ? injuriesByPlayer.get(player.espnId) : null
   if (injury) {
+    // The platform's own designation wins. One that only this feed knows is
+    // marked, so it can be held through a run where the feed is down.
+    if (!player.injuryStatus && injury.status) player.injurySource = 'feed'
     player.injuryStatus = player.injuryStatus || injury.status
     player.injuryNote = player.injuryNote || injury.detail
   }
   return player
+}
+
+/**
+ * Keeps last run's designation for roster players whose only source was ESPN's
+ * injury feed, for a run where that feed is down. Without it they read healthy
+ * for one run and newly injured on the next, which shows a false Healthier change
+ * and sends the injury alert again. A designation from Sleeper or ESPN's league
+ * data is never held, so a player they clear is cleared. Returns how many were held.
+ */
+export function holdFeedInjuries(leagues, previous) {
+  const before = new Map()
+  for (const league of previous?.leagues || []) {
+    for (const player of league.roster || []) before.set(`${league.id}:${player.playerId}`, player)
+  }
+  let held = 0
+  for (const league of leagues) {
+    for (const player of league.roster) {
+      const past = before.get(`${league.id}:${player.playerId}`)
+      if (player.injuryStatus || past?.injurySource !== 'feed' || !past.injuryStatus) continue
+      player.injuryStatus = past.injuryStatus
+      player.injuryNote = player.injuryNote || past.injuryNote || null
+      player.injurySource = 'feed'
+      held++
+    }
+  }
+  return held
 }

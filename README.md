@@ -258,6 +258,10 @@ week's first kickoff, from the board as it stood just before, which is the last 
 recommended. After every week that follows, each pick's points are set against your lowest scoring
 starter at the same position that week, which is the claim the waiver model makes.
 
+When there is no board from before kickoff, because the app was set up mid week or the refresh was
+down, a board from the first hour after kickoff stands in. Any later and the board has seen games,
+so that week is skipped rather than graded with hindsight.
+
 - **Waivers tab:** a line at the top of the Best view, "Week 4's top picks beat your starter 2 of 3
   times", opens the Track record chip, every locked week with each pick's latest result, a Beat or
   Missed tag, and its record since the pick.
@@ -445,6 +449,13 @@ previous run.
 Changes stay on the board for 24 hours. A refresh every 15 minutes would otherwise clear the list
 long before you opened it, and the script has no way to know when you last looked. New changes in a
 league you are not looking at show as a red count on that league's chip.
+
+A change already on the board stays read when a later run sees it again. That happens after a run
+where ESPN's news feed failed: the next run finds every story missing from the one before and would
+flag them all as new. For the same reason, when ESPN's injury feed fails, a designation that only
+that feed knows is kept from the run before. Without it the player would read as healthy for a run
+and as newly injured on the next, and the injury alert would go out twice. A designation from
+Sleeper or from your ESPN league itself is never held, so a player they clear is cleared.
 
 ## Push notifications
 

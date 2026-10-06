@@ -18,6 +18,9 @@ import { headshot } from './images.mjs'
  */
 
 export const PICKS_PER_WEEK = 3
+// Refreshes come every ten minutes around kickoff, so a board from the first hour
+// after it is as good as the one before. A later board has seen games played.
+const LATE_LOCK_MS = 60 * 60 * 1000
 export const HISTORY_FILE = path.resolve(process.env.PICK_HISTORY || '.history/picks.json')
 
 // Sleeper names Washington's defense WAS, where the schedule and ESPN use WSH.
@@ -89,19 +92,26 @@ function pickRecord(player, platform, lockedAt) {
  * Locks this week's picks once its first game has kicked off. The board graded is
  * the one from just before kickoff, the last thing the app recommended, so the
  * copy published by the previous run is used when it is from before kickoff.
- * Returns the names of the leagues that were locked.
+ * Without one, the current board stands in only during the first hour. After
+ * that it has seen games, and grading it on the same week would credit the picks
+ * with hindsight, so the week is skipped. That happens when the app is set up
+ * mid week or the refresh was down over kickoff. Returns the names of the
+ * leagues that were locked.
  */
 export function lockPicks(history, leagues, previous, week, firstKickoff, now = Date.now()) {
   if (!Number.isFinite(firstKickoff) || now < firstKickoff) return []
   const before = previous?.week === week && Date.parse(previous.generatedAt) < firstKickoff ? previous : null
+  const late = now > firstKickoff + LATE_LOCK_MS
   const locked = []
   for (const league of leagues) {
     const entry = entryFor(history, league)
     if (entry.picks[week]) continue
     const earlier = before?.leagues?.find((candidate) => candidate.id === league.id)
-    const board = earlier?.waivers?.length ? earlier.waivers : league.waivers || []
+    const pre = earlier?.waivers?.length ? earlier.waivers : null
+    if (!pre && late) continue
+    const board = pre || league.waivers || []
     if (board.length === 0) continue
-    const lockedAt = new Date(earlier ? Date.parse(before.generatedAt) : now).toISOString()
+    const lockedAt = new Date(pre ? Date.parse(before.generatedAt) : now).toISOString()
     entry.picks[week] = board.slice(0, PICKS_PER_WEEK).map((player) => pickRecord(player, league.platform, lockedAt))
     locked.push(league.name)
   }
