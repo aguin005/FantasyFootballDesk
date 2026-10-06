@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import Portrait from '../components/Portrait.jsx'
 import Icon from '../components/Icon.jsx'
 import { Section, Chips, PlayerRow, ScoreRing, EmptyState, LinkButton, Pill } from '../components/ui.jsx'
-import { POSITIONS, coversRoster, isReserve, sortBySlot, slotLabel } from '../lib/lineup.js'
+import { POSITIONS, coversRoster, hasNoTeam, isReserve, sortBySlot, slotLabel } from '../lib/lineup.js'
 import { formatPoints, kickoffLabel } from '../lib/format.js'
 import { rateDefenses, nextWeekLabel, defenseName, GRADE_LABEL, GRADE_TONE } from '../lib/streaming.js'
 import { lastWeekRecord, resultLine, sumTally, tally, verdict } from '../lib/picks.js'
@@ -299,8 +299,9 @@ function WaiverRow({ player, rank, myIds, onOpenPlayer, accent }) {
       badge={openingBadge(player, myIds)}
       sub={[
         player.position,
-        player.team,
-        player.game ? player.game.matchup : 'Bye',
+        // Everyone here is a free agent in your league, so FA would say nothing.
+        hasNoTeam(player) ? 'No NFL team' : player.team,
+        player.game ? player.game.matchup : hasNoTeam(player) ? null : 'Bye',
         player.percentOwned != null ? `${formatPoints(player.percentOwned)}% rostered` : null
       ]
         .filter(Boolean)

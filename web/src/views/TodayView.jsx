@@ -17,7 +17,7 @@ const CHANGE_KINDS = {
   waiver: { label: 'Pickup', tone: 'purple' }
 }
 
-const REASON_TEXT = { out: 'is out', doubtful: 'is doubtful', bye: 'is on bye' }
+const REASON_TEXT = { out: 'is out', doubtful: 'is doubtful', bye: 'is on bye', noteam: 'has no NFL team' }
 
 const SCORING = {
   H2H_POINTS: 'Head to head points',

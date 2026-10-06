@@ -24,7 +24,7 @@ const SEGMENTS = [
   { value: 'byes', label: 'Byes' }
 ]
 
-const REASON_LABEL = { out: 'Out', doubtful: 'Doubtful', bye: 'On bye', upgrade: 'Upgrade' }
+const REASON_LABEL = { out: 'Out', doubtful: 'Doubtful', bye: 'On bye', noteam: 'No NFL team', upgrade: 'Upgrade' }
 
 export default function LineupView({ league, report, byes, segment, onSegment, now, onOpenPlayer, onNavigate }) {
   // Byes needs the season's schedule, which older copies of the data lack.

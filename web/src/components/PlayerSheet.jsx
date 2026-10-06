@@ -3,7 +3,7 @@ import Sheet from './Sheet.jsx'
 import Portrait from './Portrait.jsx'
 import Icon from './Icon.jsx'
 import { InjuryPill, SlotPill } from './ui.jsx'
-import { gameState, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
+import { gameState, hasNoTeam, injuryLabel, injuryLevel, slotOf, storiesFor } from '../lib/lineup.js'
 import { clockTime, formatPoints, plural, signed, timeAgo, weekday } from '../lib/format.js'
 import { nextWeekLabel } from '../lib/streaming.js'
 import PointsChart from './PointsChart.jsx'
@@ -318,7 +318,7 @@ function FactSection({ title, icon, tone, items }) {
 
 function gameLine(player, now) {
   const { game } = player
-  if (!game) return 'No game this week'
+  if (!game) return hasNoTeam(player) ? 'Not on an NFL team' : 'No game this week'
   const state = gameState(player, now)
   if (state === 'live') return `${game.matchup}, in progress`
   if (state === 'played') return `${game.matchup}, already played`

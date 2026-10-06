@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import Icon from './Icon.jsx'
 import Portrait from './Portrait.jsx'
-import { injuryLevel, injuryLabel, injuryShort, gameState } from '../lib/lineup.js'
+import { injuryLevel, injuryLabel, injuryShort, gameState, hasNoTeam } from '../lib/lineup.js'
 import { kickoffLabel } from '../lib/format.js'
 
 export function Section({ title, meta, action, foot, children, id }) {
@@ -59,7 +59,7 @@ export function Pill({ tone, icon, children }) {
 
 /** "vs DAL · Sun 1:00 PM", with the time swapped for a state once the game starts. */
 export function matchupText(player, now) {
-  if (!player.game) return 'Bye'
+  if (!player.game) return hasNoTeam(player) ? 'No NFL team' : 'Bye'
   const state = gameState(player, now)
   const when = state === 'live' ? 'Live' : state === 'played' ? 'Played' : kickoffLabel(player.game)
   return [player.game.matchup, when].filter(Boolean).join(' · ')

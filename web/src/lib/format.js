@@ -10,15 +10,18 @@ const MINUTE = 60 * 1000
 const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
 
-/** "Just now", "12m ago", "3h ago", "2d ago". */
+/**
+ * "Just now", "12m ago", "3h ago", "2d ago". Whole units count down, the way a
+ * clock does: rounding called 59 minutes and 40 seconds "60m ago".
+ */
 export function timeAgo(iso, now = Date.now()) {
   const then = Date.parse(iso)
   if (!Number.isFinite(then)) return ''
   const elapsed = Math.max(0, now - then)
   if (elapsed < MINUTE) return 'Just now'
-  if (elapsed < HOUR) return `${Math.round(elapsed / MINUTE)}m ago`
-  if (elapsed < DAY) return `${Math.round(elapsed / HOUR)}h ago`
-  return `${Math.round(elapsed / DAY)}d ago`
+  if (elapsed < HOUR) return `${Math.floor(elapsed / MINUTE)}m ago`
+  if (elapsed < DAY) return `${Math.floor(elapsed / HOUR)}h ago`
+  return `${Math.floor(elapsed / DAY)}d ago`
 }
 
 /** "12 minutes ago", "3 hours ago", "2 days ago", for sentences rather than labels. */
@@ -28,7 +31,7 @@ export function longAgo(iso, now = Date.now()) {
   if (elapsed < MINUTE) return 'just now'
   const [size, unit] =
     elapsed < HOUR ? [MINUTE, 'minute'] : elapsed < DAY ? [HOUR, 'hour'] : [DAY, 'day']
-  const count = Math.round(elapsed / size)
+  const count = Math.floor(elapsed / size)
   return `${count} ${unit}${count === 1 ? '' : 's'} ago`
 }
 
