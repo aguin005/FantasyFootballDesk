@@ -238,7 +238,7 @@ export function lineupReport(roster, now = Date.now()) {
  * bench players are used is instant. A very deep bench falls back to taking the
  * best remaining pair each time, which is close and still never double books.
  */
-function bestAssignment(starters, candidates, value) {
+export function bestAssignment(starters, candidates, value) {
   const pool = candidates.filter((candidate) =>
     starters.some((starter) => value(starter, candidate) != null)
   )

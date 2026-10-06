@@ -1047,7 +1047,9 @@ a.row:active {
   position: relative;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  /* Equal columns whatever the labels, since the lens slides in equal steps. A
+     plain 1fr grows to fit a long label and leaves the lens beside its segment. */
+  grid-auto-columns: minmax(0, 1fr);
   padding: 3px;
   margin: 0 0 14px;
   border-radius: var(--radius-control);
@@ -1091,6 +1093,15 @@ a.row:active {
 
 .seg-item.is-on {
   font-weight: 600;
+}
+
+/* Four segments on a small phone. */
+@media (max-width: 400px) {
+  .seg-item {
+    gap: 3px;
+    padding: 0 2px;
+    font-size: 13px;
+  }
 }
 
 .seg-item .seg-count {
@@ -2642,6 +2653,78 @@ a.row:active {
 
 .swap-side.is-out .swap-verb {
   color: var(--label-2);
+}
+
+/* Bye weeks. Each starter's card is the start and sit swap card, with the
+   matchup and the cost of the move listed under it. */
+
+/* The kickoff is the point of the line, so it wraps rather than being cut off. */
+.bye-card .swap-side .row-sub {
+  white-space: normal;
+}
+
+.bye-notes {
+  display: grid;
+  gap: 4px;
+  list-style: none;
+  margin: 10px 2px 0;
+  padding: 0;
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.bye-notes li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.bye-notes li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--label-3);
+}
+
+.bye-notes li.is-plan {
+  color: var(--label);
+}
+
+.bye-notes li[data-grade='soft'] {
+  color: var(--green-ink);
+}
+
+.bye-notes li[data-grade='soft']::before {
+  background: var(--green);
+}
+
+.bye-notes li[data-grade='tough'] {
+  color: var(--red-ink);
+}
+
+.bye-notes li[data-grade='tough']::before {
+  background: var(--red);
+}
+
+.bye-quiet {
+  font-size: 15px;
+  color: var(--label-2);
+}
+
+.bye-week {
+  flex: 0 0 auto;
+  min-width: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-2);
+  white-space: nowrap;
+}
+
+.row-note.is-warn {
+  color: var(--orange-ink);
 }
 
 /* News */

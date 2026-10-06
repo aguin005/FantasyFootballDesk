@@ -150,6 +150,7 @@ scripts/
   lib/gamelog.mjs        weekly points and last season against this week's opponent
   lib/defense.mjs        points each defense allows to each position
   lib/picks.mjs          locks the top waiver picks each week and grades them against your starters
+  lib/byes.mjs           bye weeks, next weeks' projections, and free agents for each bye week
   lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
   check-feeds.mjs        npm run feeds, which feeds answer and which columns can be read
@@ -162,6 +163,7 @@ web/src/
   lib/nflSchedule.js     the schedule panel's days, game states, and your players in each game
   lib/teams.js           team names and ESPN logo URLs
   lib/picks.js           wording for the waiver track record
+  lib/byes.js            the bye planner: who covers each starter's bye, and what to drop
   components/SchedulePanel.jsx   the NFL schedule that pulls out from the right edge
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
@@ -275,6 +277,33 @@ commits. The build job reads it before the refresh. When the refresh changes it,
 about twice a week, when picks lock and when a week is graded, a separate `history` job commits it.
 That job is the only one with permission to push, and it runs no project code, just git plumbing on
 the one file. Deleting the branch starts the record over, and a new season starts one on its own.
+
+## Bye weeks
+
+Which of your players have a bye coming up, and who to play that week.
+
+- **Lineup tab, Byes view:** this week and the next two each get a card for every starter on bye,
+  with who to play instead, the projection, the game, and the matchup. Later weeks list who is out
+  and flag any slot your bench cannot fill, and a week with three or more starters out is called
+  out.
+- **Today:** a starter on bye with no one on the bench to cover now names the free agent to pick up,
+  and a Byes next week card lists next week's byes while there is still time to claim.
+- **Player sheet:** every player's bye week.
+
+A starter's bye is covered from your bench first. A free agent takes over when nobody on the bench
+can play the slot, or when they project at least 3 points more, since a pickup costs a claim and a
+roster spot. Each pickup names the bench player to drop, the lowest season projection among those
+the plan does not need, or says you have an open roster spot. Starters are the players in your
+current lineup, and this week's bench choice is the one Start / sit makes, so the two never
+disagree. Free agents who are doubtful or worse, or whose team is also on bye, are left out, and so
+is anyone whose game this week has already kicked off.
+
+Byes come from nflverse's `games.csv`, which the refresh already reads. This week's numbers are your
+league's own. Later weeks use Sleeper's projections in your league's points per catch, for your
+bench and the free agents alike, so each comparison stays within one source. Sleeper projects every
+week of the season and adjusts for the opponent, but picks stop at three weeks out, since the free
+agent pool will have changed by then. The matchup line is how that opponent has defended the
+position this season, plus the betting line, which books usually post about a week ahead.
 
 ## Matchup context
 
@@ -475,10 +504,10 @@ side still has to play, and whether you are projected to win. Before kickoff the
 projections, and once games start they become the live score. Tap it for the head to head, both
 lineups slot against slot with points and projections for every starter. On a bye week the card
 falls back to a summary of your own starters. The lineup check flags starters who are out, doubtful, or on bye along with who to start
-instead, and questionable starters with their backup. Below that are the last day's changes, the
-top three pickups, and the latest news.
+instead, and questionable starters with their backup. Next week's byes follow, with who to play for
+each. Below that are the last day's changes, the top three pickups, and the latest news.
 
-**Lineup** has three views.
+**Lineup** has four views.
 
 - *Roster* is your starters, bench, and reserve, with injury designations and a dot on anyone with
   fresh news. Once a player's game starts, the projection gives way to the points they have scored.
@@ -492,6 +521,7 @@ top three pickups, and the latest news.
 - *Schedule* groups your roster by the day their NFL team kicks off, using nflverse `games.csv`,
   with each game marked live or played once it starts. Byes get their own group, and a starter on
   bye is flagged.
+- *Byes* plans every bye week left this season, described under Bye weeks above.
 
 **News** collects stories from several outlets and keeps only the ones that name a player on your
 roster, with a filter for starters only. Sources are ESPN, RotoWire, FFToday, Pro Football Rumors,
@@ -600,6 +630,9 @@ measurement, and the dashboard words it as touches rather than routes so it does
 
 ## Worth building next
 
+- A claim by time on bye week pickups, from each league's waiver settings. Sleeper sends its waiver
+  day and ESPN its processing days and hour, so the app could say exactly when a claim has to go
+  in.
 - The same track record for your own claims, read from each league's transaction history, which
   would work back to week 1.
 - Live scores polled from the browser during games for Sleeper leagues, whose API answers any

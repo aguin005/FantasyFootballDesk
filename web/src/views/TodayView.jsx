@@ -6,6 +6,7 @@ import { clockTime, formatPoints, localDayKey, shortAgo, timeAgo, signed, plural
 import { coversRoster, slotOf } from '../lib/lineup.js'
 import { MatchupCard } from '../components/Matchup.jsx'
 import { topPickLine } from '../lib/picks.js'
+import { coverFor, coverLine } from '../lib/byes.js'
 
 const CHANGE_KINDS = {
   downgrade: { label: 'Injury', tone: 'red' },
@@ -33,6 +34,7 @@ const SCORING = {
 export default function TodayView({
   league,
   report,
+  byes,
   matchup,
   changes,
   news,
@@ -54,7 +56,8 @@ export default function TodayView({
       ) : (
         <Summary league={league} report={report} now={now} />
       )}
-      <LineupCheck report={report} handcuffs={handcuffs} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
+      <LineupCheck report={report} byes={byes} handcuffs={handcuffs} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
+      <ByesNextWeek byes={byes} onNavigate={onNavigate} />
       <Changes entries={leagueChanges} now={now} onOpenPlayer={onOpenPlayer} />
 
       {league.waivers?.length > 0 && (
@@ -171,7 +174,7 @@ function dayWord(iso, now) {
   return weekday(iso)
 }
 
-function LineupCheck({ report, handcuffs, onOpenPlayer, onNavigate }) {
+function LineupCheck({ report, byes, handcuffs, onOpenPlayer, onNavigate }) {
   const urgent = report.swaps.filter((swap) => swap.urgent)
   const upgrades = report.swaps.filter((swap) => !swap.urgent)
   const nothing =
@@ -201,28 +204,43 @@ function LineupCheck({ report, handcuffs, onOpenPlayer, onNavigate }) {
       ) : (
         <div className="card">
           <ul className="list">
-            {urgent.map(({ starter, replacement, reason }) => (
-              <li key={starter.playerId}>
-                <AlertRow
-                  tone="red"
-                  icon="alert"
-                  title={`${starter.name} ${REASON_TEXT[reason]}`}
-                  sub={`Start ${replacement.name} at ${slotOf(starter)}${replacement.projected != null ? `, ${formatPoints(replacement.projected)} projected` : ''}`}
-                  onClick={() => onNavigate('lineup', 'startsit')}
-                />
-              </li>
-            ))}
-            {report.stranded.map(({ starter, reason }) => (
-              <li key={starter.playerId}>
-                <AlertRow
-                  tone="red"
-                  icon="alert"
-                  title={`${starter.name} ${REASON_TEXT[reason]}`}
-                  sub={`Nobody on your bench can play ${slotOf(starter)}. Check waivers.`}
-                  onClick={() => onNavigate('waivers', null, starter.position)}
-                />
-              </li>
-            ))}
+            {urgent.map(({ starter, replacement, reason }) => {
+              // A bye can call for a free agent who projects clearly higher.
+              const pickup = reason === 'bye' ? coverFor(byes, starter.playerId)?.pickup : null
+              return (
+                <li key={starter.playerId}>
+                  <AlertRow
+                    tone="red"
+                    icon="alert"
+                    title={`${starter.name} ${REASON_TEXT[reason]}`}
+                    sub={
+                      pickup
+                        ? `Pick up ${pickup.player.name}, ${formatPoints(pickup.projected)} projected, or start ${replacement.name} at ${slotOf(starter)}`
+                        : `Start ${replacement.name} at ${slotOf(starter)}${replacement.projected != null ? `, ${formatPoints(replacement.projected)} projected` : ''}`
+                    }
+                    onClick={() => onNavigate('lineup', pickup ? 'byes' : 'startsit')}
+                  />
+                </li>
+              )
+            })}
+            {report.stranded.map(({ starter, reason }) => {
+              const pickup = reason === 'bye' ? coverFor(byes, starter.playerId)?.pickup : null
+              return (
+                <li key={starter.playerId}>
+                  <AlertRow
+                    tone="red"
+                    icon="alert"
+                    title={`${starter.name} ${REASON_TEXT[reason]}`}
+                    sub={
+                      pickup
+                        ? `Nobody on your bench can play ${slotOf(starter)}. Pick up ${pickup.player.name}, ${formatPoints(pickup.projected)} projected.`
+                        : `Nobody on your bench can play ${slotOf(starter)}. Check waivers.`
+                    }
+                    onClick={() => (pickup ? onNavigate('lineup', 'byes') : onNavigate('waivers', null, starter.position))}
+                  />
+                </li>
+              )
+            })}
             {handcuffs.map((player) => (
               <li key={player.playerId}>
                 <AlertRow
@@ -259,6 +277,38 @@ function LineupCheck({ report, handcuffs, onOpenPlayer, onNavigate }) {
           </ul>
         </div>
       )}
+    </Section>
+  )
+}
+
+/**
+ * Next week's byes among your starters, a week ahead, while there is still time
+ * to claim a replacement before waivers run.
+ */
+function ByesNextWeek({ byes, onNavigate }) {
+  const week = byes?.weeks.find((entry) => entry.offset === 1)
+  if (!week?.out.length) return null
+  return (
+    <Section
+      title="Byes next week"
+      id="today-byes"
+      action={<LinkButton onClick={() => onNavigate('lineup', 'byes')}>Byes</LinkButton>}
+    >
+      <div className="card">
+        <ul className="list">
+          {week.out.map((entry) => (
+            <li key={entry.player.playerId}>
+              <AlertRow
+                tone={entry.pickup || entry.needed ? 'orange' : undefined}
+                icon="calendar"
+                title={`${entry.player.name} is on bye in week ${week.week}`}
+                sub={entry.pickup ? `${coverLine(entry)}. Claim before waivers run.` : coverLine(entry)}
+                onClick={() => onNavigate('lineup', 'byes')}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </Section>
   )
 }

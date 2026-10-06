@@ -9,13 +9,14 @@ import { nextWeekLabel } from '../lib/streaming.js'
 import PointsChart from './PointsChart.jsx'
 import { defenseSentence, matchupGrade } from '../lib/opponent.js'
 import { findPick, rivalWord, verdict } from '../lib/picks.js'
+import { byeLine } from '../lib/byes.js'
 
 /**
  * Everything known about one player, in one place. The rows in every list stay
  * short because the detail lives here: role notes, the waiver model's reasons,
  * which outlets named them, and every story that mentions them.
  */
-export default function PlayerSheet({ player, news, receptionPoints, pickReport, onClose, now }) {
+export default function PlayerSheet({ player, news, receptionPoints, pickReport, byeWeeks, week, onClose, now }) {
   // Keep showing the last player while the sheet animates closed.
   const [shown, setShown] = useState(player)
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function PlayerSheet({ player, news, receptionPoints, pickReport,
           news={news}
           receptionPoints={receptionPoints}
           pick={findPick(pickReport, shown.playerId)}
+          bye={byeLine(shown, byeWeeks, week)}
           now={now}
         />
       )}
@@ -40,7 +42,7 @@ export default function PlayerSheet({ player, news, receptionPoints, pickReport,
 // Green for a soft matchup, red for a tough one, and the list's own tone otherwise.
 const GRADE_TONE = { soft: 'var(--green)', tough: 'var(--red)' }
 
-function PlayerDetail({ player, news, receptionPoints, pick, now }) {
+function PlayerDetail({ player, news, receptionPoints, pick, bye, now }) {
   const stories = storiesFor(player, news)
   const espnPage = /^\d+$/.test(String(player.espnId || '')) ? `https://www.espn.com/nfl/player/_/id/${player.espnId}` : null
   const level = injuryLevel(player.injuryStatus)
@@ -111,6 +113,12 @@ function PlayerDetail({ player, news, receptionPoints, pick, now }) {
             <li style={{ '--fact-tone': GRADE_TONE[matchupGrade(player.opponentDefense)] }}>
               <Icon name="shield" />
               <span>{defenseSentence(player)}</span>
+            </li>
+          )}
+          {bye && (
+            <li>
+              <Icon name="pause" />
+              <span>{bye}</span>
             </li>
           )}
           {player.position === 'DEF' && nextWeekLabel(player) && (
