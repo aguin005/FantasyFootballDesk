@@ -357,6 +357,12 @@ schedule file is cached for a day, so lines update once a day.
   RSS started answering scripts with an empty page. The refresh log shows `feed unavailable` for a
   source that stops working. Run `npm run feeds` to see what every feed returns, try a replacement
   with `npm run feeds -- <url>`, and add it to the source's `urls` list in `scripts/lib/feeds.mjs`.
+- **nflverse files move too.** In October 2026 the copy of `games.csv` on nflverse's releases page
+  started returning 404, which took out the schedule, byes, betting lines, the weekly rollover and
+  the extra refreshes during games. The refresh now reads it from nflverse's `nfldata` repository
+  and keeps the releases copy as a second try. If both fail it uses the last copy it saved, and the
+  log says `games.csv could not be downloaded`. The addresses are in `GAMES_URLS` in
+  `scripts/lib/schedule.mjs`.
 
 ## Keeping the schedule on time
 
