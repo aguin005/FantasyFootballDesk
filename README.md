@@ -606,6 +606,14 @@ rim that is brighter where light would catch the edges gives it thickness, and a
 the top reads as a curved surface. The tab bar's selection lens slides between tabs on a spring,
 which is the material's signature motion.
 
+Motion is springy throughout. The tab and segmented control lenses glide a little past the tab you
+picked and settle back, buttons and chips squish when pressed and spring back past full size, and
+sheets, toasts, new views, trade checkmarks and the score and progress bars all overshoot slightly
+before they settle. The curves are sampled from a real damped spring and written as CSS `linear()`
+easings in `styles.css`. `--spring` overshoots about 16%, and `--spring-soft` about 4% for large
+surfaces like sheets. Browsers without `linear()` get a curve that overshoots once. Sheets close on
+a plain ease, since they have nothing to settle into on the way out.
+
 Glass is kept to the navigation layer on purpose, the way Apple uses it. Content sits on solid cards
 because text on glass is harder to read. The glass turns solid under Reduce Transparency, motion
 stops under Reduce Motion, borders strengthen under Increase Contrast, and browsers without

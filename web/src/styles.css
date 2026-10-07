@@ -95,7 +95,28 @@
   --tab-bottom: max(12px, calc(env(safe-area-inset-bottom) - 6px));
 
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --spring: cubic-bezier(0.34, 1.32, 0.64, 1);
+  /* Springs. A browser without linear() gets a curve that overshoots once. */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-soft: cubic-bezier(0.3, 1.25, 0.5, 1);
+}
+
+/* Real springs, sampled from a damped spring's step response. --spring
+   overshoots about 16% and rebounds once before it settles, damping ratio 0.5.
+   --spring-soft overshoots about 4%, damping ratio 0.72, for large surfaces such
+   as sheets, where a full bounce would throw the whole screen around. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(
+      0, 0.035, 0.125, 0.251, 0.397, 0.547, 0.691, 0.821, 0.931, 1.019, 1.085, 1.129, 1.154, 1.163,
+      1.159, 1.145, 1.125, 1.102, 1.077, 1.054, 1.032, 1.014, 0.999, 0.987, 0.98, 0.975, 0.974,
+      0.974, 0.976, 0.979, 0.983, 0.987, 0.991, 0.994, 0.997, 1, 1.002, 1.003, 1.004, 1.004, 1
+    );
+    --spring-soft: linear(
+      0, 0.017, 0.061, 0.125, 0.201, 0.284, 0.371, 0.456, 0.539, 0.616, 0.687, 0.751, 0.807, 0.856,
+      0.898, 0.933, 0.961, 0.984, 1.002, 1.016, 1.026, 1.032, 1.036, 1.038, 1.038, 1.037, 1.035,
+      1.033, 1.029, 1.026, 1.023, 1.02, 1.017, 1.014, 1.011, 1.009, 1.007, 1.005, 1.003, 1.002, 1
+    );
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -339,12 +360,14 @@ img {
   }
 }
 
-/* Pressable things shrink slightly under a finger, the way iOS controls do. */
+/* Pressable things squish under a finger and spring back past full size on
+   release. The press itself is quick, so the bounce comes on letting go. */
 .press {
-  transition: transform 0.25s var(--spring), background-color 0.2s;
+  transition: transform 0.5s var(--spring), background-color 0.2s;
 }
 .press:active {
-  transform: scale(0.96);
+  transform: scale(0.94);
+  transition: transform 0.12s var(--ease), background-color 0.2s;
 }
 
 /* App frame */
@@ -436,8 +459,8 @@ img {
   min-width: 0;
   max-width: 60vw;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+  transform: translateY(8px);
+  transition: opacity 0.25s var(--ease), transform 0.5s var(--spring);
 }
 
 .nav.is-scrolled .nav-title {
@@ -654,13 +677,13 @@ img {
 /* Backwards fill only. A fill that outlives the animation leaves a transform on
    the view, and a transformed ancestor traps position: fixed descendants. */
 .view {
-  animation: view-in 0.38s var(--ease) backwards;
+  animation: view-in 0.6s var(--spring) backwards;
 }
 
 @keyframes view-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(18px);
   }
 }
 
@@ -1030,7 +1053,7 @@ a.row:active {
   stroke: var(--ring, var(--green));
   stroke-width: 4.5;
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.8s var(--ease);
+  transition: stroke-dashoffset 0.9s var(--spring-soft);
 }
 
 .ring-label {
@@ -1069,7 +1092,7 @@ a.row:active {
   border-radius: var(--radius-control);
   background: var(--card);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04);
-  transition: transform 0.45s var(--spring);
+  transition: transform 0.6s var(--spring);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1215,7 +1238,7 @@ a.row:active {
   border-radius: var(--radius-control);
   background: var(--lens);
   box-shadow: var(--lens-shadow);
-  transition: transform 0.55s var(--spring);
+  transition: transform 0.7s var(--spring);
 }
 
 .tab {
@@ -1235,11 +1258,12 @@ a.row:active {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0;
-  transition: color 0.25s, transform 0.25s var(--spring);
+  transition: color 0.25s, transform 0.5s var(--spring);
 }
 
 .tab:active {
-  transform: scale(0.92);
+  transform: scale(0.9);
+  transition: color 0.25s, transform 0.12s var(--ease);
 }
 
 .tab svg {
@@ -1324,7 +1348,7 @@ a.row:active {
   font-size: 15px;
   font-weight: 500;
   transform: translate(-50%, 0);
-  animation: toast-in 0.5s var(--spring) both;
+  animation: toast-in 0.7s var(--spring) both;
 }
 
 .toast svg {
@@ -1336,7 +1360,7 @@ a.row:active {
 @keyframes toast-in {
   from {
     opacity: 0;
-    transform: translate(-50%, -24px) scale(0.9);
+    transform: translate(-50%, -36px) scale(0.85);
   }
 }
 
@@ -1378,11 +1402,15 @@ a.row:active {
   transition: transform 0.5s var(--ease);
 }
 
+/* Opening and letting go of a drag spring into place. Closing keeps the plain
+   ease above, since a sheet on its way out has nothing to settle into. */
 .sheet-layer.is-open .sheet {
   transform: translateY(var(--drag, 0px));
+  transition: transform 0.6s var(--spring-soft);
 }
 
-.sheet.is-dragging {
+.sheet.is-dragging,
+.sheet-layer.is-open .sheet.is-dragging {
   transition: none;
 }
 
@@ -1443,13 +1471,14 @@ a.row:active {
     width: 30rem;
     max-height: min(46rem, calc(100% - 64px));
     opacity: 0;
-    transform: translate(-50%, -46%) scale(0.96);
+    transform: translate(-50%, -46%) scale(0.94);
     transition: transform 0.45s var(--ease), opacity 0.3s var(--ease);
   }
 
   .sheet-layer.is-open .sheet {
     opacity: 1;
     transform: translate(-50%, -50%);
+    transition: transform 0.6s var(--spring), opacity 0.25s var(--ease);
   }
 
   .sheet-grip {
@@ -1474,9 +1503,11 @@ a.row:active {
 
 .sheet-layer.is-open .sheet.is-side {
   transform: translateX(var(--drag, 0px));
+  transition: transform 0.6s var(--spring-soft);
 }
 
-.sheet.is-side.is-dragging {
+.sheet.is-side.is-dragging,
+.sheet-layer.is-open .sheet.is-side.is-dragging {
   transition: none;
 }
 
@@ -2202,7 +2233,7 @@ a.row:active {
   display: block;
   height: 100%;
   border-radius: 4px;
-  transition: flex-grow 0.8s var(--ease);
+  transition: flex-grow 0.9s var(--spring);
 }
 
 .progress .is-played {
@@ -2384,7 +2415,7 @@ a.row:active {
   display: block;
   height: 100%;
   border-radius: 4px;
-  transition: flex-grow 0.8s var(--ease);
+  transition: flex-grow 0.9s var(--spring);
 }
 
 .matchup-bar .is-me {
@@ -2921,7 +2952,7 @@ a.story-headline:active {
   border-radius: 50%;
   box-shadow: inset 0 0 0 1.5px var(--label-3);
   color: #fff;
-  transition: background-color 0.2s, box-shadow 0.2s, transform 0.3s var(--spring);
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.45s var(--spring);
 }
 
 .check svg {
@@ -2934,10 +2965,19 @@ a.story-headline:active {
   background: var(--tint);
   box-shadow: none;
   transform: scale(1.05);
+  animation: check-pop 0.55s var(--spring);
 }
 
 .row.is-selected .check svg {
   opacity: 1;
+  animation: check-pop 0.55s var(--spring) 0.05s backwards;
+}
+
+/* Selecting pops the circle in from half size, and the tick just after it. */
+@keyframes check-pop {
+  from {
+    transform: scale(0.5);
+  }
 }
 
 .trade-columns {
@@ -2990,7 +3030,7 @@ a.story-headline:active {
   height: 100%;
   border-radius: 3px;
   background: var(--label-3);
-  transition: width 0.6s var(--spring);
+  transition: width 0.7s var(--spring);
 }
 
 .dock-bar.is-get .bar span {
