@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "season": "2026",
+  "leagues": {
+    "sleeper:1389693247713988608": {
+      "picks": {
+        "5": [
+          {
+            "playerId": "11608",
+            "statsId": "11608",
+            "espnId": null,
+            "sleeperId": "11608",
+            "name": "Isaiah Williams",
+            "position": "WR",
+            "team": "NYJ",
+            "score": 91,
+            "projected": 7.9,
+            "reason": "Moves into NYJ's top three receivers with Omar Cooper on IR and Adonai Mitchell doubtful",
+            "lockedAt": "2026-10-09T00:13:48.153Z"
+          },
+          {
+            "playerId": "13150",
+            "statsId": "13150",
+            "espnId": "4715355",
+            "sleeperId": "13150",
+            "name": "Darius Cooper",
+            "position": "WR",
+            "team": "PHI",
+            "score": 90,
+            "projected": 7.1,
+            "reason": "Projected 7.1 points, 1.6 below your worst WR at 8.7",
+            "lockedAt": "2026-10-09T00:13:48.153Z"
+          },
+          {
+            "playerId": "11610",
+            "statsId": "11610",
+            "espnId": "4569603",
+            "sleeperId": "11610",
+            "name": "Malik Washington",
+            "position": "WR",
+            "team": "MIA",
+            "score": 89,
+            "projected": 11.1,
+            "reason": "Projected 11.1 points, 2.4 above your worst WR at 8.7",
+            "lockedAt": "2026-10-09T00:13:48.153Z"
+          }
+        ]
+      },
+      "weeks": {}
+    },
+    "espn:112589845": {
+      "picks": {
+        "5": [
+          {
+            "playerId": "4715355",
+            "statsId": "13150",
+            "espnId": "4715355",
+            "sleeperId": "13150",
+            "name": "Darius Cooper",
+            "position": "WR",
+            "team": "PHI",
+            "score": 86,
+            "projected": 9.2,
+            "reason": "Projected 9.2 points, 3.0 below your worst WR at 12.2",
+            "lockedAt": "2026-10-09T00:13:48.153Z"
+          },
+          {
+            "playerId": "3116164",
+            "statsId": "4993",
+            "espnId": "3116164",
+            "sleeperId": "4993",
+            "name": "Mike Gesicki",
+            "position": "TE",
+            "team": "CIN",
+            "score": 83,
+            "projected": 8.8,
+            "reason": "Projected 8.8 points, 1.3 below your worst TE at 10.1",
+            "lockedAt": "2026-10-09T00:13:48.153Z"
+          },
+          {
+            "playerId": "4434153",
+            "statsId": "11256",
+            "espnId": "4434153",
+            "sleeperId": "11256",
+            "name": "Tyson Bagent",
+            "position": "QB",
+            "team": "CHI",
+            "score": 83,
+            "projected": 15.5,
+            "reason": "Starts at QB for CHI with Caleb Williams out",
+            "lockedAt": "2026-10-09T00:13:48.153Z"
+          }
+        ]
+      },
+      "weeks": {}
+    }
+  }
+}
