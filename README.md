@@ -460,25 +460,8 @@ A change already on the board stays read when a later run sees it again. That ha
 where ESPN's news feed failed: the next run finds every story missing from the one before and would
 flag them all as new. For the same reason, when ESPN's injury feed fails, a designation that only
 that feed knows is kept from the run before. Without it the player would read as healthy for a run
-and as newly injured on the next, and the injury alert would go out twice. A designation from
-Sleeper or from your ESPN league itself is never held, so a player they clear is cleared.
-
-## Push notifications
-
-Optional, and off until you set it up. ntfy.sh has no accounts and no API keys: you pick a topic
-name, subscribe to it in their app, and anything posted to that topic arrives on your phone.
-
-1. Install ntfy from the App Store or Play Store.
-2. Pick a topic name. Anyone who knows it can read your notifications, so use something like
-   `ff-desk-8f3a91c2` rather than `fantasy`.
-3. Subscribe to that topic in the app.
-4. Add it as a repository secret named `NTFY_TOPIC`.
-
-To test locally: `NTFY_TOPIC=your-topic npm run refresh`.
-
-Only starters getting worse are pushed, meaning a move to doubtful, out, IR, or suspended. Bench
-players and good news stay on the dashboard without buzzing your phone. Tune the filter in
-`scripts/lib/notify.mjs`.
+and as newly injured on the next, and the same injury would be flagged as new twice. A designation
+from Sleeper or from your ESPN league itself is never held, so a player they clear is cleared.
 
 ## Role data from nflverse
 
