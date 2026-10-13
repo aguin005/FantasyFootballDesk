@@ -46,7 +46,81 @@
           }
         ]
       },
-      "weeks": {}
+      "weeks": {
+        "5": {
+          "points": {
+            "11608": 2.9,
+            "11610": 12.1,
+            "13150": 15.1
+          },
+          "starters": [
+            {
+              "statsId": "3257",
+              "name": "Jacoby Brissett",
+              "position": "QB",
+              "points": 26.28
+            },
+            {
+              "statsId": "8138",
+              "name": "James Cook",
+              "position": "RB",
+              "points": 22.8
+            },
+            {
+              "statsId": "4035",
+              "name": "Alvin Kamara",
+              "position": "RB",
+              "points": 2.6
+            },
+            {
+              "statsId": "8167",
+              "name": "Christian Watson",
+              "position": "WR",
+              "points": 32.3
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 30.4
+            },
+            {
+              "statsId": "4217",
+              "name": "George Kittle",
+              "position": "TE",
+              "points": 7.4
+            },
+            {
+              "statsId": "5872",
+              "name": "Deebo Samuel",
+              "position": "WR",
+              "points": 2.5
+            },
+            {
+              "statsId": "2133",
+              "name": "Davante Adams",
+              "position": "WR",
+              "points": 22.1
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 5
+            },
+            {
+              "statsId": "PIT",
+              "name": "Pittsburgh Steelers",
+              "position": "DEF",
+              "points": 1
+            }
+          ],
+          "byes": [
+            "CAR",
+            "KC"
+          ]
+        }
+      }
     },
     "espn:112589845": {
       "picks": {
@@ -92,7 +166,75 @@
           }
         ]
       },
-      "weeks": {}
+      "weeks": {
+        "5": {
+          "points": {
+            "4993": 7.4,
+            "11256": 3.18,
+            "13150": 15.1
+          },
+          "starters": [
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 22.8
+            },
+            {
+              "statsId": "6794",
+              "name": "Justin Jefferson",
+              "position": "WR",
+              "points": 18.8
+            },
+            {
+              "statsId": "8112",
+              "name": "Drake London",
+              "position": "WR",
+              "points": 18.8
+            },
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 31.5
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 30.4
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 5
+            },
+            {
+              "statsId": "7002",
+              "name": "Juwan Johnson",
+              "position": "TE",
+              "points": 5.6
+            },
+            {
+              "statsId": "11576",
+              "name": "Braelon Allen",
+              "position": "RB",
+              "points": 18.6
+            },
+            {
+              "statsId": "DAL",
+              "name": "Cowboys D/ST",
+              "position": "DEF",
+              "points": 1
+            }
+          ],
+          "byes": [
+            "CAR",
+            "KC"
+          ]
+        }
+      }
     }
   }
 }
