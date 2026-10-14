@@ -357,6 +357,12 @@ schedule file is cached for a day, so lines update once a day.
   RSS started answering scripts with an empty page. The refresh log shows `feed unavailable` for a
   source that stops working. Run `npm run feeds` to see what every feed returns, try a replacement
   with `npm run feeds -- <url>`, and add it to the source's `urls` list in `scripts/lib/feeds.mjs`.
+- **nflverse files move too.** In October 2026 the copy of `games.csv` on nflverse's releases page
+  started returning 404, which took out the schedule, byes, betting lines, the weekly rollover and
+  the extra refreshes during games. The refresh now reads it from nflverse's `nfldata` repository
+  and keeps the releases copy as a second try. If both fail it uses the last copy it saved, and the
+  log says `games.csv could not be downloaded`. The addresses are in `GAMES_URLS` in
+  `scripts/lib/schedule.mjs`.
 
 ## Keeping the schedule on time
 
@@ -454,25 +460,8 @@ A change already on the board stays read when a later run sees it again. That ha
 where ESPN's news feed failed: the next run finds every story missing from the one before and would
 flag them all as new. For the same reason, when ESPN's injury feed fails, a designation that only
 that feed knows is kept from the run before. Without it the player would read as healthy for a run
-and as newly injured on the next, and the injury alert would go out twice. A designation from
-Sleeper or from your ESPN league itself is never held, so a player they clear is cleared.
-
-## Push notifications
-
-Optional, and off until you set it up. ntfy.sh has no accounts and no API keys: you pick a topic
-name, subscribe to it in their app, and anything posted to that topic arrives on your phone.
-
-1. Install ntfy from the App Store or Play Store.
-2. Pick a topic name. Anyone who knows it can read your notifications, so use something like
-   `ff-desk-8f3a91c2` rather than `fantasy`.
-3. Subscribe to that topic in the app.
-4. Add it as a repository secret named `NTFY_TOPIC`.
-
-To test locally: `NTFY_TOPIC=your-topic npm run refresh`.
-
-Only starters getting worse are pushed, meaning a move to doubtful, out, IR, or suspended. Bench
-players and good news stay on the dashboard without buzzing your phone. Tune the filter in
-`scripts/lib/notify.mjs`.
+and as newly injured on the next, and the same injury would be flagged as new twice. A designation
+from Sleeper or from your ESPN league itself is never held, so a player they clear is cleared.
 
 ## Role data from nflverse
 
@@ -605,6 +594,14 @@ layers. A translucent tint with a heavy backdrop blur and saturation boost is th
 rim that is brighter where light would catch the edges gives it thickness, and a soft sheen across
 the top reads as a curved surface. The tab bar's selection lens slides between tabs on a spring,
 which is the material's signature motion.
+
+Motion is springy throughout. The tab and segmented control lenses glide a little past the tab you
+picked and settle back, buttons and chips squish when pressed and spring back past full size, and
+sheets, toasts, new views, trade checkmarks and the score and progress bars all overshoot slightly
+before they settle. The curves are sampled from a real damped spring and written as CSS `linear()`
+easings in `styles.css`. `--spring` overshoots about 16%, and `--spring-soft` about 4% for large
+surfaces like sheets. Browsers without `linear()` get a curve that overshoots once. Sheets close on
+a plain ease, since they have nothing to settle into on the way out.
 
 Glass is kept to the navigation layer on purpose, the way Apple uses it. Content sits on solid cards
 because text on glass is harder to read. The glass turns solid under Reduce Transparency, motion

@@ -3,7 +3,13 @@ import path from 'node:path'
 import { parseCSV, toNumber } from './csv.mjs'
 import { timedFetch } from './http.mjs'
 
-const GAMES_URL = 'https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv'
+// nfldata is where nflverse keeps the schedule. The copy on the nflverse-data
+// releases page started returning 404 in October 2026, and stays as a second try
+// in case it comes back while nfldata is down.
+const GAMES_URLS = [
+  'https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv',
+  'https://github.com/nflverse/nflverse-data/releases/download/schedules/games.csv'
+]
 const CACHE = path.resolve('.cache/nflverse-games.csv')
 // Lines move through the week and scores land after each game. A day long cache,
 // restored in Actions from the day's first run, held both back until tomorrow.
@@ -202,22 +208,40 @@ function gameRows() {
 }
 
 async function readGames() {
+  let cached = false
   try {
     const stat = await fs.stat(CACHE)
+    cached = true
     if (Date.now() - stat.mtimeMs < MAX_AGE_MS) return await fs.readFile(CACHE, 'utf8')
   } catch {
     // No cache yet.
   }
 
-  const response = await timedFetch(GAMES_URL, {
-    headers: { 'user-agent': 'fantasy-dashboard/1.0 (personal use)' }
-  })
-  if (!response.ok) throw new Error(`games.csv returned HTTP ${response.status}`)
+  const failures = []
+  for (const url of GAMES_URLS) {
+    try {
+      const response = await timedFetch(url, {
+        headers: { 'user-agent': 'fantasy-dashboard/1.0 (personal use)' }
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const text = await response.text()
+      // A host that answers with an error page instead of a 404 is still a miss.
+      if (!text.startsWith('game_id,')) throw new Error('not the games file')
+      await fs.mkdir(path.dirname(CACHE), { recursive: true })
+      await fs.writeFile(CACHE, text)
+      return text
+    } catch (error) {
+      failures.push(`${new URL(url).hostname} ${error.message}`)
+    }
+  }
 
-  const text = await response.text()
-  await fs.mkdir(path.dirname(CACHE), { recursive: true })
-  await fs.writeFile(CACHE, text)
-  return text
+  // An old copy beats none. Byes and kickoff times rarely change, so only the
+  // lines and scores go stale until a download works again.
+  if (cached) {
+    console.warn(`games.csv could not be downloaded (${failures.join(', ')}), using the last saved copy`)
+    return fs.readFile(CACHE, 'utf8')
+  }
+  throw new Error(`games.csv could not be downloaded (${failures.join(', ')})`)
 }
 
 /**

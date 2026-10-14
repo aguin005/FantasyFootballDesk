@@ -7,7 +7,6 @@ import { fetchNews, fetchInjuries, attachNews, holdFeedInjuries } from './lib/ne
 import { rankCandidates } from './lib/waivers.mjs'
 import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
-import { sendNotifications } from './lib/notify.mjs'
 import { headshot } from './lib/images.mjs'
 import {
   loadSchedule,
@@ -238,9 +237,6 @@ async function main() {
   }
 
   current.changes = diffRuns(previous, current)
-
-  const topic = process.env.NTFY_TOPIC || config.ntfyTopic
-  await sendNotifications(current.changes, topic)
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true })
   await fs.writeFile(OUTPUT, JSON.stringify(current, null, 2))
