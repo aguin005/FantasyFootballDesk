@@ -44,6 +44,47 @@
             "reason": "Projected 11.1 points, 2.4 above your worst WR at 8.7",
             "lockedAt": "2026-10-09T00:13:48.153Z"
           }
+        ],
+        "6": [
+          {
+            "playerId": "2505",
+            "statsId": "2505",
+            "espnId": "2576925",
+            "sleeperId": "2505",
+            "name": "Darren Waller",
+            "position": "TE",
+            "team": "CAR",
+            "score": 84,
+            "projected": 8.2,
+            "reason": "Projected 8.2 points, 3.8 above your worst TE at 4.4",
+            "lockedAt": "2026-10-16T00:07:07.308Z"
+          },
+          {
+            "playerId": "1166",
+            "statsId": "1166",
+            "espnId": "14880",
+            "sleeperId": "1166",
+            "name": "Kirk Cousins",
+            "position": "QB",
+            "team": "LV",
+            "score": 83,
+            "projected": 17.7,
+            "reason": "Projected 17.7 points, 3.2 above your worst QB at 14.5",
+            "lockedAt": "2026-10-16T00:07:07.308Z"
+          },
+          {
+            "playerId": "3214",
+            "statsId": "3214",
+            "espnId": "3046439",
+            "sleeperId": "3214",
+            "name": "Hunter Henry",
+            "position": "TE",
+            "team": "NE",
+            "score": 83,
+            "projected": 8.9,
+            "reason": "Projected 8.9 points, 4.5 above your worst TE at 4.4",
+            "lockedAt": "2026-10-16T00:07:07.308Z"
+          }
         ]
       },
       "weeks": {
@@ -163,6 +204,47 @@
             "projected": 15.5,
             "reason": "Starts at QB for CHI with Caleb Williams out",
             "lockedAt": "2026-10-09T00:13:48.153Z"
+          }
+        ],
+        "6": [
+          {
+            "playerId": "4360238",
+            "statsId": "8129",
+            "espnId": "4360238",
+            "sleeperId": "8129",
+            "name": "Dameon Pierce",
+            "position": "RB",
+            "team": "PHI",
+            "score": 83,
+            "projected": 12.5,
+            "reason": "Moves up to RB2 for PHI with Tank Bigsby on IR",
+            "lockedAt": "2026-10-16T00:07:07.308Z"
+          },
+          {
+            "playerId": "4569559",
+            "statsId": "11834",
+            "espnId": "4569559",
+            "sleeperId": "11834",
+            "name": "Devaughn Vele",
+            "position": "WR",
+            "team": "NO",
+            "score": 80,
+            "projected": 11.2,
+            "reason": "Projected 11.2 points, 0.2 above your worst WR at 11.0",
+            "lockedAt": "2026-10-16T00:07:07.308Z"
+          },
+          {
+            "playerId": "4715355",
+            "statsId": "13150",
+            "espnId": "4715355",
+            "sleeperId": "13150",
+            "name": "Darius Cooper",
+            "position": "WR",
+            "team": "PHI",
+            "score": 78,
+            "projected": 9,
+            "reason": "Projected 9 points, 2.0 below your worst WR at 11.0",
+            "lockedAt": "2026-10-16T00:07:07.308Z"
           }
         ]
       },
