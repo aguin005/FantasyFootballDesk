@@ -85,6 +85,47 @@
             "reason": "Projected 8.9 points, 4.5 above your worst TE at 4.4",
             "lockedAt": "2026-10-16T00:07:07.308Z"
           }
+        ],
+        "7": [
+          {
+            "playerId": "3271",
+            "statsId": "3271",
+            "espnId": "2573401",
+            "sleeperId": "3271",
+            "name": "Tyler Higbee",
+            "position": "TE",
+            "team": "LAR",
+            "score": 91,
+            "projected": 9.7,
+            "reason": "Next up at TE for LAR with Terrance Ferguson on IR",
+            "lockedAt": "2026-10-23T00:07:29.499Z"
+          },
+          {
+            "playerId": "9757",
+            "statsId": "9757",
+            "espnId": "4599739",
+            "sleeperId": "9757",
+            "name": "Kendre Miller",
+            "position": "RB",
+            "team": "NO",
+            "score": 87,
+            "projected": 8.9,
+            "reason": "Next up at RB for NO with Travis Etienne Jr. on IR",
+            "lockedAt": "2026-10-23T00:07:29.499Z"
+          },
+          {
+            "playerId": "11563",
+            "statsId": "11563",
+            "espnId": "4426338",
+            "sleeperId": "11563",
+            "name": "Bo Nix",
+            "position": "QB",
+            "team": "DEN",
+            "score": 86,
+            "projected": 19.2,
+            "reason": "Projected 19.2 points, 2.9 above your worst QB at 16.3",
+            "lockedAt": "2026-10-23T00:07:29.499Z"
+          }
         ]
       },
       "weeks": {
@@ -323,6 +364,47 @@
             "projected": 9,
             "reason": "Projected 9 points, 2.0 below your worst WR at 11.0",
             "lockedAt": "2026-10-16T00:07:07.308Z"
+          }
+        ],
+        "7": [
+          {
+            "playerId": "4599739",
+            "statsId": "9757",
+            "espnId": "4599739",
+            "sleeperId": "9757",
+            "name": "Kendre Miller",
+            "position": "RB",
+            "team": "NO",
+            "score": 79,
+            "projected": 9.4,
+            "reason": "Next up at RB for NO with Travis Etienne Jr. on IR",
+            "lockedAt": "2026-10-23T00:07:29.499Z"
+          },
+          {
+            "playerId": "4433970",
+            "statsId": "11565",
+            "espnId": "4433970",
+            "sleeperId": "11565",
+            "name": "J.J. McCarthy",
+            "position": "QB",
+            "team": "NYG",
+            "score": 79,
+            "projected": 16.4,
+            "reason": "Starts at QB for NYG with Jaxson Dart on IR",
+            "lockedAt": "2026-10-23T00:07:29.499Z"
+          },
+          {
+            "playerId": "4426386",
+            "statsId": "10235",
+            "espnId": "4426386",
+            "sleeperId": "10235",
+            "name": "Roschon Johnson",
+            "position": "RB",
+            "team": "CHI",
+            "score": 78,
+            "projected": 9.1,
+            "reason": "Moves up to RB2 for CHI with Kyle Monangai out",
+            "lockedAt": "2026-10-23T00:07:29.499Z"
           }
         ]
       },
