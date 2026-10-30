@@ -126,6 +126,47 @@
             "reason": "Projected 19.2 points, 2.9 above your worst QB at 16.3",
             "lockedAt": "2026-10-23T00:07:29.499Z"
           }
+        ],
+        "8": [
+          {
+            "playerId": "9500",
+            "statsId": "9500",
+            "espnId": "4688813",
+            "sleeperId": "9500",
+            "name": "Josh Downs",
+            "position": "WR",
+            "team": "IND",
+            "score": 87,
+            "projected": 10.2,
+            "reason": "Projected 10.2 points, 3.5 above your worst WR at 6.7",
+            "lockedAt": "2026-10-30T00:11:05.964Z"
+          },
+          {
+            "playerId": "5947",
+            "statsId": "5947",
+            "espnId": "3916433",
+            "sleeperId": "5947",
+            "name": "Jakobi Meyers",
+            "position": "WR",
+            "team": "JAX",
+            "score": 85,
+            "projected": 10.5,
+            "reason": "Projected 10.5 points, 3.8 above your worst WR at 6.7",
+            "lockedAt": "2026-10-30T00:11:05.964Z"
+          },
+          {
+            "playerId": "11637",
+            "statsId": "11637",
+            "espnId": "4635008",
+            "sleeperId": "11637",
+            "name": "Keon Coleman",
+            "position": "WR",
+            "team": "BUF",
+            "score": 82,
+            "projected": 7.7,
+            "reason": "Projected 7.7 points, 1.0 above your worst WR at 6.7",
+            "lockedAt": "2026-10-30T00:11:05.964Z"
+          }
         ]
       },
       "weeks": {
@@ -480,6 +521,47 @@
             "projected": 9.1,
             "reason": "Moves up to RB2 for CHI with Kyle Monangai out",
             "lockedAt": "2026-10-23T00:07:29.499Z"
+          }
+        ],
+        "8": [
+          {
+            "playerId": "5081397",
+            "statsId": "12469",
+            "espnId": "5081397",
+            "sleeperId": "12469",
+            "name": "Dylan Sampson",
+            "position": "RB",
+            "team": "CLE",
+            "score": 80,
+            "projected": 6.8,
+            "reason": "Projected 6.8 points, 3.1 above your worst RB at 3.7",
+            "lockedAt": "2026-10-30T00:11:05.964Z"
+          },
+          {
+            "playerId": "4430539",
+            "statsId": "9480",
+            "espnId": "4430539",
+            "sleeperId": "9480",
+            "name": "Brenton Strange",
+            "position": "TE",
+            "team": "JAX",
+            "score": 78,
+            "projected": 9.8,
+            "reason": "Projected 9.8 points, 1.2 above your worst TE at 8.6",
+            "lockedAt": "2026-10-30T00:11:05.964Z"
+          },
+          {
+            "playerId": "4567156",
+            "statsId": "8135",
+            "espnId": "4567156",
+            "sleeperId": "8135",
+            "name": "Treylon Burks",
+            "position": "WR",
+            "team": "WSH",
+            "score": 78,
+            "projected": 9,
+            "reason": "Moves into WAS's top three receivers with Terry McLaurin on IR",
+            "lockedAt": "2026-10-30T00:11:05.964Z"
           }
         ]
       },
