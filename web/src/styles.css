@@ -2486,6 +2486,132 @@ a.row:active {
   font-weight: 600;
 }
 
+/* Matchup prep. The card gets one line, your chance and the to-do count, and the
+   head to head sheet gets the full list, the scouting report, and the series. */
+
+.matchup-prep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 0.5px solid var(--separator);
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+.matchup-chance strong {
+  font-family: var(--font-rounded);
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--label);
+}
+
+.matchup-todo {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--orange) 16%, transparent);
+  color: var(--orange-ink);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.matchup-todo.is-done {
+  background: color-mix(in srgb, var(--green) 16%, transparent);
+  color: var(--green-ink);
+}
+
+.prep-chance {
+  padding: 16px 18px;
+}
+
+.prep-chance-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+}
+
+.prep-chance-value {
+  font-family: var(--font-rounded);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.prep-chance-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--label-2);
+}
+
+.prep-meter {
+  height: 8px;
+  margin-top: 10px;
+  border-radius: 4px;
+  background: var(--fill);
+  overflow: hidden;
+}
+
+.prep-meter span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--tint);
+  transition: width 0.9s var(--spring);
+}
+
+.prep-chance-note {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--label-2);
+}
+
+/* A to-do note says why in full, so it is not cut off at two lines. */
+.prep-item .row-note {
+  display: block;
+  overflow: visible;
+}
+
+.prep-fact {
+  min-height: 0;
+}
+
+.prep-fact .row-main {
+  gap: 3px;
+}
+
+.prep-fact-line {
+  font-size: 15px;
+}
+
+.prep-empty {
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 15px;
+  color: var(--label-2);
+}
+
+.prep-result {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.prep-result.is-won {
+  color: var(--green-ink);
+}
+
+.prep-result.is-lost {
+  color: var(--red-ink);
+}
+
 .sheet-title {
   margin: 4px 40px 14px 0;
   font-size: 22px;

@@ -164,6 +164,7 @@ web/src/
   lib/teams.js           team names and ESPN logo URLs
   lib/picks.js           wording for the waiver track record
   lib/byes.js            the bye planner: who covers each starter's bye, and what to drop
+  lib/prep.js            matchup prep: win chance, the to-do list, and the scouting report
   components/SchedulePanel.jsx   the NFL schedule that pulls out from the right edge
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
@@ -308,6 +309,49 @@ bench and the free agents alike, so each comparison stays within one source. Sle
 week of the season and adjusts for the opponent, but picks stop at three weeks out, since the free
 agent pool will have changed by then. The matchup line is how that opponent has defended the
 position this season, plus the betting line, which books usually post about a week ahead.
+
+## Matchup prep
+
+Getting ready for this week's matchup, from the Tuesday after Monday night, when the app moves on to
+the new week, until kickoff. It lives in the head to head sheet, opened from the matchup card on
+Today, and the card itself shows your chance to win and how many items are left.
+
+- **Win chance:** your chance to win after the to-do list, with your chance as the lineup is set now
+  beside it, and whether you are the underdog or the favorite.
+- **Before kickoff:** every move worth making, each with how much it raises your chance. Start / sit's
+  swaps come first, so the two views ask for the same thing. Then a starter who will sit with nobody
+  on the bench to cover gets a free agent who can play the slot, and a free agent who projects at
+  least 3 points more than one of your starters gets a pickup, two at most. Each pickup names who to
+  drop, or says you have an open roster spot, and a bye week pickup keeps the drop the bye planner
+  chose.
+- **Underdog or favorite tip:** judged after the moves above. When you are the underdog, a bench
+  player within 2 projected points of a starter whose usual high score is at least 4 points higher
+  gets the start. When you are the favorite, the same for a usual low score at least 3 points
+  higher. The usual range is the 15th to 85th percentile of their weekly scores. It carries no win
+  chance number, because a spread model treats scores as symmetric and barely moves for a swap
+  like that, so it is a judgment on range rather than something the chance can price.
+- **Scouting:** the swaps the opponent will likely make, the two slots where each side clearly
+  outprojects the other, both teams' last three scores, and both projected totals as each side will
+  most likely play.
+- **Season series:** your earlier meetings with this opponent this season.
+
+The win chance treats each starter's score as a normal spread around where they are headed. The
+spread is a share of their projection: about 0.42 for a quarterback, 0.62 for a back, 0.66 for a
+receiver, 0.72 for a tight end, 0.5 for a kicker and 0.8 for a defense, pulled toward each player's
+own record when they have one, which counts as much as four games of the position's typical spread.
+A spread shrinks as the player's game is played and is gone once it is over. The two totals'
+spreads add, and the chance is the share of outcomes where yours comes out ahead. Two typical
+lineups ten points apart come out about 62% to 38%.
+
+The opponent is assumed to fix the obvious: a starter on bye, out, or doubtful is replaced by their
+best bench player who can play the slot, the same rule Start / sit applies to you. Your own lineup is
+taken as it is set, and the to-do list is how it changes.
+
+Each player's record comes from nflverse's weekly stats in your league's points per catch: this
+season's games, filled from the end of last season early on, up to ten games, and only with three
+or more. Your roster and your opponent's carry it. Kickers and defenses have no weekly stats there,
+so they use the position's spread. Past results come from Sleeper's matchups for every week played,
+one call per week, and from the season schedule ESPN already returns with the matchup call.
 
 ## Matchup context
 
@@ -502,10 +546,12 @@ mentions them.
 week's matchup: your score and your opponent's, each side's projected final, how many starters each
 side still has to play, and whether you are projected to win. Before kickoff the big numbers are the
 projections, and once games start they become the live score. Tap it for the head to head, both
-lineups slot against slot with points and projections for every starter. On a bye week the card
-falls back to a summary of your own starters. The lineup check flags starters who are out, doubtful, or on bye along with who to start
-instead, and questionable starters with their backup. Next week's byes follow, with who to play for
-each. Below that are the last day's changes, the top three pickups, and the latest news.
+lineups slot against slot with points and projections for every starter, with matchup prep around
+them (see "Matchup prep"). The card shows your chance to win and how many prep items are left. On
+a bye week the card falls back to a summary of your own starters. The lineup check flags starters
+who are out, doubtful, or on bye along with who to start instead, and questionable starters with
+their backup. Next week's byes follow, with who to play for each. Below that are the last day's
+changes, the top three pickups, and the latest news.
 
 **Lineup** has four views.
 

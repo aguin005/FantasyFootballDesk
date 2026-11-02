@@ -19,6 +19,7 @@ import { useSetting } from './lib/storage.js'
 import { lineupReport, onGameClock, resolvePlayer } from './lib/lineup.js'
 import { matchupReport } from './lib/matchup.js'
 import { byeReport } from './lib/byes.js'
+import { prepReport } from './lib/prep.js'
 import { ageMs, longAgo, updatedLabel } from './lib/format.js'
 
 const TABS = {
@@ -60,6 +61,7 @@ export default function App() {
   const report = useMemo(() => (league ? lineupReport(league.roster, now) : null), [league, now])
   const matchup = useMemo(() => matchupReport(league, data?.generatedAt, now), [league, data, now])
   const byes = useMemo(() => byeReport(league, report, data?.byeWeeks, data?.week, now), [league, report, data, now])
+  const prep = useMemo(() => prepReport(league, matchup, report, byes, now), [league, matchup, report, byes, now])
 
   const tabs = useMemo(() => {
     if (!league) return []
@@ -217,6 +219,7 @@ export default function App() {
               report={report}
               byes={byes}
               matchup={matchup}
+              prep={prep}
               changes={data.changes || []}
               news={data.news || []}
               now={now}
@@ -259,7 +262,7 @@ export default function App() {
         onClose={closePlayer}
         now={now}
       />
-      <MatchupSheet open={matchupOpen} matchup={matchup} now={now} onClose={closeMatchup} />
+      <MatchupSheet open={matchupOpen} matchup={matchup} prep={prep} now={now} onClose={closeMatchup} />
       {data.schedule?.games?.length > 0 && <ScheduleTab onOpen={() => setScheduleOpen(true)} inert={sheetOpen} />}
       <SchedulePanel
         open={scheduleOpen}

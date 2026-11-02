@@ -36,6 +36,7 @@ export default function TodayView({
   report,
   byes,
   matchup,
+  prep,
   changes,
   news,
   now,
@@ -52,7 +53,13 @@ export default function TodayView({
   return (
     <>
       {matchup ? (
-        <MatchupCard matchup={matchup} league={league} nextKickoff={report.nextKickoff} onOpen={onOpenMatchup} />
+        <MatchupCard
+          matchup={matchup}
+          league={league}
+          prep={prep}
+          nextKickoff={report.nextKickoff}
+          onOpen={onOpenMatchup}
+        />
       ) : (
         <Summary league={league} report={report} now={now} />
       )}

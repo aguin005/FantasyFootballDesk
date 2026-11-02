@@ -95,6 +95,48 @@ export function opponentHistoryFor(player, logs, receptionPoints) {
   }
 }
 
+// Fewer games than this this season and last season's latest games fill in, up to
+// RECENT_GAMES in all. Three or four games say little about how a player swings.
+const MIN_CURRENT = 6
+const RECENT_GAMES = 10
+
+/**
+ * How much a player's weekly score moves around: the average, the spread, and the
+ * range they usually land in, from this season's games and, early in the season,
+ * the end of last season's. Matchup prep uses it for win chances, and to tell a
+ * boom-or-bust starter from a steady one. Null with fewer than three games.
+ */
+export function swingFor(player, logs, receptionPoints) {
+  if (!logs || !LOGGED.has(player.position) || !player.espnId) return null
+  const current = (logs.current.get(player.espnId) || []).map((game) => score(game, receptionPoints))
+  let scores = current
+  if (current.length < MIN_CURRENT) {
+    const last = (logs.last.get(player.espnId) || []).map((game) => score(game, receptionPoints))
+    scores = [...current, ...last.slice(-(RECENT_GAMES - current.length))]
+  }
+  if (scores.length < 3) return null
+
+  const mean = scores.reduce((sum, value) => sum + value, 0) / scores.length
+  const variance = scores.reduce((sum, value) => sum + (value - mean) ** 2, 0) / (scores.length - 1)
+  const sorted = [...scores].sort((a, b) => a - b)
+  return {
+    games: scores.length,
+    thisSeason: current.length,
+    mean: round(mean),
+    sd: round(Math.sqrt(variance)),
+    // Most weeks fall between these, the 15th and 85th percentiles.
+    low: round(percentile(sorted, 0.15)),
+    high: round(percentile(sorted, 0.85))
+  }
+}
+
+function percentile(sorted, share) {
+  const at = (sorted.length - 1) * share
+  const below = Math.floor(at)
+  const above = Math.min(sorted.length - 1, below + 1)
+  return sorted[below] + (sorted[above] - sorted[below]) * (at - below)
+}
+
 function score(game, receptionPoints) {
   return round(game.standard + (receptionPoints ?? 1) * game.receptions)
 }
