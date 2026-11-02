@@ -20,7 +20,7 @@ import {
 import { addByeOptions, laterWeeks } from './lib/byes.mjs'
 import { lockPicks, pickReport, readHistory, recordWeek, statsId, weeksToRecord, writeHistory } from './lib/picks.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
-import { loadGameLogs, gameLogFor, opponentHistoryFor } from './lib/gamelog.mjs'
+import { loadGameLogs, gameLogFor, opponentHistoryFor, swingFor } from './lib/gamelog.mjs'
 import { loadPointsAllowed, rankDefenses, opponentDefenseFor } from './lib/defense.mjs'
 import { fetchFeeds, buildRosterIndex, matchToRoster, foldEspnNews, mergeNews } from './lib/feeds.mjs'
 import { fetchSocial } from './lib/social.mjs'
@@ -177,6 +177,17 @@ async function main() {
       player.gameLog = gameLogFor(player, logs, league.receptionPoints)
       player.vsOpponent = opponentHistoryFor(player, logs, league.receptionPoints)
       player.opponentDefense = opponentDefenseFor(player, defenses)
+    }
+
+    // Matchup prep judges both lineups by how much each starter's score swings, so
+    // your players and the team you face carry it. Other teams skip it to keep the
+    // file small. The opponent's players get ESPN ids first, since the logs use them.
+    const opponent = (league.teams || []).find(
+      (team) => league.matchup && String(team.teamId) === String(league.matchup.opponentTeamId)
+    )
+    for (const player of opponent?.roster || []) linkIds(player, crosswalk)
+    for (const player of [...league.roster, ...(opponent?.roster || [])]) {
+      player.swing = swingFor(player, logs, league.receptionPoints)
     }
     addByeOptions(league, { week, later, defenses, byeWeeks })
 

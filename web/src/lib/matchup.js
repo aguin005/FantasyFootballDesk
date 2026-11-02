@@ -27,6 +27,19 @@ export function expectedPoints(player, asOf, known = true) {
 }
 
 /**
+ * The share of a starter's game still to be played as of the pull: 1 before
+ * kickoff, 0 once it is over or on a bye, and in between while it is on. Win
+ * chances shrink each starter's uncertainty by it.
+ */
+export function remainingShare(player, asOf, known = true) {
+  if (!known) return 1
+  if (!player.game) return 0
+  const start = Date.parse(player.game.kickoffISO)
+  if (!Number.isFinite(start) || asOf < start) return 1
+  return Math.max(0, 1 - (asOf - start) / GAME_MS)
+}
+
+/**
  * Both sides of this week's matchup, or null when there is none: a bye, the
  * playoffs once you are out, or a refresh where the matchups call failed.
  */
@@ -46,6 +59,8 @@ export function matchupReport(league, generatedAt, now = Date.now()) {
 
   return {
     week: matchup.week,
+    opponentTeamId: opponent.teamId,
+    asOf,
     me,
     them,
     margin,
@@ -82,6 +97,7 @@ function side(name, roster, score, asOf, now) {
   const rows = sortBySlot(roster.filter((player) => player.starter)).map((player) => ({
     player,
     expected: expectedPoints(player, asOf, known),
+    remaining: remainingShare(player, asOf, known),
     state: known ? gameState(player, now) : 'upcoming',
     doneAtPull: known && ['played', 'bye'].includes(gameState(player, asOf))
   }))

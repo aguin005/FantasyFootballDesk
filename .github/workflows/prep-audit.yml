@@ -1,0 +1,23 @@
+# Temporary: checks matchup prep against the real leagues. Removed before merging.
+name: Prep audit (temporary)
+on:
+  push:
+    branches: [claude/stoic-hypatia-3gr4gb]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Refresh
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+        run: npm run refresh
+      - run: node audit-prep.mjs

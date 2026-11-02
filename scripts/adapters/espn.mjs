@@ -242,9 +242,36 @@ export async function loadLeague(config, season, week, options = {}) {
     rosterSpots: rosterSpots(league.settings),
     matchup: findMatchup(matchupData?.schedule, team.id, matchupPeriodFor(league.settings, week), week),
     lastMatchup: lastMatchupFor(matchupData?.schedule, team.id, league.settings, week, options.lastWeek),
+    results: pastResults(matchupData?.schedule, league.settings, week),
     roster,
     candidates
   }
+}
+
+/**
+ * Every finished game before this matchup period, one entry per game, from the
+ * schedule the matchup call already returns. A playoff round that spans two weeks
+ * is labelled with its last week.
+ */
+export function pastResults(schedule, settings, week) {
+  const current = matchupPeriodFor(settings, week)
+  const periods = settings?.scheduleSettings?.matchupPeriods || {}
+  return (schedule || [])
+    .filter(
+      (game) =>
+        game.matchupPeriodId < current && game.home && game.away && game.winner && game.winner !== 'UNDECIDED'
+    )
+    .map((game) => {
+      const weeks = periods[game.matchupPeriodId]
+      return {
+        week: Array.isArray(weeks) && weeks.length ? Math.max(...weeks) : game.matchupPeriodId,
+        a: game.home.teamId,
+        aPoints: sideTotal(game.home),
+        b: game.away.teamId,
+        bPoints: sideTotal(game.away)
+      }
+    })
+    .filter((game) => game.aPoints != null && game.bPoints != null)
 }
 
 /**

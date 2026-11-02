@@ -195,13 +195,17 @@ export async function loadLeague(
 ) {
   const include = options.include || new Set()
   const lastWeek = options.lastWeek >= 1 ? options.lastWeek : null
-  const [league, rosters, users, matchups, lastMatchups] = await Promise.all([
+  // Every week played so far, for each team's recent scores and the season series
+  // in matchup prep. Last week's is the one the result on Today reads.
+  const pastWeeks = lastWeek ? Array.from({ length: lastWeek }, (_, index) => index + 1) : []
+  const [league, rosters, users, matchups, ...pastMatchups] = await Promise.all([
     getLeague(leagueId),
     getRosters(leagueId),
     getLeagueUsers(leagueId),
     getMatchups(leagueId, week),
-    lastWeek ? getMatchups(leagueId, lastWeek) : []
+    ...pastWeeks.map((past) => getMatchups(leagueId, past))
   ])
+  const lastMatchups = lastWeek ? pastMatchups[lastWeek - 1] : []
 
   const myRoster = rosters.find((roster) => roster.owner_id === userId)
   if (!myRoster) return null
@@ -310,9 +314,36 @@ export async function loadLeague(
     rosterSpots: league.roster_positions?.length || null,
     matchup: findMatchup(matchups, myRoster.roster_id, week),
     lastMatchup: lastWeek ? findMatchup(lastMatchups, myRoster.roster_id, lastWeek) : null,
+    results: pastResults(pastWeeks, pastMatchups),
     roster,
     candidates
   }
+}
+
+/**
+ * Every finished game this season, one entry per game: the week, both rosters and
+ * their totals. A week whose call failed is simply missing, and a pairing where
+ * neither side scored was never played.
+ */
+export function pastResults(weeks, perWeek) {
+  const results = []
+  weeks.forEach((week, index) => {
+    const games = new Map()
+    for (const entry of perWeek[index] || []) {
+      if (entry.matchup_id == null) continue
+      if (!games.has(entry.matchup_id)) games.set(entry.matchup_id, [])
+      games.get(entry.matchup_id).push(entry)
+    }
+    for (const sides of games.values()) {
+      if (sides.length !== 2) continue
+      const [a, b] = sides
+      const aPoints = totalPoints(a)
+      const bPoints = totalPoints(b)
+      if (aPoints == null || bPoints == null || (aPoints === 0 && bPoints === 0)) continue
+      results.push({ week, a: a.roster_id, aPoints, b: b.roster_id, bPoints })
+    }
+  })
+  return results
 }
 
 /**
