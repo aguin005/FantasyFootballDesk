@@ -115,12 +115,21 @@ export function likelyLineup(rows, roster, now = Date.now()) {
     (starter, candidate) => (canFill(slotOf(starter), candidate) ? 1000 + (candidate.projected ?? 0) : null)
   )
   const covered = new Map(picks.map(([starter, replacement]) => [starter.playerId, replacement]))
-  const swaps = sitting.map((row) => ({
-    starter: row.player,
-    slot: slotOf(row.player),
-    reason: sitReason(row.player, known),
-    replacement: covered.get(row.player.playerId) || null
-  }))
+  // A starter left uncovered only because the bench players who could have filled
+  // in have already played is not news, since nothing about it can change now.
+  const hadCover = (starter) =>
+    roster.some(
+      (player) =>
+        !player.starter && !isReserve(player) && !sitReason(player, known) && canFill(slotOf(starter), player)
+    )
+  const swaps = sitting
+    .filter((row) => covered.has(row.player.playerId) || !hadCover(row.player))
+    .map((row) => ({
+      starter: row.player,
+      slot: slotOf(row.player),
+      reason: sitReason(row.player, known),
+      replacement: covered.get(row.player.playerId) || null
+    }))
   let lineup = rows
   for (const swap of swaps) {
     if (swap.replacement) lineup = replaceRow(lineup, swap.starter.playerId, swap.replacement)
