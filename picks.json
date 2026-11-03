@@ -395,6 +395,90 @@
             "LAC",
             "WSH"
           ]
+        },
+        "8": {
+          "points": {
+            "1166": 28.18,
+            "2505": 2.1,
+            "3214": 6,
+            "3271": 2.4,
+            "5947": 4.4,
+            "9500": 12.3,
+            "9757": 0,
+            "11563": 19.28,
+            "11608": 8.8,
+            "11610": 15,
+            "11637": 1.4,
+            "13150": 3.9
+          },
+          "starters": [
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 27.56
+            },
+            {
+              "statsId": "8408",
+              "name": "Jordan Mason",
+              "position": "RB",
+              "points": 2
+            },
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 18.1
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 3.6
+            },
+            {
+              "statsId": "8167",
+              "name": "Christian Watson",
+              "position": "WR",
+              "points": 17.3
+            },
+            {
+              "statsId": "1466",
+              "name": "Travis Kelce",
+              "position": "TE",
+              "points": 11.7
+            },
+            {
+              "statsId": "13276",
+              "name": "Omar Cooper Jr.",
+              "position": "WR",
+              "points": 0
+            },
+            {
+              "statsId": "13296",
+              "name": "Caleb Douglas",
+              "position": "WR",
+              "points": 8.3
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 12
+            },
+            {
+              "statsId": "PIT",
+              "name": "Pittsburgh Steelers",
+              "position": "DEF",
+              "points": 21
+            }
+          ],
+          "byes": [
+            "HOU",
+            "NO",
+            "NYG",
+            "SF"
+          ]
         }
       }
     },
@@ -776,6 +860,83 @@
             "JAX",
             "LAC",
             "WSH"
+          ]
+        },
+        "8": {
+          "points": {
+            "4993": 17.6,
+            "8129": 0,
+            "8135": 11.1,
+            "9480": 7.5,
+            "9757": 0,
+            "10235": 3.8,
+            "11256": 0,
+            "11565": 0,
+            "11834": 0,
+            "12469": 12.9,
+            "13150": 3.9
+          },
+          "starters": [
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 18.1
+            },
+            {
+              "statsId": "6794",
+              "name": "Justin Jefferson",
+              "position": "WR",
+              "points": 14.3
+            },
+            {
+              "statsId": "8112",
+              "name": "Drake London",
+              "position": "WR",
+              "points": 1.8
+            },
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 27.56
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 3.6
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 12
+            },
+            {
+              "statsId": "11576",
+              "name": "Braelon Allen",
+              "position": "RB",
+              "points": 23.3
+            },
+            {
+              "statsId": "KC",
+              "name": "Chiefs D/ST",
+              "position": "DEF",
+              "points": 1
+            },
+            {
+              "statsId": "3271",
+              "name": "Tyler Higbee",
+              "position": "TE",
+              "points": 2.4
+            }
+          ],
+          "byes": [
+            "HOU",
+            "NO",
+            "NYG",
+            "SF"
           ]
         }
       }
