@@ -167,6 +167,47 @@
             "reason": "Projected 7.7 points, 1.0 above your worst WR at 6.7",
             "lockedAt": "2026-10-30T00:11:05.964Z"
           }
+        ],
+        "9": [
+          {
+            "playerId": "NO",
+            "statsId": "NO",
+            "espnId": null,
+            "sleeperId": "NO",
+            "name": "New Orleans Saints",
+            "position": "DEF",
+            "team": "NO",
+            "score": 95,
+            "projected": 8.1,
+            "reason": "Projected 8.1 points",
+            "lockedAt": "2026-11-06T01:12:54.186Z"
+          },
+          {
+            "playerId": "NYG",
+            "statsId": "NYG",
+            "espnId": null,
+            "sleeperId": "NYG",
+            "name": "New York Giants",
+            "position": "DEF",
+            "team": "NYG",
+            "score": 92,
+            "projected": 7.7,
+            "reason": "Projected 7.7 points",
+            "lockedAt": "2026-11-06T01:12:54.186Z"
+          },
+          {
+            "playerId": "CLE",
+            "statsId": "CLE",
+            "espnId": null,
+            "sleeperId": "CLE",
+            "name": "Cleveland Browns",
+            "position": "DEF",
+            "team": "CLE",
+            "score": 86,
+            "projected": 6.7,
+            "reason": "Projected 6.7 points",
+            "lockedAt": "2026-11-06T01:12:54.186Z"
+          }
         ]
       },
       "weeks": {
@@ -646,6 +687,47 @@
             "projected": 9,
             "reason": "Moves into WAS's top three receivers with Terry McLaurin on IR",
             "lockedAt": "2026-10-30T00:11:05.964Z"
+          }
+        ],
+        "9": [
+          {
+            "playerId": "4433970",
+            "statsId": "11565",
+            "espnId": "4433970",
+            "sleeperId": "11565",
+            "name": "J.J. McCarthy",
+            "position": "QB",
+            "team": "NYG",
+            "score": 87,
+            "projected": 17.5,
+            "reason": "Starts at QB for NYG with Jaxson Dart on IR",
+            "lockedAt": "2026-11-06T01:12:54.186Z"
+          },
+          {
+            "playerId": "4599739",
+            "statsId": "9757",
+            "espnId": "4599739",
+            "sleeperId": "9757",
+            "name": "Kendre Miller",
+            "position": "RB",
+            "team": "NO",
+            "score": 87,
+            "projected": 9.4,
+            "reason": "Next up at RB for NO with Travis Etienne Jr. on IR",
+            "lockedAt": "2026-11-06T01:12:54.186Z"
+          },
+          {
+            "playerId": "4371733",
+            "statsId": "7567",
+            "espnId": "4371733",
+            "sleeperId": "7567",
+            "name": "Kenny Gainwell",
+            "position": "RB",
+            "team": "TB",
+            "score": 86,
+            "projected": 8.3,
+            "reason": "Projected 8.3 points, 3.5 above your worst RB at 4.8",
+            "lockedAt": "2026-11-06T01:12:54.186Z"
           }
         ]
       },
