@@ -520,6 +520,79 @@
             "NYG",
             "SF"
           ]
+        },
+        "9": {
+          "points": {
+            "1166": 15.64,
+            "2505": 23,
+            "3214": 6.5,
+            "3271": 2.3,
+            "5947": 10.5,
+            "9500": 5.4,
+            "9757": 0,
+            "11563": 16.68,
+            "11608": 0.4,
+            "11610": 4.1,
+            "11637": 4.7,
+            "13150": 4.5,
+            "NO": 5,
+            "NYG": 14,
+            "CLE": 10
+          },
+          "starters": [
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 13.86
+            },
+            {
+              "statsId": "8132",
+              "name": "Tyler Allgeier",
+              "position": "RB",
+              "points": 6.6
+            },
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 16.7
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 14.1
+            },
+            {
+              "statsId": "8167",
+              "name": "Christian Watson",
+              "position": "WR",
+              "points": 30.1
+            },
+            {
+              "statsId": "4217",
+              "name": "George Kittle",
+              "position": "TE",
+              "points": 9.8
+            },
+            {
+              "statsId": "8408",
+              "name": "Jordan Mason",
+              "position": "RB",
+              "points": 6.2
+            },
+            {
+              "statsId": "9753",
+              "name": "Zach Charbonnet",
+              "position": "RB",
+              "points": 9.6
+            }
+          ],
+          "byes": [
+            "PIT",
+            "TEN"
+          ]
         }
       }
     },
@@ -1019,6 +1092,82 @@
             "NO",
             "NYG",
             "SF"
+          ]
+        },
+        "9": {
+          "points": {
+            "4993": 3.1,
+            "7567": 10.6,
+            "8129": 0,
+            "8135": 0,
+            "9480": 4.2,
+            "9757": 0,
+            "10235": 0,
+            "11256": 0,
+            "11565": 7.28,
+            "11834": 3.7,
+            "12469": 7.8,
+            "13150": 4.5
+          },
+          "starters": [
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 16.7
+            },
+            {
+              "statsId": "6794",
+              "name": "Justin Jefferson",
+              "position": "WR",
+              "points": 8.8
+            },
+            {
+              "statsId": "8112",
+              "name": "Drake London",
+              "position": "WR",
+              "points": 11.8
+            },
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 13.86
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 14.1
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 9
+            },
+            {
+              "statsId": "11576",
+              "name": "Braelon Allen",
+              "position": "RB",
+              "points": 5.4
+            },
+            {
+              "statsId": "HOU",
+              "name": "Texans D/ST",
+              "position": "DEF",
+              "points": 13
+            },
+            {
+              "statsId": "9480",
+              "name": "Brenton Strange",
+              "position": "TE",
+              "points": 4.2
+            }
+          ],
+          "byes": [
+            "PIT",
+            "TEN"
           ]
         }
       }
