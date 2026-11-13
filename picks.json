@@ -208,6 +208,47 @@
             "reason": "Projected 6.7 points",
             "lockedAt": "2026-11-06T01:12:54.186Z"
           }
+        ],
+        "10": [
+          {
+            "playerId": "NYG",
+            "statsId": "NYG",
+            "espnId": null,
+            "sleeperId": "NYG",
+            "name": "New York Giants",
+            "position": "DEF",
+            "team": "NYG",
+            "score": 95,
+            "projected": 7.5,
+            "reason": "Projected 7.5 points, 1.8 above your worst DEF at 5.7",
+            "lockedAt": "2026-11-13T01:10:42.432Z"
+          },
+          {
+            "playerId": "GB",
+            "statsId": "GB",
+            "espnId": null,
+            "sleeperId": "GB",
+            "name": "Green Bay Packers",
+            "position": "DEF",
+            "team": "GB",
+            "score": 93,
+            "projected": 7.9,
+            "reason": "Projected 7.9 points, 2.2 above your worst DEF at 5.7",
+            "lockedAt": "2026-11-13T01:10:42.432Z"
+          },
+          {
+            "playerId": "WAS",
+            "statsId": "WAS",
+            "espnId": null,
+            "sleeperId": "WAS",
+            "name": "Washington Commanders",
+            "position": "DEF",
+            "team": "WAS",
+            "score": 91,
+            "projected": 6.4,
+            "reason": "Projected 6.4 points, 0.7 above your worst DEF at 5.7",
+            "lockedAt": "2026-11-13T01:10:42.432Z"
+          }
         ]
       },
       "weeks": {
@@ -801,6 +842,47 @@
             "projected": 8.3,
             "reason": "Projected 8.3 points, 3.5 above your worst RB at 4.8",
             "lockedAt": "2026-11-06T01:12:54.186Z"
+          }
+        ],
+        "10": [
+          {
+            "playerId": "2576925",
+            "statsId": "2505",
+            "espnId": "2576925",
+            "sleeperId": "2505",
+            "name": "Darren Waller",
+            "position": "TE",
+            "team": "CAR",
+            "score": 89,
+            "projected": 8.5,
+            "reason": "Projected 8.5 points, 0.4 above your worst TE at 8.1",
+            "lockedAt": "2026-11-13T01:10:42.432Z"
+          },
+          {
+            "playerId": "4360797",
+            "statsId": "7562",
+            "espnId": "4360797",
+            "sleeperId": "7562",
+            "name": "Tutu Atwell",
+            "position": "WR",
+            "team": "LAR",
+            "score": 85,
+            "projected": 8.9,
+            "reason": "Moves into LAR's top three receivers with Puka Nacua out and Davante Adams on IR",
+            "lockedAt": "2026-11-13T01:10:42.432Z"
+          },
+          {
+            "playerId": "5081397",
+            "statsId": "12469",
+            "espnId": "5081397",
+            "sleeperId": "12469",
+            "name": "Dylan Sampson",
+            "position": "RB",
+            "team": "CLE",
+            "score": 84,
+            "projected": 8.9,
+            "reason": "Projected 8.9 points, 2.4 above your worst RB at 6.5",
+            "lockedAt": "2026-11-13T01:10:42.432Z"
           }
         ]
       },
