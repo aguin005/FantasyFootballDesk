@@ -29,16 +29,16 @@ export function standingLine(picture) {
   return `${place} now. The top ${picture.playoffTeams} make the playoffs, ${left}.`
 }
 
-/** What this week's game is worth, or null once there is nothing riding on it. */
+/**
+ * What this week's game is worth, or null when nothing rides on it: no game, a
+ * game that is all but decided, which leaves only one side to report, or one
+ * that moves the odds by less than a point.
+ */
 export function stakesLine(picture) {
   const { ifWin, ifLose } = picture.mine || {}
-  if (picture.decided || (ifWin == null && ifLose == null)) return null
-  if (ifWin != null && ifLose != null) {
-    // Nothing to say when the game moves the odds by less than a point.
-    if (Math.abs(ifWin - ifLose) < 0.01) return null
-    return `This week: ${oddsLabel(ifWin)} with a win, ${oddsLabel(ifLose)} with a loss.`
-  }
-  return ifWin != null ? `This week: ${oddsLabel(ifWin)} with a win.` : `This week: ${oddsLabel(ifLose)} with a loss.`
+  if (picture.decided || ifWin == null || ifLose == null) return null
+  if (Math.abs(ifWin - ifLose) < 0.01) return null
+  return `This week: ${oddsLabel(ifWin)} with a win, ${oddsLabel(ifLose)} with a loss.`
 }
 
 /** "First round bye: 22%", when byes exist and yours is a real possibility. */

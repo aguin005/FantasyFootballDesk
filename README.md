@@ -20,7 +20,7 @@ GitHub Actions (every 15 min)          GitHub Pages
 
 ## What you need
 
-- Node 20 or newer
+- Node 20.19 or newer
 - A GitHub account
 - Your Sleeper username
 - Your ESPN league id, team id, and two browser cookies
@@ -131,8 +131,10 @@ often, which is what the next section is about.
 
 Open the URL in Safari or Chrome on your phone, then Add to Home Screen. The manifest makes it open
 full screen without browser chrome, and a service worker keeps the last copy of your data so it
-still opens with no signal. Pull down from the top of any screen to fetch the newest data, the same
-gesture as any iOS list.
+still opens with no signal. It opens on that saved copy at once and swaps in the newest data a
+moment later, so there is no loading screen after the first visit. While it is on screen it checks
+for a newer refresh every minute by itself, and you can still pull down from the top of any screen,
+the same gesture as any iOS list.
 
 ## How the pieces fit
 
@@ -151,6 +153,7 @@ scripts/
   lib/defense.mjs        points each defense allows to each position
   lib/picks.mjs          locks the top waiver picks each week and grades them against your starters
   lib/byes.mjs           bye weeks, next weeks' projections, and free agents for each bye week
+  lib/playoffs.mjs       plays out the rest of the season for every team's playoff odds
   lib/injury.mjs         one injury vocabulary for every source
   lib/http.mjs           fetch with retries
   check-feeds.mjs        npm run feeds, which feeds answer and which columns can be read
@@ -165,9 +168,14 @@ web/src/
   lib/picks.js           wording for the waiver track record
   lib/byes.js            the bye planner: who covers each starter's bye, and what to drop
   lib/prep.js            matchup prep: win chance, the to-do list, and the scouting report
+  lib/live.js            live scores and lineups for Sleeper leagues, read by the app itself
+  lib/seen.js            which changes you have not seen yet, remembered on the device
+  lib/playoffs.js        wording for the playoff race
+  components/Playoffs.jsx        the playoff race card and the standings sheet
   components/SchedulePanel.jsx   the NFL schedule that pulls out from the right edge
   styles.css             the design system, including the Liquid Glass material
 web/public/sw.js         offline support for the installed app
+test/                    npm test: unit tests, and the whole refresh against a mocked network
 .github/workflows/       the scheduled job
 ```
 
@@ -353,6 +361,51 @@ or more. Your roster and your opponent's carry it. Kickers and defenses have no 
 so they use the position's spread. Past results come from Sleeper's matchups for every week played,
 one call per week, and from the season schedule ESPN already returns with the matchup call.
 
+## Playoff race
+
+Today shows your chance of making the playoffs, where you stand, and what this week's game is
+worth: your odds after a win and after a loss. Tap it for the standings, every team in seed order
+with its record, points, projected wins and odds, and a line under the last team in. Once the
+regular season is over the card says whether you are in.
+
+The refresh plays out the rest of the regular season 20,000 times for each league. This week's
+games use each team's lineup, with the same projections, points already scored and player spreads
+the win chance uses, and every team is assumed to replace a starter who is out or on bye. Later
+weeks have no lineups yet, so a team scores around its season average, pulled a little toward the
+league's while it has few games, with the spread teams in your league have shown from week to
+week. In every run the teams are seeded on record and then points scored, division winners first
+where a league has divisions, and the top seeds qualify. A league that plays an extra game against
+the median each week has it counted.
+
+It is an estimate. The far ends read "<1%" and ">99%" rather than never and always, and a league
+that splits level records on head to head or division record is still split on points here, which
+the standings sheet says. The random numbers come from a seed made of the league and the week, so
+the odds only move when the standings or this week's games do.
+
+Both platforms supply how many teams qualify, when the regular season ends, each team's record,
+and the games left: Sleeper from its league settings and its matchups for every remaining week,
+ESPN from the schedule settings and the season schedule it already returns. Records are the
+platform's own, unless the results on file cover more games, which is the case on a Tuesday before
+the platform has closed out the week.
+
+## Live scores for Sleeper leagues
+
+The published data is only as fresh as the last refresh, and GitHub runs those late. Sleeper's
+matchups endpoint needs no login and answers any site, so while the app is on screen it asks
+Sleeper itself, every minute while NFL games are on and every five minutes otherwise, and lays the
+answer over the published data: each player's points, both totals, and who is starting where, for
+every team in the league. The header reads "Live scores" while a game is on and the last answer is
+fresh.
+
+Lineup changes come through the same way. Set your lineup in the Sleeper app and the lineup check,
+Start / sit, matchup prep and the bye plan follow within a few minutes, without waiting for a
+refresh. A player you added since the last refresh is not shown until the next one, since the app
+has no projection or game for them yet, though their points already count in your total.
+
+Projections, news, injuries and waivers still come from the refresh. ESPN needs your login
+cookies, which a web page must never hold, so ESPN leagues update with each refresh, about every
+ten minutes on game days, and the open app picks those up by itself.
+
 ## Matchup context
 
 How this week's opponent has defended the player's position, from the same nflverse file. Every row
@@ -483,6 +536,10 @@ otherwise answer with whichever week it considers current.
 Last week's result stays on the matchup card, as "Week 3: Won 118.4 to 102.1 against Crashee Rice",
 until the new week's first game starts.
 
+Sleeper counts weeks from 1 again once the NFL playoffs begin, and counts preseason games before the
+season. Only a regular season week is taken as it is: in January the dashboard stays on week 18,
+where the fantasy season ended, and before the season it shows week 1.
+
 ## What changed, rather than what is true
 
 The What changed section on the Today tab answers one question: what is different since you last
@@ -497,8 +554,14 @@ which it works out from `GITHUB_REPOSITORY`. Nothing is committed back to the re
 previous run.
 
 Changes stay on the board for 24 hours. A refresh every 15 minutes would otherwise clear the list
-long before you opened it, and the script has no way to know when you last looked. New changes in a
-league you are not looking at show as a red count on that league's chip.
+long before you opened it, and the script has no way to know when you last looked.
+
+Your phone does know. The app remembers, for each league, the newest change that was on screen the
+last time you had that league's Today tab open, and anything detected after that is new: it leads
+the list at full strength while the rest is dimmed, and it counts toward the red badge on the
+league's chip while you are looking at another league. Changes stay marked for the whole visit, so
+they do not dim while you are reading them, and count as seen once you switch league or tab or
+leave the app. This is kept on the device, so each phone or browser keeps its own.
 
 A change already on the board stays read when a later run sees it again. That happens after a run
 where ESPN's news feed failed: the next run finds every story missing from the one before and would
@@ -550,7 +613,7 @@ lineups slot against slot with points and projections for every starter, with ma
 them (see "Matchup prep"). The card shows your chance to win and how many prep items are left. On
 a bye week the card falls back to a summary of your own starters. The lineup check flags starters
 who are out, doubtful, or on bye along with who to start instead, and questionable starters with
-their backup. Next week's byes follow, with who to play for each. Below that are the last day's
+their backup. The playoff race follows, your odds and what this week's game is worth. Next week's byes follow, with who to play for each. Below that are the last day's
 changes, the top three pickups, and the latest news.
 
 **Lineup** has four views.
@@ -682,6 +745,13 @@ last four games. A back at 40% is catching passes, and a back at 12% is taking h
 the field on third down, which is the distinction that matters in PPR. It is a proxy, not the real
 measurement, and the dashboard words it as touches rather than routes so it does not overclaim.
 
+## Tests
+
+`npm test` runs in a few seconds with nothing to install beyond the project itself and no network.
+Besides unit tests for the logic, it runs the real refresh end to end against
+`test/helpers/mock-network.mjs`, which stands in for Sleeper, ESPN, nflverse and the news feeds with
+one small league on each platform. Pull requests run the tests and a build before they merge.
+
 ## Worth building next
 
 - A claim by time on bye week pickups, from each league's waiver settings. Sleeper sends its waiver
@@ -689,6 +759,10 @@ measurement, and the dashboard words it as touches rather than routes so it does
   in.
 - The same track record for your own claims, read from each league's transaction history, which
   would work back to week 1.
-- Live scores polled from the browser during games for Sleeper leagues, whose API answers any
-  site. ESPN leagues need your cookies, so they have to stay on the workflow.
+- A playoff bracket once the regular season ends. Sleeper publishes its winners bracket, and ESPN
+  marks playoff games in its schedule.
+- Rest of season values on the Trade tab, summed from the weekly projections that are left, in
+  place of the full season number.
+- A Yahoo league. Yahoo's API needs an app registration and a sign in, but its refresh token lasts,
+  so it would fit the same workflow.
 - Kicker matchups. The nflverse weekly file has no kicking, so they would need another source.
