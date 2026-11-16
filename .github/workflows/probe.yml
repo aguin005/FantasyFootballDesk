@@ -1,4 +1,5 @@
-# Temporary: checks API facts for the next features. Removed before merging.
+# Temporary: runs the upgraded actions and this branch's refresh, without deploying.
+# Removed before merging.
 name: Probe (temporary)
 on:
   push:
@@ -6,15 +7,63 @@ on:
 permissions:
   contents: read
 jobs:
-  probe:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - id: stamp
+        run: echo "day=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: .cache
+          key: probe-${{ steps.stamp.outputs.day }}
+      - name: Load pick history
+        run: |
+          mkdir -p .history
+          if git fetch --depth=1 origin pick-history 2>/dev/null; then
+            git show FETCH_HEAD:picks.json > .history/picks.json || rm -f .history/picks.json
+          else
+            echo "No pick history yet"
+          fi
+      - name: Refresh league data
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+        run: npm run refresh
+      - run: npm run build
+      - run: node probe.mjs
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          name: probe-pages
+          path: dist
+      - uses: actions/upload-artifact@v7
+        with:
+          name: probe-pick-history
+          path: .history/picks.json
+          include-hidden-files: true
+          retention-days: 1
+  fetch:
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
         with:
-          node-version: 22
-      - env:
-          ESPN_S2: ${{ secrets.ESPN_S2 }}
-          SWID: ${{ secrets.SWID }}
-        run: node probe.mjs
+          sparse-checkout: .github
+      - uses: actions/download-artifact@v8
+        with:
+          name: probe-pick-history
+          path: .history
+      - run: |
+          ls -la .history
+          blob=$(git hash-object -w .history/picks.json)
+          tree=$(printf '100644 blob %s\tpicks.json\n' "$blob" | git mktree)
+          git fetch --depth=1 origin pick-history
+          echo "tree $tree, branch tree $(git rev-parse 'FETCH_HEAD^{tree}')"
