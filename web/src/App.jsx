@@ -17,11 +17,12 @@ import { usePullToRefresh } from './lib/usePullToRefresh.js'
 import { useNow, useOnline, useScrolled, useVisible } from './lib/hooks.js'
 import { useSetting } from './lib/storage.js'
 import { useSeenChanges } from './lib/seen.js'
+import { gamesOn, useLive, withLive } from './lib/live.js'
 import { lineupReport, onGameClock, resolvePlayer } from './lib/lineup.js'
 import { matchupReport } from './lib/matchup.js'
 import { byeReport } from './lib/byes.js'
 import { prepReport } from './lib/prep.js'
-import { ageMs, longAgo, updatedLabel } from './lib/format.js'
+import { ageMs, longAgo, timeAgo, updatedLabel } from './lib/format.js'
 
 const TABS = {
   today: { label: 'Today', icon: 'today' },
@@ -41,6 +42,8 @@ const STOPPED_AFTER_MS = 24 * 60 * 60 * 1000
 // hour without one means that loop stopped and is waiting on the schedule.
 const GAME_DAY_LATE_MS = 30 * 60 * 1000
 const TOAST_MS = 2600
+// Scores read straight from Sleeper count as live while the last answer is this fresh.
+const LIVE_FRESH_MS = 3 * 60 * 1000
 
 export default function App() {
   const { data, error, refreshing, cached, reload } = useDashboard()
@@ -58,10 +61,14 @@ export default function App() {
   const online = useOnline()
   const visible = useVisible()
 
-  const leagues = data?.leagues || []
+  // Sleeper leagues carry scores and lineups read from Sleeper since the refresh.
+  const live = useLive(data, visible, now)
+  const leagues = useMemo(() => withLive(data, live), [data, live])
   const league = leagues.find((entry) => entry.id === leagueId) || leagues[0] || null
   const report = useMemo(() => (league ? lineupReport(league.roster, now) : null), [league, now])
-  const matchup = useMemo(() => matchupReport(league, data?.generatedAt, now), [league, data, now])
+  // The points are as of the live answer when there is one, the refresh otherwise.
+  const scoredAt = league?.liveAt ? new Date(league.liveAt).toISOString() : data?.generatedAt
+  const matchup = useMemo(() => matchupReport(league, scoredAt, now), [league, scoredAt, now])
   const byes = useMemo(() => byeReport(league, report, data?.byeWeeks, data?.week, now), [league, report, data, now])
   const prep = useMemo(() => prepReport(league, matchup, report, byes, now), [league, matchup, report, byes, now])
 
@@ -154,9 +161,12 @@ export default function App() {
 
   const age = ageMs(data.generatedAt, now)
   const gameDay = onGameClock(leagues, now)
+  const liveScores = Boolean(league.liveAt) && now - league.liveAt < LIVE_FRESH_MS && gamesOn(data.schedule, now)
   // The saved copy shown while the first load is in flight is old by design, and
-  // calling it late would flash a warning on every launch.
-  const stale = !cached && age > (gameDay ? GAME_DAY_LATE_MS : LATE_AFTER_MS)
+  // calling it late would flash a warning on every launch. A league whose scores
+  // are live is not behind on game day either, until the rest is hours old.
+  const late = gameDay && !liveScores ? GAME_DAY_LATE_MS : LATE_AFTER_MS
+  const stale = !cached && age > late
   const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
   const sheetOpen = Boolean(sheetPlayer) || matchupOpen || scheduleOpen
@@ -191,7 +201,11 @@ export default function App() {
         <header className="hero-title">
           <p className="eyebrow">
             Week {data.week} ·{' '}
-            <span className={stale ? 'is-stale' : undefined}>{updatedLabel(data.generatedAt, now)}</span>
+            {liveScores ? (
+              <span className="is-live">Live scores · synced {timeAgo(new Date(league.liveAt).toISOString(), now).toLowerCase()}</span>
+            ) : (
+              <span className={stale ? 'is-stale' : undefined}>{updatedLabel(data.generatedAt, now)}</span>
+            )}
           </p>
           <h1 className="large-title">{title}</h1>
         </header>

@@ -312,6 +312,9 @@ export async function loadLeague(
     // Every starting and bench spot. Injured reserve and taxi spots are settings
     // of their own and not in this list.
     rosterSpots: league.roster_positions?.length || null,
+    // The lineup in order, which is how the open app reads Sleeper's starters when
+    // it syncs live scores and lineup changes between refreshes.
+    lineupSlots: lineupSlots(league.roster_positions),
     matchup: findMatchup(matchups, myRoster.roster_id, week),
     lastMatchup: lastWeek ? findMatchup(lastMatchups, myRoster.roster_id, lastWeek) : null,
     results: pastResults(pastWeeks, pastMatchups),
@@ -383,15 +386,19 @@ const SLOT_NAMES = { SUPER_FLEX: 'SFLEX', WRRB_FLEX: 'W/R', REC_FLEX: 'W/T', IDP
  * needs, since a flex starter can be replaced by any RB, WR, or TE.
  */
 function starterSlots(rosterPositions = [], starters = []) {
-  const lineup = rosterPositions.filter((position) => !BENCH_SLOTS.has(position))
+  const lineup = lineupSlots(rosterPositions)
   const slots = new Map()
   starters.forEach((playerId, index) => {
     // An empty lineup spot comes back as "0" rather than being left out.
     if (!playerId || playerId === '0') return
-    const position = lineup[index]
-    slots.set(playerId, SLOT_NAMES[position] || position || 'FLEX')
+    slots.set(playerId, lineup[index] || 'FLEX')
   })
   return slots
+}
+
+/** The league's starting slots in order, under the names the dashboard uses. */
+export function lineupSlots(rosterPositions = []) {
+  return rosterPositions.filter((position) => !BENCH_SLOTS.has(position)).map((position) => SLOT_NAMES[position] || position)
 }
 
 function formatRecord(wins, losses, ties) {

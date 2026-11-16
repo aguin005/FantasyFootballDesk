@@ -536,6 +536,21 @@ img {
   color: var(--orange-ink);
 }
 
+/* Scores read straight from Sleeper, with the dot every live scoreboard uses. */
+.eyebrow .is-live {
+  color: var(--green-ink);
+}
+
+.eyebrow .is-live::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 5px 1px 1px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
 .large-title {
   margin: 0;
   font-size: 34px;
