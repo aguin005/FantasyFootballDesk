@@ -1,11 +1,18 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Sheet from './Sheet.jsx'
 import Icon from './Icon.jsx'
 import TeamLogo from './TeamLogo.jsx'
 import { EmptyState, Pill } from './ui.jsx'
 import { clockTime, plural } from '../lib/format.js'
 import { teamCode, teamFullName, teamNickname } from '../lib/teams.js'
-import { playersInGame, rosterByTeam, scheduleDays, shortName } from '../lib/nflSchedule.js'
+import {
+  playersInGame,
+  rosterByTeam,
+  scheduleDays,
+  shortName,
+  weekCaption,
+  weekDates
+} from '../lib/nflSchedule.js'
 
 // A horizontal drag this far on the tab opens the panel, the way a drawer pulls out.
 const PULL_PX = 24
@@ -49,31 +56,55 @@ export function ScheduleTab({ onOpen, inert }) {
 }
 
 /**
- * Every game this week in kickoff order, grouped by day in your own time zone,
- * with the teams on bye at the end. Games with your players list them, since
- * that is usually why you are looking. Each game links to ESPN's game page, which
- * is where live scores are.
+ * Every game of a week in kickoff order, grouped by day in your own time zone,
+ * with the teams on bye at the end. It opens on this week, and the arrows step
+ * through every week left in the regular season. Games with your players list
+ * them, since that is usually why you are looking, and the bye list does the
+ * same, which is how a bye three weeks out shows up early. Each game links to
+ * ESPN's game page, which is where live scores are.
  */
-export default function SchedulePanel({ open, onClose, schedule, league, now }) {
+export default function SchedulePanel({ open, onClose, schedule, later, league, now }) {
   const list = useRef(null)
-  const days = scheduleDays(schedule?.games, now)
+  const weeks = [schedule, ...(later || [])].filter(Boolean)
+  const [index, setIndex] = useState(0)
+  // Each opening starts on this week. The reset happens as the panel opens, not
+  // as it closes, so the week on screen does not change while it slides away.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (open !== wasOpen) {
+    setWasOpen(open)
+    if (open && index !== 0) setIndex(0)
+  }
+  const position = Math.min(index, Math.max(0, weeks.length - 1))
+  const shown = weeks[position]
+  const thisWeek = position === 0
+  const days = scheduleDays(shown?.games, now, { markCurrent: thisWeek })
   const mine = rosterByTeam(league?.roster)
-  const byes = schedule?.byes || []
+  const byes = shown?.byes || []
+  const dates = weekDates(shown?.games)
 
-  // Open at the day of the first game still to finish, its heading just below the
-  // sticky title. The first day needs no scrolling at all.
+  // This week opens at the day of the first game still to finish, its heading
+  // just below the sticky header, and the first day needs no scrolling at all.
+  // Any other week starts from its first game.
   useEffect(() => {
     if (!open) return undefined
     const frame = requestAnimationFrame(() => {
-      const target = list.current?.querySelector('[data-current]')
       const container = list.current?.closest('.sheet-body')
-      const head = container?.querySelector('.schedule-head')
-      if (!target || !container || target === list.current.firstElementChild) return
+      if (!container) return
+      if (!thisWeek) {
+        container.scrollTop = 0
+        return
+      }
+      const target = list.current.querySelector('[data-current]')
+      const head = container.querySelector('.schedule-head')
+      if (!target || target === list.current.firstElementChild) {
+        container.scrollTop = 0
+        return
+      }
       const below = head ? head.getBoundingClientRect().bottom : container.getBoundingClientRect().top
       container.scrollTop += target.getBoundingClientRect().top - below - 8
     })
     return () => cancelAnimationFrame(frame)
-  }, [open])
+  }, [open, position, thisWeek])
 
   return (
     <Sheet open={open} onClose={onClose} labelledBy="schedule-title" side>
@@ -81,15 +112,41 @@ export default function SchedulePanel({ open, onClose, schedule, league, now }) 
         <h2 id="schedule-title" className="sheet-title">
           NFL schedule
         </h2>
+        {weeks.length > 1 ? (
+          <div className="week-step">
+            <button
+              type="button"
+              className="icon-btn week-step-button press"
+              aria-label="Previous week"
+              disabled={position === 0}
+              onClick={() => setIndex(position - 1)}
+            >
+              <Icon name="chevronLeft" strokeWidth={2.6} />
+            </button>
+            <p className="week-step-label" aria-live="polite">
+              <strong>Week {shown.week}</strong>
+              <span>{[weekCaption(shown.week, schedule?.week ?? shown.week), dates].filter(Boolean).join(' · ')}</span>
+            </p>
+            <button
+              type="button"
+              className="icon-btn week-step-button press"
+              aria-label="Next week"
+              disabled={position === weeks.length - 1}
+              onClick={() => setIndex(position + 1)}
+            >
+              <Icon name="chevronRight" strokeWidth={2.6} />
+            </button>
+          </div>
+        ) : null}
         <p className="schedule-sub">
-          {schedule?.week ? `Week ${schedule.week} · ` : ''}Times in your time zone
+          {weeks.length <= 1 && shown?.week ? `Week ${shown.week} · ` : ''}Times in your time zone
         </p>
       </header>
 
       {days.length === 0 ? (
         <div className="card">
           <EmptyState icon="calendar" title="Schedule unavailable">
-            The NFL schedule did not load on the last refresh. It will be back on the next one.
+            The NFL schedule for this week did not load on the last refresh. It will be back on the next one.
           </EmptyState>
         </div>
       ) : (

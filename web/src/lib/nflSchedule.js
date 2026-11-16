@@ -17,11 +17,12 @@ export function gameStatus(game, now = Date.now()) {
 }
 
 /**
- * The week's games by day in the device's time zone, in kickoff order. The first
- * game that is not over is marked current, which is where the panel opens. Games
- * without a kickoff time, late season flex games, go last under their weekday.
+ * The week's games by day in the device's time zone, in kickoff order. In the
+ * week being played, the first game that is not over is marked current, which is
+ * where the panel opens. A later week has nothing current yet. Games without a
+ * kickoff time, late season flex games, go last under their weekday.
  */
-export function scheduleDays(games = [], now = Date.now()) {
+export function scheduleDays(games = [], now = Date.now(), { markCurrent = true } = {}) {
   const days = new Map()
   for (const game of games) {
     const key = game.kickoffISO ? localDayKey(game.kickoffISO) : `tbd-${game.weekday || ''}`
@@ -39,9 +40,33 @@ export function scheduleDays(games = [], now = Date.now()) {
   for (const day of ordered) day.games.sort((a, b) => kickoff(a) - kickoff(b))
   ordered.sort((a, b) => kickoff(a.games[0]) - kickoff(b.games[0]))
 
-  const current = ordered.flatMap((day) => day.games).find((game) => game.status !== 'final')
+  const current = markCurrent && ordered.flatMap((day) => day.games).find((game) => game.status !== 'final')
   if (current) current.current = true
   return ordered
+}
+
+/** "This week", "Next week" or "In 3 weeks", counted from the week being played. */
+export function weekCaption(week, thisWeek) {
+  const ahead = week - thisWeek
+  if (ahead <= 0) return 'This week'
+  if (ahead === 1) return 'Next week'
+  return `In ${ahead} weeks`
+}
+
+/**
+ * The dates a week's games span in the device's time zone, "Nov 19 – 23", or
+ * null when no game has a kickoff time yet.
+ */
+export function weekDates(games = []) {
+  const kickoffs = games.map((game) => Date.parse(game.kickoffISO)).filter(Number.isFinite)
+  if (kickoffs.length === 0) return null
+  const first = new Date(Math.min(...kickoffs))
+  const last = new Date(Math.max(...kickoffs))
+  const format = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' })
+  if (format.format(first) === format.format(last)) return format.format(first)
+  return typeof format.formatRange === 'function'
+    ? format.formatRange(first, last)
+    : `${format.format(first)} to ${format.format(last)}`
 }
 
 const startersFirst = (a, b) => Number(Boolean(b.starter)) - Number(Boolean(a.starter))

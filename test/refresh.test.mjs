@@ -48,6 +48,22 @@ test('games, byes and injuries are attached to players', () => {
   assert.equal(data.schedule.games.length, 15)
 })
 
+test('the schedule panel gets every later week that has games on file', () => {
+  // The mocked games file runs to week 11, so weeks 12 to 18 have nothing to show.
+  assert.deepEqual(
+    data.laterSchedules.map((entry) => [entry.week, entry.games.length, entry.byes]),
+    [
+      [10, 14, ['CHI', 'DEN', 'PHI', 'TB']],
+      [11, 13, ['ATL', 'CLE', 'GB', 'LAR', 'NE', 'SEA']]
+    ]
+  )
+  for (const entry of data.laterSchedules) {
+    const kickoffs = entry.games.map((game) => Date.parse(game.kickoffISO))
+    assert.deepEqual(kickoffs, [...kickoffs].sort((a, b) => a - b), `week ${entry.week} is in kickoff order`)
+    assert.ok(entry.games.every((game) => game.homeScore == null && game.awayScore == null), 'no scores before kickoff')
+  }
+})
+
 test('this week and last week are found on both platforms', () => {
   for (const entry of data.leagues) {
     assert.deepEqual(entry.matchup, { week: 9, opponentTeamId: 2, score: 0, opponentScore: 0 })
@@ -101,4 +117,5 @@ test('in the NFL playoffs the dashboard stays on the last week', () => {
   const january = runRefresh({ now: '2027-01-12T16:00:00Z', week: 1, env: { MOCK_SEASON_TYPE: 'post' } })
   assert.equal(january.status, 0, january.log)
   assert.equal(january.data.week, 18)
+  assert.deepEqual(january.data.laterSchedules, [], 'no regular season weeks are left to show')
 })
