@@ -1,0 +1,20 @@
+# Temporary: checks API facts for the next features. Removed before merging.
+name: Probe (temporary)
+on:
+  push:
+    branches: [claude/stoic-hypatia-3gr4gb]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+        run: node probe.mjs
