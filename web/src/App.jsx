@@ -187,7 +187,7 @@ export default function App() {
         </div>
       )}
 
-      <main className={activeTab === 'trade' ? 'page has-dock' : 'page'} inert={sheetOpen ? '' : undefined}>
+      <main className={activeTab === 'trade' ? 'page has-dock' : 'page'} inert={sheetOpen}>
         <header className="hero-title">
           <p className="eyebrow">
             Week {data.week} ·{' '}

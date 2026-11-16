@@ -12,7 +12,7 @@ export default function TabBar({ tabs, active, onChange, inert }) {
       className="tabbar glass"
       aria-label="Sections"
       style={{ '--count': tabs.length, '--index': index }}
-      inert={inert ? '' : undefined}
+      inert={inert}
     >
       <span className="tab-lens" aria-hidden="true" />
       {tabs.map((tab) => {
