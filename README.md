@@ -163,7 +163,7 @@ web/src/
   lib/lineup.js          start and sit, lineup alerts, game states, all of it pure logic
   lib/matchup.js         the head to head and its live projection
   lib/streaming.js       defense streaming ratings
-  lib/nflSchedule.js     the schedule panel's days, game states, and your players in each game
+  lib/nflSchedule.js     the schedule panel's days, game states, week labels, and your players in each game
   lib/teams.js           team names and ESPN logo URLs
   lib/picks.js           wording for the waiver track record
   lib/byes.js            the bye planner: who covers each starter's bye, and what to drop
@@ -667,7 +667,7 @@ interpret yourself.
 
 ## NFL schedule panel
 
-A slim tab on the right edge of the screen pulls out the whole week's NFL schedule. Tap it, or drag
+A slim tab on the right edge of the screen pulls out the NFL schedule, this week first. Tap it, or drag
 it toward the middle. Drag the panel back to the right, tap outside it, or press Escape to close it.
 
 - **In kickoff order,** grouped by day in your own time zone, so a 9:30 AM game in Europe sits at
@@ -680,6 +680,10 @@ it toward the middle. Drag the panel back to the right, tap outside it, or press
 - **Tap a game** to open ESPN's game page, which is where live scores are. The dashboard itself has
   no live scores between refreshes.
 - **It opens at today.** Once Thursday's game is over, the panel opens at Sunday.
+- **Every week left in the regular season.** The arrows under the title step from this week to
+  week 18, one week at a time, with each week's dates. Later weeks list your players the same
+  way, in their games and on bye, so a bye three weeks out is easy to spot. The panel opens on
+  this week every time.
 
 Logos come from ESPN's CDN, with the version ESPN draws for dark backgrounds in dark mode, so the
 Raiders' black shield stays visible. A logo that fails to load falls back to the standard version,

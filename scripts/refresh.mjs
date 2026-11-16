@@ -245,6 +245,16 @@ async function main() {
   ])
   console.log(`${news.length} stories mention someone you roster`)
 
+  // The rest of the regular season, a week at a time, for the schedule panel. The
+  // weeks the bye planner already loaded are not read twice, and a week with no
+  // games on file is left out instead of showing as a week of byes.
+  const laterSchedules = []
+  for (let next = week + 1; next <= LAST_WEEK; next++) {
+    const games = later.find((entry) => entry.week === next)?.schedule ?? (await loadSchedule(season, next))
+    const entry = weekSchedule(games, next)
+    if (entry.games.length > 0) laterSchedules.push(entry)
+  }
+
   const current = {
     generatedAt: new Date().toISOString(),
     timezone: config.timezone || 'America/Los_Angeles',
@@ -252,6 +262,7 @@ async function main() {
     season,
     week,
     schedule: weekSchedule(schedule, week),
+    laterSchedules,
     byeWeeks,
     leagues,
     problems

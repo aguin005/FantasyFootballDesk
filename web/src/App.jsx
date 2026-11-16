@@ -294,6 +294,7 @@ export default function App() {
         open={scheduleOpen}
         onClose={closeSchedule}
         schedule={data.schedule}
+        later={data.laterSchedules}
         league={league}
         now={now}
       />
