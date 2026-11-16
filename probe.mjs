@@ -20,6 +20,8 @@ for (const league of d.leagues) {
     record: league.record,
     standings: league.standings ? { teams: league.standings.teams?.length, remaining: league.standings.remaining?.length, playoffTeams: league.standings.playoffTeams, lastWeek: league.standings.lastWeek } : null,
     playoffs: league.playoffs ? { mine: league.playoffs.mine, rows: league.playoffs.rows?.map((row) => [row.teamId, row.wins, row.losses, Math.round(row.pointsFor), row.seed, Number(row.odds?.toFixed(3))]) } : null,
-    lineupSlots: league.lineupSlots
+    lineupSlots: league.lineupSlots,
+    season: 'season' in league
   })
 }
+show('done', 'probe complete')

@@ -1,4 +1,4 @@
-# Temporary: runs the upgraded actions and this branch's refresh, without deploying.
+# Temporary: runs this branch's tests and refresh on real data, without deploying.
 # Removed before merging.
 name: Probe (temporary)
 on:
@@ -18,52 +18,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - id: stamp
-        run: echo "day=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v6
-        with:
-          path: .cache
-          key: probe-${{ steps.stamp.outputs.day }}
-      - name: Load pick history
-        run: |
-          mkdir -p .history
-          if git fetch --depth=1 origin pick-history 2>/dev/null; then
-            git show FETCH_HEAD:picks.json > .history/picks.json || rm -f .history/picks.json
-          else
-            echo "No pick history yet"
-          fi
       - name: Refresh league data
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           SWID: ${{ secrets.SWID }}
-        run: npm run refresh
+        run: npm run refresh > refresh.log 2>&1 || (cat refresh.log && exit 1)
       - run: npm run build
-      - run: node probe.mjs
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          name: probe-pages
-          path: dist
-      - uses: actions/upload-artifact@v7
-        with:
-          name: probe-pick-history
-          path: .history/picks.json
-          include-hidden-files: true
-          retention-days: 1
-  fetch:
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          sparse-checkout: .github
-      - uses: actions/download-artifact@v8
-        with:
-          name: probe-pick-history
-          path: .history
-      - run: |
-          ls -la .history
-          blob=$(git hash-object -w .history/picks.json)
-          tree=$(printf '100644 blob %s\tpicks.json\n' "$blob" | git mktree)
-          git fetch --depth=1 origin pick-history
-          echo "tree $tree, branch tree $(git rev-parse 'FETCH_HEAD^{tree}')"
+      - run: grep -E -i "warn|unavailable|problem|error|playoff|Wrote" refresh.log | head -20; node probe.mjs
