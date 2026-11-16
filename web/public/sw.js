@@ -11,6 +11,9 @@
  */
 
 const CACHE = 'league-desk-v1'
+// On a connection that has all but stalled, the saved page opens after this long
+// instead of a blank screen. The slow answer still lands in the cache for next time.
+const PAGE_WAIT_MS = 2500
 
 self.addEventListener('install', () => self.skipWaiting())
 
@@ -30,33 +33,73 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return
 
   if (url.pathname.includes('/assets/')) {
-    event.respondWith(cacheFirst(request))
+    event.respondWith(cacheFirst(request, url))
   } else {
-    event.respondWith(networkFirst(request, url))
+    event.respondWith(networkFirst(event, url))
   }
 })
 
-async function cacheFirst(request) {
+async function cacheFirst(request, url) {
   const cache = await caches.open(CACHE)
   const hit = await cache.match(request)
   if (hit) return hit
   const response = await fetch(request)
-  if (response.ok) cache.put(request, response.clone())
+  if (response.ok) {
+    await cache.put(request, response.clone())
+    await dropOlderBuilds(cache, url)
+  }
   return response
 }
 
-async function networkFirst(request, url) {
+/**
+ * Every deploy that changes the code names its files with a new hash, and the
+ * old ones would otherwise stay in the cache for good. Once a new build's file is
+ * saved, earlier builds of the same file, "index-abc123.js" for "index-def456.js",
+ * are removed.
+ */
+async function dropOlderBuilds(cache, url) {
+  const stem = buildStem(url.pathname)
+  if (!stem) return
+  for (const request of await cache.keys()) {
+    const other = new URL(request.url)
+    if (other.pathname !== url.pathname && buildStem(other.pathname) === stem) await cache.delete(request)
+  }
+}
+
+/** "/assets/index|.js" for "/assets/index-C0jFQQYX.js", or null without a hash. */
+function buildStem(pathname) {
+  const match = pathname.match(/^(.*\/assets\/.+)-[\w-]{8}(\.[a-z0-9]+)$/i)
+  return match ? `${match[1]}|${match[2]}` : null
+}
+
+async function networkFirst(event, url) {
+  const { request } = event
   const cache = await caches.open(CACHE)
   // The data URL carries a cache busting query string, so it is stored under its
   // bare path. Otherwise every refresh would add another copy and none would match.
   const key = url.origin + url.pathname
-  try {
-    const response = await fetch(request)
-    if (response.ok) cache.put(key, response.clone())
+  const saved = () => cache.match(key).then((hit) => hit || (request.mode === 'navigate' ? cache.match(self.registration.scope) : undefined))
+
+  const fresh = fetch(request).then(async (response) => {
+    if (response.ok) await cache.put(key, response.clone())
     return response
-  } catch (error) {
-    const hit = (await cache.match(key)) || (request.mode === 'navigate' && (await cache.match(`${self.registration.scope}`)))
-    if (hit) return hit
-    throw error
+  })
+
+  // Data waits for the network however long it takes, since the app already has
+  // the saved copy on screen. Only the page itself falls back on a timer.
+  if (request.mode !== 'navigate') {
+    try {
+      return await fresh
+    } catch (error) {
+      const hit = await saved()
+      if (hit) return hit
+      throw error
+    }
   }
+
+  const hit = await saved()
+  if (!hit) return fresh
+  // Keeps the worker alive until the slow answer has been cached.
+  event.waitUntil(fresh.catch(() => {}))
+  return Promise.race([fresh.catch(() => hit), new Promise((resolve) => setTimeout(() => resolve(hit), PAGE_WAIT_MS))])
 }

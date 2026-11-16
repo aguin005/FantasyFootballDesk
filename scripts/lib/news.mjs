@@ -104,8 +104,9 @@ export function attachNews(player, newsByPlayer, injuriesByPlayer) {
  * Keeps last run's designation for roster players whose only source was ESPN's
  * injury feed, for a run where that feed is down. Without it they read healthy
  * for one run and newly injured on the next, which shows a false Healthier change
- * and sends the injury alert again. A designation from Sleeper or ESPN's league
- * data is never held, so a player they clear is cleared. Returns how many were held.
+ * and then flags the same injury as new again. A designation from Sleeper or
+ * ESPN's league data is never held, so a player they clear is cleared. Returns how
+ * many were held.
  */
 export function holdFeedInjuries(leagues, previous) {
   const before = new Map()

@@ -22,7 +22,7 @@ export function ScheduleTab({ onOpen, inert }) {
       className="schedule-tab glass press"
       aria-label="NFL schedule"
       aria-haspopup="dialog"
-      inert={inert ? '' : undefined}
+      inert={inert}
       onClick={onOpen}
       onPointerDown={(event) => {
         start.current = event.clientX

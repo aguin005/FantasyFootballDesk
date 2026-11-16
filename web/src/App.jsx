@@ -4,6 +4,7 @@ import TabBar from './components/TabBar.jsx'
 import LeagueSwitcher from './components/LeagueSwitcher.jsx'
 import PlayerSheet from './components/PlayerSheet.jsx'
 import { MatchupSheet } from './components/Matchup.jsx'
+import { StandingsSheet } from './components/Playoffs.jsx'
 import SchedulePanel, { ScheduleTab } from './components/SchedulePanel.jsx'
 import Icon from './components/Icon.jsx'
 import { EmptyState, Notice } from './components/ui.jsx'
@@ -14,13 +15,15 @@ import WaiversView from './views/WaiversView.jsx'
 import TradeView from './views/TradeView.jsx'
 import { useDashboard } from './lib/useDashboard.js'
 import { usePullToRefresh } from './lib/usePullToRefresh.js'
-import { useNow, useOnline, useScrolled } from './lib/hooks.js'
+import { useNow, useOnline, useScrolled, useVisible } from './lib/hooks.js'
 import { useSetting } from './lib/storage.js'
+import { useSeenChanges } from './lib/seen.js'
+import { gamesOn, useLive, withLive } from './lib/live.js'
 import { lineupReport, onGameClock, resolvePlayer } from './lib/lineup.js'
 import { matchupReport } from './lib/matchup.js'
 import { byeReport } from './lib/byes.js'
 import { prepReport } from './lib/prep.js'
-import { ageMs, longAgo, updatedLabel } from './lib/format.js'
+import { ageMs, longAgo, timeAgo, updatedLabel } from './lib/format.js'
 
 const TABS = {
   today: { label: 'Today', icon: 'today' },
@@ -40,9 +43,11 @@ const STOPPED_AFTER_MS = 24 * 60 * 60 * 1000
 // hour without one means that loop stopped and is waiting on the schedule.
 const GAME_DAY_LATE_MS = 30 * 60 * 1000
 const TOAST_MS = 2600
+// Scores read straight from Sleeper count as live while the last answer is this fresh.
+const LIVE_FRESH_MS = 3 * 60 * 1000
 
 export default function App() {
-  const { data, error, refreshing, reload } = useDashboard()
+  const { data, error, refreshing, cached, reload } = useDashboard()
   const [leagueId, setLeagueId] = useSetting('league', null)
   const [tab, setTab] = useSetting('tab', 'today')
   const [segment, setSegment] = useSetting('lineup-view', 'roster')
@@ -50,16 +55,22 @@ export default function App() {
   const [sheetPlayer, setSheetPlayer] = useState(null)
   const [matchupOpen, setMatchupOpen] = useState(false)
   const [scheduleOpen, setScheduleOpen] = useState(false)
+  const [standingsOpen, setStandingsOpen] = useState(false)
   const [toast, setToast] = useState(null)
   const [pulling, setPulling] = useState(false)
   const now = useNow()
   const scrolled = useScrolled()
   const online = useOnline()
+  const visible = useVisible()
 
-  const leagues = data?.leagues || []
+  // Sleeper leagues carry scores and lineups read from Sleeper since the refresh.
+  const live = useLive(data, visible, now)
+  const leagues = useMemo(() => withLive(data, live), [data, live])
   const league = leagues.find((entry) => entry.id === leagueId) || leagues[0] || null
   const report = useMemo(() => (league ? lineupReport(league.roster, now) : null), [league, now])
-  const matchup = useMemo(() => matchupReport(league, data?.generatedAt, now), [league, data, now])
+  // The points are as of the live answer when there is one, the refresh otherwise.
+  const scoredAt = league?.liveAt ? new Date(league.liveAt).toISOString() : data?.generatedAt
+  const matchup = useMemo(() => matchupReport(league, scoredAt, now), [league, scoredAt, now])
   const byes = useMemo(() => byeReport(league, report, data?.byeWeeks, data?.week, now), [league, report, data, now])
   const prep = useMemo(() => prepReport(league, matchup, report, byes, now), [league, matchup, report, byes, now])
 
@@ -72,6 +83,8 @@ export default function App() {
   }, [league, report])
 
   const activeTab = tabs.some((entry) => entry.key === tab) ? tab : 'today'
+  // The list of changes is on Today, so that is where they count as seen.
+  const seen = useSeenChanges(data?.changes, league && visible && activeTab === 'today' ? league.id : null)
 
   const refresh = useCallback(async () => {
     const before = data?.generatedAt
@@ -85,7 +98,7 @@ export default function App() {
   const pull = usePullToRefresh(() => {
     setPulling(true)
     refresh().finally(() => setPulling(false))
-  }, Boolean(data) && !sheetPlayer && !matchupOpen && !scheduleOpen)
+  }, Boolean(data) && !sheetPlayer && !matchupOpen && !scheduleOpen && !standingsOpen)
 
   const selectTab = useCallback(
     (key) => {
@@ -113,6 +126,7 @@ export default function App() {
   const closePlayer = useCallback(() => setSheetPlayer(null), [])
   const closeMatchup = useCallback(() => setMatchupOpen(false), [])
   const closeSchedule = useCallback(() => setScheduleOpen(false), [])
+  const closeStandings = useCallback(() => setStandingsOpen(false), [])
 
   useEffect(() => {
     if (!toast) return undefined
@@ -123,14 +137,14 @@ export default function App() {
   // Number keys switch tabs on a keyboard, the way Command and a number does on a Mac.
   useEffect(() => {
     const onKey = (event) => {
-      if (sheetPlayer || matchupOpen || scheduleOpen || event.metaKey || event.ctrlKey || event.altKey) return
+      if (sheetPlayer || matchupOpen || scheduleOpen || standingsOpen || event.metaKey || event.ctrlKey || event.altKey) return
       if (/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName)) return
       const index = Number(event.key) - 1
       if (index >= 0 && index < tabs.length) selectTab(tabs[index].key)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [tabs, selectTab, sheetPlayer, matchupOpen, scheduleOpen])
+  }, [tabs, selectTab, sheetPlayer, matchupOpen, scheduleOpen, standingsOpen])
 
   if (!data) return <Splash error={error} refreshing={refreshing} onRetry={reload} />
 
@@ -150,10 +164,15 @@ export default function App() {
 
   const age = ageMs(data.generatedAt, now)
   const gameDay = onGameClock(leagues, now)
-  const stale = age > (gameDay ? GAME_DAY_LATE_MS : LATE_AFTER_MS)
+  const liveScores = Boolean(league.liveAt) && now - league.liveAt < LIVE_FRESH_MS && gamesOn(data.schedule, now)
+  // The saved copy shown while the first load is in flight is old by design, and
+  // calling it late would flash a warning on every launch. A league whose scores
+  // are live is not behind on game day either, until the rest is hours old.
+  const late = gameDay && !liveScores ? GAME_DAY_LATE_MS : LATE_AFTER_MS
+  const stale = !cached && age > late
   const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
-  const sheetOpen = Boolean(sheetPlayer) || matchupOpen || scheduleOpen
+  const sheetOpen = Boolean(sheetPlayer) || matchupOpen || scheduleOpen || standingsOpen
 
   return (
     <div className="app" data-platform={league.platform}>
@@ -181,16 +200,20 @@ export default function App() {
         </div>
       )}
 
-      <main className={activeTab === 'trade' ? 'page has-dock' : 'page'} inert={sheetOpen ? '' : undefined}>
+      <main className={activeTab === 'trade' ? 'page has-dock' : 'page'} inert={sheetOpen}>
         <header className="hero-title">
           <p className="eyebrow">
             Week {data.week} ·{' '}
-            <span className={stale ? 'is-stale' : undefined}>{updatedLabel(data.generatedAt, now)}</span>
+            {liveScores ? (
+              <span className="is-live">Live scores · synced {timeAgo(new Date(league.liveAt).toISOString(), now).toLowerCase()}</span>
+            ) : (
+              <span className={stale ? 'is-stale' : undefined}>{updatedLabel(data.generatedAt, now)}</span>
+            )}
           </p>
           <h1 className="large-title">{title}</h1>
         </header>
 
-        <LeagueSwitcher leagues={leagues} activeId={league.id} onChange={setLeagueId} changes={data.changes} />
+        <LeagueSwitcher leagues={leagues} activeId={league.id} onChange={setLeagueId} unseen={seen.counts} />
 
         {!online && (
           <Notice tone="blue" icon="wifiOff" title="You're offline">
@@ -221,10 +244,12 @@ export default function App() {
               matchup={matchup}
               prep={prep}
               changes={data.changes || []}
+              seenSince={seen.since(league.id)}
               news={data.news || []}
               now={now}
               onOpenPlayer={openPlayer}
               onOpenMatchup={() => setMatchupOpen(true)}
+              onOpenStandings={() => setStandingsOpen(true)}
               onNavigate={navigate}
             />
           )}
@@ -263,6 +288,7 @@ export default function App() {
         now={now}
       />
       <MatchupSheet open={matchupOpen} matchup={matchup} prep={prep} now={now} onClose={closeMatchup} />
+      <StandingsSheet open={standingsOpen} picture={league.playoffs} week={data.week} onClose={closeStandings} />
       {data.schedule?.games?.length > 0 && <ScheduleTab onOpen={() => setScheduleOpen(true)} inert={sheetOpen} />}
       <SchedulePanel
         open={scheduleOpen}

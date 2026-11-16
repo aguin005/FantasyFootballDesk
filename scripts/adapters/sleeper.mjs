@@ -57,6 +57,33 @@ export async function getMatchups(leagueId, week) {
 }
 
 /**
+ * A week other than the current one, kept on disk for a day. Finished weeks only
+ * change with a stat correction and future weeks only hold the pairings, and one
+ * refresh reads every week of the season, so asking again on each run would be a
+ * dozen requests for answers that have not moved. Only the fields used are kept.
+ */
+async function getSettledMatchups(leagueId, week) {
+  const file = path.join(CACHE_DIR, `sleeper-matchups-${leagueId}-${week}.json`)
+  try {
+    const stat = await fs.stat(file)
+    if (Date.now() - stat.mtimeMs < ONE_DAY_MS) return JSON.parse(await fs.readFile(file, 'utf8'))
+  } catch {
+    // Not cached yet.
+  }
+  const matchups = (await getMatchups(leagueId, week)).map(({ roster_id, matchup_id, points, custom_points }) => ({
+    roster_id,
+    matchup_id,
+    points,
+    custom_points
+  }))
+  if (matchups.length > 0) {
+    await fs.mkdir(CACHE_DIR, { recursive: true })
+    await fs.writeFile(file, JSON.stringify(matchups))
+  }
+  return matchups
+}
+
+/**
  * Your starters in a past week, the lineup Sleeper kept for that week's matchup.
  * Null when the matchup could not be read, so the caller can try again later
  * rather than recording an empty lineup.
@@ -203,9 +230,14 @@ export async function loadLeague(
     getRosters(leagueId),
     getLeagueUsers(leagueId),
     getMatchups(leagueId, week),
-    ...pastWeeks.map((past) => getMatchups(leagueId, past))
+    ...pastWeeks.map((past) => getSettledMatchups(leagueId, past))
   ])
   const lastMatchups = lastWeek ? pastMatchups[lastWeek - 1] : []
+  // The rest of the regular season's pairings, for the playoff picture.
+  const finalWeek = regularSeasonEnd(league)
+  const futureWeeks = []
+  for (let next = week + 1; finalWeek && next <= finalWeek; next++) futureWeeks.push(next)
+  const futureMatchups = await Promise.all(futureWeeks.map((next) => getSettledMatchups(leagueId, next)))
 
   const myRoster = rosters.find((roster) => roster.owner_id === userId)
   if (!myRoster) return null
@@ -312,11 +344,66 @@ export async function loadLeague(
     // Every starting and bench spot. Injured reserve and taxi spots are settings
     // of their own and not in this list.
     rosterSpots: league.roster_positions?.length || null,
+    // The lineup in order, which is how the open app reads Sleeper's starters when
+    // it syncs live scores and lineup changes between refreshes.
+    lineupSlots: lineupSlots(league.roster_positions),
     matchup: findMatchup(matchups, myRoster.roster_id, week),
     lastMatchup: lastWeek ? findMatchup(lastMatchups, myRoster.roster_id, lastWeek) : null,
     results: pastResults(pastWeeks, pastMatchups),
+    season: seasonOutline(league, rosters, [[week, matchups], ...futureWeeks.map((next, index) => [next, futureMatchups[index]])]),
     roster,
     candidates
+  }
+}
+
+/** The last week of the regular season, or null when the league has no playoffs set. */
+function regularSeasonEnd(league) {
+  const start = Number(league.settings?.playoff_week_start)
+  return start > 1 ? start - 1 : null
+}
+
+/**
+ * What the playoff picture needs from the league: how many teams qualify, when
+ * the regular season ends, each team's record as Sleeper has it, and every
+ * regular season game from this week on. weeks is [week, matchups] pairs. Null
+ * for a league without playoffs.
+ */
+export function seasonOutline(league, rosters, weeks) {
+  const settings = league.settings || {}
+  const playoffTeams = Number(settings.playoff_teams) || null
+  const lastWeek = regularSeasonEnd(league)
+  if (!playoffTeams || !lastWeek) return null
+  const divisions = Number(settings.divisions) > 1
+
+  const pairings = []
+  for (const [week, matchups] of weeks) {
+    if (week > lastWeek) continue
+    const games = new Map()
+    for (const entry of matchups || []) {
+      if (entry.matchup_id == null) continue
+      if (!games.has(entry.matchup_id)) games.set(entry.matchup_id, [])
+      games.get(entry.matchup_id).push(entry.roster_id)
+    }
+    for (const sides of games.values()) {
+      if (sides.length === 2) pairings.push({ week, a: sides[0], b: sides[1] })
+    }
+  }
+
+  return {
+    playoffTeams,
+    lastWeek,
+    // An extra game each week against the league's median score.
+    median: Boolean(settings.league_average_match),
+    tiebreak: 'points',
+    records: rosters.map((roster) => ({
+      teamId: roster.roster_id,
+      wins: roster.settings?.wins ?? 0,
+      losses: roster.settings?.losses ?? 0,
+      ties: roster.settings?.ties ?? 0,
+      pointsFor: (roster.settings?.fpts ?? 0) + (roster.settings?.fpts_decimal ?? 0) / 100,
+      division: divisions ? roster.settings?.division ?? null : null
+    })),
+    pairings
   }
 }
 
@@ -383,15 +470,19 @@ const SLOT_NAMES = { SUPER_FLEX: 'SFLEX', WRRB_FLEX: 'W/R', REC_FLEX: 'W/T', IDP
  * needs, since a flex starter can be replaced by any RB, WR, or TE.
  */
 function starterSlots(rosterPositions = [], starters = []) {
-  const lineup = rosterPositions.filter((position) => !BENCH_SLOTS.has(position))
+  const lineup = lineupSlots(rosterPositions)
   const slots = new Map()
   starters.forEach((playerId, index) => {
     // An empty lineup spot comes back as "0" rather than being left out.
     if (!playerId || playerId === '0') return
-    const position = lineup[index]
-    slots.set(playerId, SLOT_NAMES[position] || position || 'FLEX')
+    slots.set(playerId, lineup[index] || 'FLEX')
   })
   return slots
+}
+
+/** The league's starting slots in order, under the names the dashboard uses. */
+export function lineupSlots(rosterPositions = []) {
+  return rosterPositions.filter((position) => !BENCH_SLOTS.has(position)).map((position) => SLOT_NAMES[position] || position)
 }
 
 function formatRecord(wins, losses, ties) {

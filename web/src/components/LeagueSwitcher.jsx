@@ -1,20 +1,16 @@
 /**
- * One chip per league. The badge counts new changes in leagues you are not
- * looking at, so something happening elsewhere is never out of sight.
+ * One chip per league. The badge counts the changes you have not seen yet in
+ * leagues you are not looking at, so something happening elsewhere is never out
+ * of sight.
  */
-export default function LeagueSwitcher({ leagues, activeId, onChange, changes }) {
+export default function LeagueSwitcher({ leagues, activeId, onChange, unseen }) {
   if (leagues.length < 2) return null
-
-  const fresh = new Map()
-  for (const entry of changes || []) {
-    if (entry.isNew) fresh.set(entry.leagueId, (fresh.get(entry.leagueId) || 0) + 1)
-  }
 
   return (
     <div className="leagues" role="radiogroup" aria-label="Leagues">
       {leagues.map((league) => {
         const on = league.id === activeId
-        const count = on ? 0 : fresh.get(league.id) || 0
+        const count = on ? 0 : unseen?.get(league.id) || 0
         return (
           <button
             key={league.id}

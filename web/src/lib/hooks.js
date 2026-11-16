@@ -38,6 +38,17 @@ export function useScrolled(threshold = 40) {
   return scrolled
 }
 
+/** True while the app is on screen, false in a background tab or behind the lock screen. */
+export function useVisible() {
+  const [visible, setVisible] = useState(() => document.visibilityState !== 'hidden')
+  useEffect(() => {
+    const update = () => setVisible(document.visibilityState !== 'hidden')
+    document.addEventListener('visibilitychange', update)
+    return () => document.removeEventListener('visibilitychange', update)
+  }, [])
+  return visible
+}
+
 export function useOnline() {
   const [online, setOnline] = useState(() => navigator.onLine !== false)
   useEffect(() => {

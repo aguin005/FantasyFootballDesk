@@ -152,6 +152,20 @@ export function normalizeName(name) {
     .trim()
 }
 
+/**
+ * A headline as plain words, for matching whole names inside it. A possessive is
+ * dropped first, so "Josh Allen's ankle" reads "josh allen ankle", and whatever
+ * punctuation is left becomes a space, so a name followed by a colon, a question
+ * mark, or a closing quote still ends on a word boundary. Two readings come back,
+ * with hyphens removed and with hyphens as spaces: "Amon-Ra St. Brown" needs the
+ * first and "the Josh Allen-led Bills" needs the second.
+ */
+export function searchText(text) {
+  const base = text.replace(/['’]s\b/gi, '')
+  const words = (value) => ` ${normalizeName(value).replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim()} `
+  return [words(base), words(base.replace(/-/g, ' '))]
+}
+
 /** Every rostered player, indexed under each spelling a headline might use. */
 export function buildRosterIndex(leagues) {
   const index = new Map()
@@ -196,12 +210,12 @@ export function matchToRoster(items, index) {
   for (const item of items) {
     if (item.published && now - Date.parse(item.published) > WINDOW_MS) continue
 
-    const haystack = ` ${normalizeName(`${item.headline} ${item.summary}`)} `
+    const haystacks = searchText(`${item.headline} ${item.summary}`)
     const players = []
     const already = new Set()
 
     for (const [variant, entries] of index) {
-      if (!haystack.includes(` ${variant} `) && !haystack.includes(` ${variant},`)) continue
+      if (!haystacks.some((haystack) => haystack.includes(` ${variant} `))) continue
       for (const entry of entries) {
         const key = `${entry.leagueId}:${entry.playerId}`
         if (already.has(key)) continue

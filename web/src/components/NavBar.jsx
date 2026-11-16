@@ -6,7 +6,7 @@ import Icon from './Icon.jsx'
  */
 export default function NavBar({ title, subtitle, scrolled, refreshing, onRefresh, inert }) {
   return (
-    <header className={scrolled ? 'nav is-scrolled' : 'nav'} inert={inert ? '' : undefined}>
+    <header className={scrolled ? 'nav is-scrolled' : 'nav'} inert={inert}>
       <div className="nav-row">
         <div className="nav-title" aria-hidden={!scrolled}>
           <strong>{title}</strong>
