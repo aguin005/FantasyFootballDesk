@@ -5,6 +5,7 @@ import { Section, LinkButton, PlayerRow, Pill, ScoreRing, EmptyState } from '../
 import { clockTime, formatPoints, localDayKey, shortAgo, timeAgo, signed, plural, weekday } from '../lib/format.js'
 import { coversRoster, slotOf } from '../lib/lineup.js'
 import { MatchupCard } from '../components/Matchup.jsx'
+import { PlayoffCard } from '../components/Playoffs.jsx'
 import { topPickLine } from '../lib/picks.js'
 import { coverFor, coverLine } from '../lib/byes.js'
 import { isUnseen } from '../lib/seen.js'
@@ -44,6 +45,7 @@ export default function TodayView({
   now,
   onOpenPlayer,
   onOpenMatchup,
+  onOpenStandings,
   onNavigate
 }) {
   const leagueChanges = changes.filter((entry) => entry.leagueId === league.id)
@@ -66,6 +68,7 @@ export default function TodayView({
         <Summary league={league} report={report} now={now} />
       )}
       <LineupCheck report={report} byes={byes} handcuffs={handcuffs} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
+      <PlayoffCard picture={league.playoffs} onOpen={onOpenStandings} />
       <ByesNextWeek byes={byes} onNavigate={onNavigate} />
       <Changes entries={leagueChanges} seenSince={seenSince} now={now} onOpenPlayer={onOpenPlayer} />
 

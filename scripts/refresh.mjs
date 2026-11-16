@@ -20,6 +20,7 @@ import {
   weekSchedule
 } from './lib/schedule.mjs'
 import { addByeOptions, laterWeeks } from './lib/byes.mjs'
+import { playoffPicture } from './lib/playoffs.mjs'
 import { lockPicks, pickReport, readHistory, recordWeek, statsId, weeksToRecord, writeHistory } from './lib/picks.mjs'
 import { buildDepth, findOpportunities, openingCandidates } from './lib/opportunity.mjs'
 import { loadGameLogs, gameLogFor, opponentHistoryFor, swingFor } from './lib/gamelog.mjs'
@@ -194,6 +195,11 @@ async function main() {
       player.swing = swingFor(player, logs, league.receptionPoints)
     }
     addByeOptions(league, { week, later, defenses, byeWeeks })
+
+    // Each team's chance of making the playoffs. The adapter's outline of the
+    // season is only an input, so it is not shipped.
+    league.playoffs = playoffPicture(league, { week })
+    delete league.season
 
     league.waivers = rankCandidates(league.candidates, league.roster, weights, waiverLimit)
   }

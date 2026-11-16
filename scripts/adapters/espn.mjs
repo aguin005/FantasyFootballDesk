@@ -243,8 +243,47 @@ export async function loadLeague(config, season, week, options = {}) {
     matchup: findMatchup(matchupData?.schedule, team.id, matchupPeriodFor(league.settings, week), week),
     lastMatchup: lastMatchupFor(matchupData?.schedule, team.id, league.settings, week, options.lastWeek),
     results: pastResults(matchupData?.schedule, league.settings, week),
+    season: seasonOutline(league, matchupData?.schedule, week),
     roster,
     candidates
+  }
+}
+
+/**
+ * What the playoff picture needs from the league: how many teams qualify, when
+ * the regular season ends, each team's record as ESPN has it, and every regular
+ * season game from this matchup period on. Null for a league without playoffs.
+ */
+export function seasonOutline(league, schedule, week) {
+  const settings = league.settings?.scheduleSettings || {}
+  const playoffTeams = Number(settings.playoffTeamCount) || null
+  const periods = Number(settings.matchupPeriodCount) || null
+  if (!playoffTeams || !periods) return null
+  const weeksOf = (period) => {
+    const weeks = settings.matchupPeriods?.[period]
+    return Array.isArray(weeks) && weeks.length ? weeks : [period]
+  }
+  const current = matchupPeriodFor(league.settings, week)
+  const divisions = (settings.divisions || []).length > 1
+
+  return {
+    playoffTeams,
+    lastWeek: Math.max(...weeksOf(periods)),
+    median: false,
+    // ESPN can also seed on head to head or division record, which the estimate
+    // does not model, so anything but points is passed on as such.
+    tiebreak: settings.playoffSeedingRule === 'TOTAL_POINTS_SCORED' ? 'points' : 'other',
+    records: (league.teams || []).map((team) => ({
+      teamId: team.id,
+      wins: team.record?.overall?.wins ?? 0,
+      losses: team.record?.overall?.losses ?? 0,
+      ties: team.record?.overall?.ties ?? 0,
+      pointsFor: team.record?.overall?.pointsFor ?? team.points ?? 0,
+      division: divisions ? team.divisionId ?? null : null
+    })),
+    pairings: (schedule || [])
+      .filter((game) => game.matchupPeriodId >= current && game.matchupPeriodId <= periods && game.home && game.away)
+      .map((game) => ({ week: Math.min(...weeksOf(game.matchupPeriodId)), a: game.home.teamId, b: game.away.teamId }))
   }
 }
 

@@ -1,4 +1,5 @@
 import { bestAssignment, canFill, injuryLevel, isLocked, isReserve, scheduleKnown, sitReason, slotOf } from './lineup.js'
+import { expectedPoints, remainingShare } from './matchup.js'
 import { coverFor } from './byes.js'
 import { formatPoints } from './format.js'
 import { shortName } from './nflSchedule.js'
@@ -135,6 +136,24 @@ export function likelyLineup(rows, roster, now = Date.now()) {
     if (swap.replacement) lineup = replaceRow(lineup, swap.starter.playerId, swap.replacement)
   }
   return { rows: lineup, swaps }
+}
+
+/**
+ * Where a team is headed this week as of a moment: the expected total and its
+ * variance, the same sums the win chance is made of, for the lineup the team will
+ * most likely play. The refresh uses it to play out this week's games for the
+ * playoff picture, where every team gets the benefit of fixing the obvious.
+ */
+export function outlook(roster, asOf) {
+  const known = scheduleKnown(roster)
+  const rows = roster
+    .filter((player) => player.starter)
+    .map((player) => ({
+      player,
+      expected: expectedPoints(player, asOf, known),
+      remaining: remainingShare(player, asOf, known)
+    }))
+  return total(likelyLineup(rows, roster, asOf).rows)
 }
 
 /**

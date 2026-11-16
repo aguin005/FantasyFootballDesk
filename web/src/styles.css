@@ -2627,6 +2627,60 @@ a.row:active {
   color: var(--red-ink);
 }
 
+/* Playoff race. The card borrows the win chance layout, and the standings sheet
+   draws a line under the last team that qualifies. */
+
+.playoff {
+  display: block;
+  width: 100%;
+  border: 0;
+  text-align: left;
+  color: inherit;
+}
+
+.playoff .prep-chance-note {
+  display: block;
+}
+
+.playoff .playoff-stakes {
+  margin-top: 4px;
+  color: var(--label);
+  font-weight: 500;
+}
+
+.standings-sub {
+  margin: -8px 0 14px;
+  font-size: 15px;
+  color: var(--label-2);
+}
+
+.standings-row {
+  min-height: 58px;
+  padding-left: 14px;
+}
+
+.standings-row.is-mine {
+  background: color-mix(in srgb, var(--tint) 8%, transparent);
+}
+
+.standings-seed {
+  flex: 0 0 22px;
+  font-family: var(--font-rounded);
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--label-2);
+}
+
+.standings > li.is-cut:not(:last-child) {
+  border-bottom: 2px solid var(--tint);
+}
+
+.standings > li.is-cut + li .row-body {
+  box-shadow: none;
+}
+
 .sheet-title {
   margin: 4px 40px 14px 0;
   font-size: 22px;
