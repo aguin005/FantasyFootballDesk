@@ -7,6 +7,7 @@ import { coversRoster, slotOf } from '../lib/lineup.js'
 import { MatchupCard } from '../components/Matchup.jsx'
 import { topPickLine } from '../lib/picks.js'
 import { coverFor, coverLine } from '../lib/byes.js'
+import { isUnseen } from '../lib/seen.js'
 
 const CHANGE_KINDS = {
   downgrade: { label: 'Injury', tone: 'red' },
@@ -38,6 +39,7 @@ export default function TodayView({
   matchup,
   prep,
   changes,
+  seenSince,
   news,
   now,
   onOpenPlayer,
@@ -65,7 +67,7 @@ export default function TodayView({
       )}
       <LineupCheck report={report} byes={byes} handcuffs={handcuffs} onOpenPlayer={onOpenPlayer} onNavigate={onNavigate} />
       <ByesNextWeek byes={byes} onNavigate={onNavigate} />
-      <Changes entries={leagueChanges} now={now} onOpenPlayer={onOpenPlayer} />
+      <Changes entries={leagueChanges} seenSince={seenSince} now={now} onOpenPlayer={onOpenPlayer} />
 
       {league.waivers?.length > 0 && (
         <Section
@@ -339,10 +341,13 @@ function AlertRow({ tone, icon, title, sub, onClick }) {
   )
 }
 
-function Changes({ entries, now, onOpenPlayer }) {
+function Changes({ entries, seenSince, now, onOpenPlayer }) {
   const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? entries : entries.slice(0, 5)
-  const fresh = entries.filter((entry) => entry.isNew).length
+  // What you have not seen leads, so it is never below the fold of five. Within
+  // each group the refresh's order stands: starters, then severity, then newest.
+  const ordered = [...entries].sort((a, b) => Number(isUnseen(b, seenSince)) - Number(isUnseen(a, seenSince)))
+  const visible = expanded ? ordered : ordered.slice(0, 5)
+  const fresh = entries.filter((entry) => isUnseen(entry, seenSince)).length
 
   return (
     <Section
@@ -371,7 +376,7 @@ function Changes({ entries, now, onOpenPlayer }) {
                 <li key={entry.key}>
                   <button
                     type="button"
-                    className={entry.isNew ? 'row' : 'row is-dim'}
+                    className={isUnseen(entry, seenSince) ? 'row' : 'row is-dim'}
                     data-pos={entry.position || undefined}
                     onClick={() => onOpenPlayer({ ...entry, context: 'change' })}
                   >

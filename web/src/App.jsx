@@ -14,8 +14,9 @@ import WaiversView from './views/WaiversView.jsx'
 import TradeView from './views/TradeView.jsx'
 import { useDashboard } from './lib/useDashboard.js'
 import { usePullToRefresh } from './lib/usePullToRefresh.js'
-import { useNow, useOnline, useScrolled } from './lib/hooks.js'
+import { useNow, useOnline, useScrolled, useVisible } from './lib/hooks.js'
 import { useSetting } from './lib/storage.js'
+import { useSeenChanges } from './lib/seen.js'
 import { lineupReport, onGameClock, resolvePlayer } from './lib/lineup.js'
 import { matchupReport } from './lib/matchup.js'
 import { byeReport } from './lib/byes.js'
@@ -42,7 +43,7 @@ const GAME_DAY_LATE_MS = 30 * 60 * 1000
 const TOAST_MS = 2600
 
 export default function App() {
-  const { data, error, refreshing, reload } = useDashboard()
+  const { data, error, refreshing, cached, reload } = useDashboard()
   const [leagueId, setLeagueId] = useSetting('league', null)
   const [tab, setTab] = useSetting('tab', 'today')
   const [segment, setSegment] = useSetting('lineup-view', 'roster')
@@ -55,6 +56,7 @@ export default function App() {
   const now = useNow()
   const scrolled = useScrolled()
   const online = useOnline()
+  const visible = useVisible()
 
   const leagues = data?.leagues || []
   const league = leagues.find((entry) => entry.id === leagueId) || leagues[0] || null
@@ -72,6 +74,8 @@ export default function App() {
   }, [league, report])
 
   const activeTab = tabs.some((entry) => entry.key === tab) ? tab : 'today'
+  // The list of changes is on Today, so that is where they count as seen.
+  const seen = useSeenChanges(data?.changes, league && visible && activeTab === 'today' ? league.id : null)
 
   const refresh = useCallback(async () => {
     const before = data?.generatedAt
@@ -150,7 +154,9 @@ export default function App() {
 
   const age = ageMs(data.generatedAt, now)
   const gameDay = onGameClock(leagues, now)
-  const stale = age > (gameDay ? GAME_DAY_LATE_MS : LATE_AFTER_MS)
+  // The saved copy shown while the first load is in flight is old by design, and
+  // calling it late would flash a warning on every launch.
+  const stale = !cached && age > (gameDay ? GAME_DAY_LATE_MS : LATE_AFTER_MS)
   const stopped = age > STOPPED_AFTER_MS
   const title = TABS[activeTab].label
   const sheetOpen = Boolean(sheetPlayer) || matchupOpen || scheduleOpen
@@ -190,7 +196,7 @@ export default function App() {
           <h1 className="large-title">{title}</h1>
         </header>
 
-        <LeagueSwitcher leagues={leagues} activeId={league.id} onChange={setLeagueId} changes={data.changes} />
+        <LeagueSwitcher leagues={leagues} activeId={league.id} onChange={setLeagueId} unseen={seen.counts} />
 
         {!online && (
           <Notice tone="blue" icon="wifiOff" title="You're offline">
@@ -221,6 +227,7 @@ export default function App() {
               matchup={matchup}
               prep={prep}
               changes={data.changes || []}
+              seenSince={seen.since(league.id)}
               news={data.news || []}
               now={now}
               onOpenPlayer={openPlayer}

@@ -9,11 +9,13 @@ import { loadCSV, loadUsage, usageNotes } from './lib/usage.mjs'
 import { loadPrevious, diffRuns } from './lib/history.mjs'
 import { headshot } from './lib/images.mjs'
 import {
+  LAST_WEEK,
   loadSchedule,
   loadByeWeeks,
   attachGame,
   attachNextGame,
   inGameWindow,
+  seasonWeek,
   weekFinished,
   weekSchedule
 } from './lib/schedule.mjs'
@@ -27,7 +29,9 @@ import { fetchSocial } from './lib/social.mjs'
 import { buildFreeAgentPool, collectMentions, consensusForLeague } from './lib/consensus.mjs'
 
 const OUTPUT = path.resolve('web/public/data/dashboard.json')
-const LAST_WEEK = 18
+// A few bytes saying when the data was generated. The open app checks it every
+// minute and only downloads the full file when this has changed.
+const STAMP = path.resolve('web/public/data/stamp.json')
 
 async function main() {
   const config = JSON.parse(await fs.readFile(path.resolve('leagues.config.json'), 'utf8'))
@@ -36,7 +40,7 @@ async function main() {
 
   const state = await sleeper.getState()
   const season = state.season
-  const scoringWeek = state.display_week || state.week || 1
+  const scoringWeek = seasonWeek(state)
   const scoringSchedule = await loadSchedule(season, scoringWeek)
   // Once Monday night is over the dashboard plans for the next week: its waivers,
   // its matchups and its lineup. The regular season ends at week 18.
@@ -251,6 +255,7 @@ async function main() {
 
   await fs.mkdir(path.dirname(OUTPUT), { recursive: true })
   await fs.writeFile(OUTPUT, JSON.stringify(current, null, 2))
+  await fs.writeFile(STAMP, `${JSON.stringify({ generatedAt: current.generatedAt })}\n`)
 
   // The workflow reads this to decide whether to queue the next run itself.
   const gameWindow = inGameWindow(schedule)

@@ -9,3 +9,4 @@ dist/
 # reads a copy on disk as the previous run, so a committed copy would replace the
 # live one as the baseline for "What changed".
 web/public/data/dashboard.json
+web/public/data/stamp.json

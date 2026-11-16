@@ -145,15 +145,6 @@ export function scheduleKnown(roster) {
 const URGENT_WEIGHT = 1e6
 
 /**
- * Everything the lineup views need to know, worked out once.
- *
- * Swaps are chosen for the lineup as a whole rather than slot by slot, so one bench
- * player is never offered as the answer to two slots, and the single biggest gain
- * never blocks a better combination (a bench RB into the RB slot and a bench WR
- * into flex can beat the RB into flex alone). Starters whose games have kicked off
- * are locked on both platforms and left alone.
- */
-/**
  * Why a player should sit this week: bye, noteam, out, or doubtful, or null when
  * nothing stops them. known says whether the schedule loaded, since without it no
  * one has a game and everyone would read as on bye.
@@ -166,6 +157,15 @@ export function sitReason(player, known = true) {
   return null
 }
 
+/**
+ * Everything the lineup views need to know, worked out once.
+ *
+ * Swaps are chosen for the lineup as a whole rather than slot by slot, so one bench
+ * player is never offered as the answer to two slots, and the single biggest gain
+ * never blocks a better combination (a bench RB into the RB slot and a bench WR
+ * into flex can beat the RB into flex alone). Starters whose games have kicked off
+ * are locked on both platforms and left alone.
+ */
 export function lineupReport(roster, now = Date.now()) {
   const known = scheduleKnown(roster)
   const starters = roster.filter((player) => player.starter)

@@ -81,6 +81,21 @@ export async function loadSchedule(season, week) {
   }
 }
 
+export const LAST_WEEK = 18
+
+/**
+ * The regular season week Sleeper's clock is on. Sleeper counts weeks from 1
+ * again once the NFL playoffs start, and before the season it counts preseason
+ * games, so only a regular season week is taken as it is. The playoffs stay on the
+ * last week, where the fantasy season ended, and anything earlier is week 1.
+ */
+export function seasonWeek(state) {
+  if (state?.season_type === 'post') return LAST_WEEK
+  if (state?.season_type && state.season_type !== 'regular') return 1
+  const week = Number(state?.display_week || state?.week) || 1
+  return Math.min(LAST_WEEK, Math.max(1, week))
+}
+
 // No more than six teams rest in any one week, which leaves at least 13 games. A
 // week with fewer is missing games, and the teams in them would look idle.
 const FULL_WEEK_TEAMS = 24
