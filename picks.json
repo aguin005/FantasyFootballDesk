@@ -634,6 +634,95 @@
             "PIT",
             "TEN"
           ]
+        },
+        "10": {
+          "points": {
+            "1166": 16.38,
+            "2505": 4.4,
+            "3214": 4.2,
+            "3271": 10.7,
+            "5947": 6.4,
+            "9500": 15.3,
+            "9757": 0,
+            "11563": 0,
+            "11608": 6.4,
+            "11610": 13.36,
+            "11637": 2.1,
+            "13150": 0,
+            "NO": 4,
+            "NYG": 5,
+            "CLE": 3,
+            "GB": 4,
+            "WAS": 8
+          },
+          "starters": [
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 23.34
+            },
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 21.7
+            },
+            {
+              "statsId": "7543",
+              "name": "Travis Etienne Jr.",
+              "position": "RB",
+              "points": 6.4
+            },
+            {
+              "statsId": "5872",
+              "name": "Deebo Samuel Sr.",
+              "position": "WR",
+              "points": 25.9
+            },
+            {
+              "statsId": "8167",
+              "name": "Christian Watson",
+              "position": "WR",
+              "points": 6.7
+            },
+            {
+              "statsId": "1466",
+              "name": "Travis Kelce",
+              "position": "TE",
+              "points": 5
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 28.2
+            },
+            {
+              "statsId": "4217",
+              "name": "George Kittle",
+              "position": "TE",
+              "points": 13.4
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 11
+            },
+            {
+              "statsId": "PIT",
+              "name": "Pittsburgh Steelers",
+              "position": "DEF",
+              "points": -2
+            }
+          ],
+          "byes": [
+            "CHI",
+            "DEN",
+            "PHI",
+            "TB"
+          ]
         }
       }
     },
@@ -1250,6 +1339,86 @@
           "byes": [
             "PIT",
             "TEN"
+          ]
+        },
+        "10": {
+          "points": {
+            "2505": 4.4,
+            "4993": 1.9,
+            "7562": 4.1,
+            "7567": 0,
+            "8129": 0,
+            "8135": 4.7,
+            "9480": 8.9,
+            "9757": 0,
+            "10235": 0,
+            "11256": 0,
+            "11565": 18.12,
+            "11834": 3.4,
+            "12469": 7.7,
+            "13150": 0
+          },
+          "starters": [
+            {
+              "statsId": "8138",
+              "name": "James Cook III",
+              "position": "RB",
+              "points": 21.7
+            },
+            {
+              "statsId": "6794",
+              "name": "Justin Jefferson",
+              "position": "WR",
+              "points": 16.4
+            },
+            {
+              "statsId": "8112",
+              "name": "Drake London",
+              "position": "WR",
+              "points": 16.9
+            },
+            {
+              "statsId": "4984",
+              "name": "Josh Allen",
+              "position": "QB",
+              "points": 23.34
+            },
+            {
+              "statsId": "9487",
+              "name": "Parker Washington",
+              "position": "WR",
+              "points": 28.2
+            },
+            {
+              "statsId": "11533",
+              "name": "Brandon Aubrey",
+              "position": "K",
+              "points": 11
+            },
+            {
+              "statsId": "HOU",
+              "name": "Texans D/ST",
+              "position": "DEF",
+              "points": 7
+            },
+            {
+              "statsId": "6865",
+              "name": "Colby Parkinson",
+              "position": "TE",
+              "points": 3.1
+            },
+            {
+              "statsId": "12491",
+              "name": "Corey Kiner",
+              "position": "RB",
+              "points": 2.5
+            }
+          ],
+          "byes": [
+            "CHI",
+            "DEN",
+            "PHI",
+            "TB"
           ]
         }
       }
