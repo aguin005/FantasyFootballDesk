@@ -249,6 +249,47 @@
             "reason": "Projected 6.4 points, 0.7 above your worst DEF at 5.7",
             "lockedAt": "2026-11-13T01:10:42.432Z"
           }
+        ],
+        "11": [
+          {
+            "playerId": "12540",
+            "statsId": "12540",
+            "espnId": "4431268",
+            "sleeperId": "12540",
+            "name": "Chimere Dike",
+            "position": "WR",
+            "team": "TEN",
+            "score": 95,
+            "projected": 9.8,
+            "reason": "Moves into TEN's top three receivers with Wan'Dale Robinson on IR",
+            "lockedAt": "2026-11-19T21:56:17.882Z"
+          },
+          {
+            "playerId": "JAX",
+            "statsId": "JAX",
+            "espnId": null,
+            "sleeperId": "JAX",
+            "name": "Jacksonville Jaguars",
+            "position": "DEF",
+            "team": "JAX",
+            "score": 89,
+            "projected": 8.1,
+            "reason": "Projected 8.1 points, 0.2 below your worst DEF at 8.3",
+            "lockedAt": "2026-11-19T21:56:17.882Z"
+          },
+          {
+            "playerId": "12496",
+            "statsId": "12496",
+            "espnId": "4565185",
+            "sleeperId": "12496",
+            "name": "Tai Felton",
+            "position": "WR",
+            "team": "MIN",
+            "score": 88,
+            "projected": 5.1,
+            "reason": "Moves into MIN's top three receivers with Jordan Addison out",
+            "lockedAt": "2026-11-19T21:56:17.882Z"
+          }
         ]
       },
       "weeks": {
@@ -972,6 +1013,47 @@
             "projected": 8.9,
             "reason": "Projected 8.9 points, 2.4 above your worst RB at 6.5",
             "lockedAt": "2026-11-13T01:10:42.432Z"
+          }
+        ],
+        "11": [
+          {
+            "playerId": "4883647",
+            "statsId": "12499",
+            "espnId": "4883647",
+            "sleeperId": "12499",
+            "name": "Elic Ayomanor",
+            "position": "WR",
+            "team": "TEN",
+            "score": 88,
+            "projected": 9.4,
+            "reason": "Moves into TEN's top three receivers with Wan'Dale Robinson on IR",
+            "lockedAt": "2026-11-19T21:56:17.882Z"
+          },
+          {
+            "playerId": "4565185",
+            "statsId": "12496",
+            "espnId": "4565185",
+            "sleeperId": "12496",
+            "name": "Tai Felton",
+            "position": "WR",
+            "team": "MIN",
+            "score": 85,
+            "projected": 5.1,
+            "reason": "Moves into MIN's top three receivers with Jordan Addison out",
+            "lockedAt": "2026-11-19T21:56:17.882Z"
+          },
+          {
+            "playerId": "4431268",
+            "statsId": "12540",
+            "espnId": "4431268",
+            "sleeperId": "12540",
+            "name": "Chimere Dike",
+            "position": "WR",
+            "team": "TEN",
+            "score": 82,
+            "projected": 7.2,
+            "reason": "Moves into TEN's top three receivers with Wan'Dale Robinson on IR",
+            "lockedAt": "2026-11-19T21:56:17.882Z"
           }
         ]
       },
