@@ -290,6 +290,47 @@
             "reason": "Moves into MIN's top three receivers with Jordan Addison out",
             "lockedAt": "2026-11-19T21:56:17.882Z"
           }
+        ],
+        "12": [
+          {
+            "playerId": "CLE",
+            "statsId": "CLE",
+            "espnId": null,
+            "sleeperId": "CLE",
+            "name": "Cleveland Browns",
+            "position": "DEF",
+            "team": "CLE",
+            "score": 89,
+            "projected": 8.2,
+            "reason": "Projected 8.2 points, 0.8 above your worst DEF at 7.4",
+            "lockedAt": "2026-11-26T00:53:33.378Z"
+          },
+          {
+            "playerId": "4147",
+            "statsId": "4147",
+            "espnId": "3116389",
+            "sleeperId": "4147",
+            "name": "Samaje Perine",
+            "position": "RB",
+            "team": "CIN",
+            "score": 88,
+            "projected": 9.9,
+            "reason": "Projected 9.9 points, 4.6 above your worst RB at 5.3",
+            "lockedAt": "2026-11-26T00:53:33.378Z"
+          },
+          {
+            "playerId": "12540",
+            "statsId": "12540",
+            "espnId": "4431268",
+            "sleeperId": "12540",
+            "name": "Chimere Dike",
+            "position": "WR",
+            "team": "TEN",
+            "score": 88,
+            "projected": 8.6,
+            "reason": "Moves into TEN's top three receivers with Wan'Dale Robinson on IR",
+            "lockedAt": "2026-11-26T00:53:33.378Z"
+          }
         ]
       },
       "weeks": {
@@ -1148,6 +1189,47 @@
             "projected": 7.2,
             "reason": "Moves into TEN's top three receivers with Wan'Dale Robinson on IR",
             "lockedAt": "2026-11-19T21:56:17.882Z"
+          }
+        ],
+        "12": [
+          {
+            "playerId": "5081397",
+            "statsId": "12469",
+            "espnId": "5081397",
+            "sleeperId": "12469",
+            "name": "Dylan Sampson",
+            "position": "RB",
+            "team": "CLE",
+            "score": 86,
+            "projected": 11.4,
+            "reason": "Projected 11.4 points, 3.6 above your worst RB at 7.8",
+            "lockedAt": "2026-11-26T00:53:33.378Z"
+          },
+          {
+            "playerId": "4240391",
+            "statsId": "11292",
+            "espnId": "4240391",
+            "sleeperId": "11292",
+            "name": "Tommy DeVito",
+            "position": "QB",
+            "team": "NE",
+            "score": 84,
+            "projected": 14,
+            "reason": "Starts at QB for NE with Drake Maye out",
+            "lockedAt": "2026-11-26T00:53:33.378Z"
+          },
+          {
+            "playerId": "4038441",
+            "statsId": "5995",
+            "espnId": "4038441",
+            "sleeperId": "5995",
+            "name": "Justice Hill",
+            "position": "RB",
+            "team": "BAL",
+            "score": 83,
+            "projected": 9.5,
+            "reason": "Projected 9.5 points, 1.7 above your worst RB at 7.8",
+            "lockedAt": "2026-11-26T00:53:33.378Z"
           }
         ]
       },
